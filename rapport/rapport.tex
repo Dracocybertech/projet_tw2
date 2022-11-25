@@ -1,0 +1,95 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{src/classeRapport}
+\usepackage{listingsutf8}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{flafter}
+\usepackage{float}
+
+\author{RJ-MH}
+
+\setlength{\headheight}{28pt}
+
+\lstset{
+    breaklines=true,
+    frame=single,
+    keepspaces=true,
+    numbers=left,
+    moredelim = [s][\color{purple}]{/*}{*/},
+    inputencoding = utf8,  % Input encoding
+    extendedchars = true,  % Extended ASCII
+    literate      =        % Support additional characters
+      {á}{{\'a}}1  {é}{{\'e}}1  {í}{{\'i}}1 {ó}{{\'o}}1  {ú}{{\'u}}1
+      {Á}{{\'A}}1  {É}{{\'E}}1  {Í}{{\'I}}1 {Ó}{{\'O}}1  {Ú}{{\'U}}1
+      {à}{{\`a}}1  {è}{{\`e}}1  {ì}{{\`i}}1 {ò}{{\`o}}1  {ù}{{\`u}}1
+      {À}{{\`A}}1  {È}{{\'E}}1  {Ì}{{\`I}}1 {Ò}{{\`O}}1  {Ù}{{\`U}}1
+      {ä}{{\"a}}1  {ë}{{\"e}}1  {ï}{{\"i}}1 {ö}{{\"o}}1  {ü}{{\"u}}1
+      {Ä}{{\"A}}1  {Ë}{{\"E}}1  {Ï}{{\"I}}1 {Ö}{{\"O}}1  {Ü}{{\"U}}1
+      {â}{{\^a}}1  {ê}{{\^e}}1  {î}{{\^i}}1 {ô}{{\^o}}1  {û}{{\^u}}1
+      {Â}{{\^A}}1  {Ê}{{\^E}}1  {Î}{{\^I}}1 {Ô}{{\^O}}1  {Û}{{\^U}}1
+      {œ}{{\oe}}1  {Œ}{{\OE}}1  {æ}{{\ae}}1 {Æ}{{\AE}}1  {ß}{{\ss}}1
+      {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1  {Ø}{{\O}}1   {å}{{\r a}}1
+      {Å}{{\r A}}1 {ã}{{\~a}}1  {õ}{{\~o}}1 {Ã}{{\~A}}1  {Õ}{{\~O}}1
+      {ñ}{{\~n}}1  {Ñ}{{\~N}}1  {¿}{{?`}}1  {¡}{{!`}}1
+      {°}{{\textdegree}}1 {º}{{\textordmasculine}}1 {ª}{{\textordfeminine}}1
+      % ¿ and ¡ are not correctly displayed if inconsolata font is used
+      % together with the lstlisting environment. Consider typing code in
+      % external files and using \lstinputlisting to display them instead.
+  }
+
+
+
+\begin{document}
+
+\PageDeGarde
+{couverture.jpeg} % image sur la page de garde
+{Projet TW2} % titre principal
+{Idle Game :} % sous-titre
+{
+Ambre \textsc{De crescenzo}\\
+Nils \textsc{Etien}\\
+Maxime \textsc{Huyenh}\\% noms
+Ryan \textsc{Juteau}\\
+
+}
+{TW2 - ITI4 - 2022} % bas de page
+
+\Page{INSALogo}{rien.png} % logo de bas de page (en bas a droite)
+
+
+\tableofcontents
+
+\clearpage
+\input{src/introduction/introduction.tex}
+
+\clearpage
+\input{src/specification/fonctionnelle.tex}
+
+\clearpage
+%\input{src/specification/interfaces.tex}
+
+\clearpage
+%\input{src/specification/operationnelles.tex}
+
+\clearpage
+%\input{src/specification/roles.tex}
+
+\clearpage
+%\input{src/conception/sequence.tex}
+
+\clearpage
+%\input{src/conception/navigation.tex}
+
+\clearpage
+%\input{src/conception/classes.tex}
+
+\clearpage
+%\input{src/conception/BD.tex}
+
+\clearpage
+\input{src/conclusion/conclusion.tex}
+
+
+\end{document}
