@@ -1,10 +1,10 @@
 %%%%%
-% Classe pour réaliser des rapports aux couleurs de l'INSA V2.1
+% Classe pour réaliser des rapports aux couleurs de l'INSA V2.2
 %%%%%
 
 %%%%%
 % Auteur initial inconnu.
-% Modifié, vectorisé et actualisé par Jean-Baptiste Louvet
+% Modifié, vectorisé et actualisé par Jean-Baptiste Louvet. Warnings et dépassements corrigés par Ryan Juteau en 2022.
 %%%%%
 
 
@@ -14,13 +14,14 @@
 \usepackage{graphicx}
 \usepackage[left=2cm, right=2cm, top=4.7cm, bottom=5cm]{geometry}
 \usepackage{fancyhdr}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{listings}
 \usepackage{moreverb}
 \usepackage[hidelinks]{hyperref}
 
 \definecolor{GRIS}{cmyk}{0.7,0.6,0.5,0.3}
 \definecolor{BLEU}{cmyk}{1,0.9,0.1,0}
+
 
 \pagestyle{fancy}
 
@@ -99,7 +100,7 @@
 
 \newcommand{\Page}[2]
 {
-	\fancyhead[LO,LE]
+	\fancyhead[LO,L]
 	{
 		\begin{picture}(0,0)	\put(-61,-25)
 		{
@@ -111,18 +112,17 @@
 		}
 		\end{picture}
 	}
-	\fancyhead[CO,CE]{}
-	\fancyhead[RO,RE]{\color{white} \scshape\leftmark}
-	\fancyfoot[LE,LO,RE,RO]{}
+	\fancyhead[CO,C]{}
+	\fancyhead[RO,R]{\color{white} \scshape\leftmark}
+	\fancyfoot[L,LO,R,RO]{}
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}
-	\fancyfoot[CO,CE]
+	\fancyfoot[CO,C]
 	{
 		\begin{picture}(0,0)
 		\put(-140,-80)
 		{
 			\color{GRIS}{\thepage}
-			RJ-MH
 		}
 		\put(-70,-100)
 		{

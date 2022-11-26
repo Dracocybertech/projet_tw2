@@ -7,6 +7,7 @@
 \usepackage{tabularx}
 \usepackage{flafter}
 \usepackage{float}
+\usepackage{placeins}
 
 \author{RJ-MH}
 
@@ -62,34 +63,38 @@ Ryan \textsc{Juteau}\\
 \tableofcontents
 
 \clearpage
-\input{src/introduction/introduction.tex}
+
+
+\input{src/1_introduction/introduction.tex}
 
 \clearpage
-\input{src/specification/fonctionnelle.tex}
+
+\section{Specifications}
+
+\input{src/2_specification/1_fonctionnelle.tex}
 
 \clearpage
-%\input{src/specification/interfaces.tex}
+\input{src/2_specification/2_interfaces.tex}
 
 \clearpage
-%\input{src/specification/operationnelles.tex}
+\input{src/2_specification/3_operationnelles.tex}
 
 \clearpage
-%\input{src/specification/roles.tex}
+\input{src/2_specification/4_roles.tex}
 
 \clearpage
-%\input{src/conception/sequence.tex}
+
+\section{Conception}
+
+\input{src/3_conception/1_sequence.tex}
 
 \clearpage
-%\input{src/conception/navigation.tex}
+\input{src/3_conception/2_navigation.tex}
 
 \clearpage
-%\input{src/conception/classes.tex}
+\input{src/3_conception/3_classes.tex}
 
 \clearpage
-%\input{src/conception/BD.tex}
-
-\clearpage
-\input{src/conclusion/conclusion.tex}
-
+\input{src/3_conception/4_BD.tex}
 
 \end{document}
