@@ -1,0 +1,47 @@
+ 
+Table "Joueurs" {
+  "id" INTEGER [pk]
+  "email" VARCHAR
+  "mdp" VARCHAR
+  "golds" INTEGER
+  "diamants" INTEGER
+}
+
+Table "PersoObtenus" {
+  "id_joueur" INTEGER
+  "id_perso" INTEGER
+  "niveau" INTEGER
+}
+
+Table "GuidePerso" {
+  "id_perso" INTEGER [pk]
+  "niveau1" INTEGER
+  "niveau2" INTEGER
+  "niveau3" INTEGER
+  "niveau4" INTEGER
+  "niveau5" INTEGER
+}
+
+Table "NiveauChance" {
+  "niveau" INTEGER [pk]
+  "rarete" VARCHAR
+  "poids" INTEGER
+  
+}
+
+Table "CoutEvolution" {
+  "niveau" INTEGER [pk]
+  "cout" INTEGER
+}
+
+
+
+
+
+Ref: "GuidePerso"."id_perso" < "PersoObtenus"."id_perso"
+
+Ref: "CoutEvolution"."niveau" < "PersoObtenus"."niveau"
+
+Ref: "PersoObtenus"."id_joueur" <> "Joueurs"."id"
+
+Ref: "PersoObtenus"."niveau" > "NiveauChance"."niveau"
