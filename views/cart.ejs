@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+	<head>
+		<title>Gold</title>
+		<script>
+			window.addEventListener( 'load', ev => {
+				goldPS=1;
+				gold=100;
+				ObjInterval = null,
+				totalGold = document.querySelector( "#totalGold" ),
+				totalGold.textContent = gold;
+				function augmenter(){
+
+					if (gold + goldPS <= Number.MAX_VALUE){
+						gold += goldPS;
+						totalGold.textContent = gold;
+					} else if (ObjInterval){
+						clearInterval(ObjInterval);
+						gold = Number.MAX_VALUE;
+					}
+				}
+				ObjInterval = setInterval(augmenter, 1000, gold, goldPS);
+			});
+		</script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> </script>
+
+
+	</head>
+	<body>
+		<main>
+			<p id="totalGold"></p>
+			<input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
+
+			<div id="app">
+			<button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="invocationHeros()">+</button>
+
+            </div>
+
+            <div id="joueur"> Joueur </div>
+
+	  	</main>
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+	</body>
+</html>
+
+
+
+<script>
+
+
+/*
+
+  Vue.component('listecart',{ //A garder en commentaire car j'en aurai besoin pour plus tard
+
+  template:`<li v-bind:id="'item_'+id">
+      <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="addItem()">+</button>  {{quantity}} <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="removeItem()">-</button>
+      &#215; {{name }} ($ {{price}} each)
+     </li>`,
+  props:["id", "quantity", "name", "price"],
+
+  methods:{
+          addItem: function() {
+          console.log(this.id);
+            app.addItem(this.id);
+          },
+          removeItem: function() {
+          console.log(this.id);
+            app.removeItem(this.id);
+          },
+
+          estVide: function() {
+            app.estVide();
+          },
+
+        },
+
+})*/
+
+
+const joueur = new Vue({ //Vue du joueur
+        el:"#joueur",
+        data:{
+          herosObtenus:[],
+        },
+        methods:{
+          possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
+            console.log("PWET possedeHeros");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              console.log(herosObtenu);
+              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
+              console.log("heros.id_hero : "+heros['id_hero']);
+              if(herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
+                return true;
+              }
+            }
+            return false;
+          }
+        },
+  });
+
+$.ajax({
+  type: 'GET',
+  url: '/cart/initialisationHerosObtenus',
+  success: function(received) {
+  console.log("Pweeeet initialisationHerosObtenus");
+  console.log(received);
+  joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
+   },
+    error: function() {
+      alert('Problème AJAX');
+    }
+});
+
+const app = new Vue({ //Vue qui gère les invocations de héros
+        el:"#app",
+        methods:{
+          invocationHeros: function() { //Invocation de heros
+             console.log("Pweeeet debut");
+             console.log(totalGold.textContent);
+
+             $.ajax({
+               type: 'POST',
+               url: '/cart/argentSuffisant',//Vérifie si le joueur a assez d'argent pour faire une invocation
+               data: "argent="+totalGold.textContent,//Envoie de l'argent
+               success: function(received) {
+                 console.log("Pweeeet argentSuffisant");
+                 console.log(received);
+                 if (received) { //Si on a assez d'argent
+                    totalGold.textContent = totalGold.textContent - 100;//A changer
+                    let rarete = "";
+                    $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
+                        if (status == "error") {
+                          alert('erreur' + xhr.status + " " + xhr.statusText);
+                        } else {
+                            console.log("data : "+data);
+                            rarete = data; //Sauvegarde de la rareté obtenue
+                            console.log("rarete finale : "+rarete);
+                            $.ajax({
+                            type: 'POST',
+                            url: '/cart/triParRarete',//Obtention d'un héros au hasard qui a la rareté demandée
+                            data:"rarete="+rarete,//Envoie de la rareté
+                            success: function(received) {
+                              console.log("Pweeeet Fin triParRarete");
+                              console.log(received);
+                              let heros = received; //Sauvegarde du héros
+                              console.log(joueur.possedeHeros(heros));
+                              if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
+                                console.log("Remboursement en cours."); //On rembourse le joueur d'un montant X selon la rareté
+                              }
+                              else { //Si le joueur ne possède pas le héros
+                                joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
+                                console.log("Ajout d'un heros.");
+                                console.log(joueur.herosObtenus);
+                              }
+                            },
+                            error: function() {
+                              alert('Problème AJAX');
+                            }
+                            });
+                          };
+                      });
+                 }
+                 else {
+                    window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 golds."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
+                 }
+               },
+               error: function() {
+                 alert('Problème AJAX');
+               }
+            });
+
+          },
+        },
+    })
+
+</script>
+
+<!--<script>
+
+function invocationHeros(){
+      console.log("invocationHeros");
+      console.log(totalGold.textContent);
+      };
+
+</script>-->
+
+
+</html>
