@@ -67,6 +67,20 @@
               </div>
             <div class="text-center"><button type="submit">Jouer</button></div>
           </form>
+          <br>
+
+          <form action="/signup" method="post" role="form" class="login-form">
+              <% if (error!=undefined && error) {%>
+                <p>Bad char</p>
+              <% }%>
+              <div class="form-group">
+                <input type="email" name="email" class="form-control" id="email" placeholder="E-mail" required>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" name="mdp" id="mdp" placeholder="Password" required>
+              </div>
+            <div class="text-center"><button type="submit">S'inscrire</button></div>
+          </form>
         <% } %>
         <!--End Contact Form -->
 
