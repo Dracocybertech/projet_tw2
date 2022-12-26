@@ -14,12 +14,22 @@ app.use(express.static('../frontend'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
+const session = require('express-session');
+app.use(session({
+	secret: 'login', //used to sign the session ID cookie
+	name: 'login', // (optional) name of the session cookie
+	resave: true, // forces the session to be saved back to the session store
+	saveUninitialized: true, // forces a session an uninitialized session to be saved to the store
+}));
+
 
 // routers
 
 const cart = require('./routers/cart');
 app.use('/cart', cart);
 
+const login = require('./routers/login');
+app.use('/login', login);
 
 const router = require('./routers/router');
 app.use('/', router);

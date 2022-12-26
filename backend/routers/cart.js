@@ -9,7 +9,7 @@ const remboursementSsr = 50;
 
 
 // connecting an existing database (handling errors)
-const db = new sqlite3.Database('./db/projet.sqlite', (err) => {
+const db = new sqlite3.Database('../db/projet.sqlite', (err) => {
     if (err) {
         console.error(err.message);
     }
