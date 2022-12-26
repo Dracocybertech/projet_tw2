@@ -29,7 +29,7 @@ const cart = require('./routers/cart');
 app.use('/cart', cart);
 
 const login = require('./routers/login');
-app.use('/login', login);
+app.use('/', login);
 
 const router = require('./routers/router');
 app.use('/', router);

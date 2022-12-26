@@ -115,7 +115,7 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
 
 
 router.use('/', function (req, res) {
-    console.log("router.use");
+    //console.log("router.use");
     db.serialize(() => {
         console.log("serialize");
         db.all("SELECT * FROM joueurS;", (err, rows) => {

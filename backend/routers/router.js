@@ -8,7 +8,7 @@ router.use('/home', function (req, res) {
 
 
 router.use('/', function (req, res) {
-	console.log("router.use('/'");
+	//console.log("router.use('/'");
 	res.render('login.ejs', {logged: req.session.loggedin, login: req.session.login, error: false});
 });
 

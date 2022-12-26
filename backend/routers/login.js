@@ -17,22 +17,23 @@ const db = new sqlite3.Database('../db/projet.sqlite', (err) => {
 
 // check credentials in database + initialize session
 router.post('/login', function (req, res, next) {
-    console.log("router.post('/login'");
+
 	let data = req.body;
-
-    if(data['login']!=null && data['login']!="" && data['password']!=null && data['password']!=""){
-
+	console.log(data);
+	if(data['email']!=null && data['email']!="" && data['mdp']!=null && data['mdp']!=""){
+		
 		db.serialize(() => {
 			// check if the password is okay
-			const statement = db.prepare("SELECT login,password FROM clients WHERE login=?;");
-			statement.get(data['login'], (err, result) => {
+			const statement = db.prepare("SELECT email,mdp FROM joueurs WHERE email=?;");
+			statement.get(data['email'], (err, result) => {
 				if(err){
 					next(err);
 				} else {
 					if(result){
 						req.session.loggedin=true;
-						req.session.login=result['login'];
+						req.session.login=result['email'];
 						req.session.id_joueur = "";
+						console.log("bon email/mdp");
 						next();
 					} else {
 						res.render('login.ejs', {logged: false, login: req.session.login, error: true});
