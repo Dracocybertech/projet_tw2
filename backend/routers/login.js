@@ -56,8 +56,7 @@ router.post('/signup', function (req, res, next) {
 	let newUser = true;
 
 	let data = req.body;
-	console.log(data);
-	
+
 	//Check que les données sont exploitables pour la BD
 	if(data['email']!=null && data['email']!="" && data['mdp']!=null && data['mdp']!=""){
 		
@@ -67,7 +66,7 @@ router.post('/signup', function (req, res, next) {
 			//Vérif si ça existe déjà
 
 			statement = db.prepare("SELECT email,mdp FROM joueurs WHERE email=?;");
-			statement.get(data['email'], (err, result) => {
+			test = statement.get(data['email'], (err, result) => {
 				if(err){
 					next(err);
 				} else {
@@ -77,56 +76,38 @@ router.post('/signup', function (req, res, next) {
 						req.session.id_joueur = "";
 						console.log("78 Existe déjà donc on login");
 						dejaAuth = false;
-						console.log("80 Nouvel utilisateur ? ", newUser)
-						next();
-						console.log("82 Après le next");
-					} else {// Nouveaux login et id donc on enchaîne
+						//console.log("80 Nouvel utilisateur ? ", newUser);
 
+						next(err);
+						console.log("82 Après le next");
+						
+					} else {// Nouveaux login et id donc on enchaîne
+						console.log("84 Nouvel utilisateur ? ", newUser)
+
+						let leId;
+
+						statement2 = db.prepare("SELECT MAX(id_joueur) FROM joueurs");
+						statement2.get((err,result) => {
+							if(err){
+								next(err);
+							} else {
+								leId= result['MAX(id_joueur)']+1;
+								console.log("l'id du nouveau joueur",leId);
+								statement3 = db.prepare("INSERT INTO joueurs(id_joueur, email, mdp, golds, diamants, last_seen) VALUES (?,?,?,0,0,strftime('%s','now'));");
+								statement3.run(leId,data['email'],data['mdp']);
+								statement3.finalize();
+								console.log("statement3 réalisé",statement3);
+							}
+						});
+						statement2.finalize();
+						console.log("statement2 réalisé",statement2);
 					}
 				}
+
 			});
-
-
-			if (newUser){
-					//Find last ID (Useless ?)
-
-				console.log("93 Nouvel utilisateur ? ", newUser)
-
-				let leId;
-
-				statement = db.prepare("SELECT MAX(id_joueur) FROM joueurs");
-				statement.get((err,result) => {
-					if(err){
-						next(err);
-					} else {
-						leId= result['MAX(id_joueur)'];
-						console.log("MAX(id_joueur) : ",result['MAX(id_joueur)']);
-						//console.log("Numéro d'ID max dans la boucle : ",leId); // OK
-						next();
-					}
-					leId= result['MAX(id_joueur)'];
-
-				});
-
-				/*db.each("SELECT MAX(id_joueur) FROM joueurs",(err,row)=> {
-					if (err){
-						next(err);
-					} else
-					leId= row['MAX(id_joueur)'];
-					//console.log("Numéro d'ID max dans la boucle : ",leId); // OK
-				});*/
-
-				console.log("119 Numéro d'ID max : ",leId);// Aucune valeur ?
-
-				// Add last ID, email, password, new stats
-				statement = db.prepare("INSERT INTO joueurs(id_joueur, email, mdp, golds, diamants, last_seen) VALUES (?,?,?,0,0,strftime('%s','now'));");
-				statement.run(leId,data['email'],data['mdp']);
-				console.log("124 nouvel utilisateur ajouté");
-			}
-
-
-			
+			next();
 			statement.finalize();
+			console.log("statement réalisé",statement);
 			
 		});
 
