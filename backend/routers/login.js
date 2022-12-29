@@ -30,11 +30,15 @@ router.post('/login', function (req, res, next) {
 					next(err);
 				} else {
 					if(result){
+						req.session.ses =result;
 						req.session.loggedin=true;
 						req.session.login=result['email'];
-						req.session.id_joueur = "";
+						req.session.id_joueur = ""; //On veut une valeur
+						//console.log("36 ",req.session);
 						console.log("bon email/mdp");
-						next();
+						//res.render('login.ejs', {logged: false, session: req.session, error: true});
+						res.redirect('/cart');
+						//next(); //res.render de cart.
 					} else {
 						res.render('login.ejs', {logged: false, login: req.session.login, error: true});
 					}

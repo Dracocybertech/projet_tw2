@@ -143,6 +143,7 @@ router.use((err, req, res, next) => {
 })
 
 
+//						res.render('cart.ejs', {logged: false, session: req.session, error: true});
 
 
 module.exports = router;

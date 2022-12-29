@@ -1,7 +1,120 @@
 
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
+
+
+
+
+
 	<head>
+
+    <style>
+      body {
+          background-image: url('assets/img/nature.jpg');
+          background-size: cover;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          height: 50%;
+      }
+
+      .container {
+          background-color: rgba(255, 255, 255, 0.8);
+          padding: 20px;
+          border-radius: 10px;
+      }
+
+
+      .left-column {
+          width: 400px;
+          height: 500px;
+          overflow-y: auto;
+      }
+
+      .right-column {
+          width: 800px;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .top-right {
+          width: 100%;
+          height: 200px;
+          background-image: url('assets/img/nature.jpg');
+          background-size: cover;
+      }
+
+      .bottom-right {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .character-list {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+      }
+
+      .character {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+      }
+
+      .character-image {
+          width: 50px;
+          height: 50px;
+          background-size: cover;
+          margin-right: 10px;
+      }
+
+      .character-info {
+          display: flex;
+          flex-direction: column;
+      }
+
+      .character-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      .character-stats {
+          font-size: 14px;
+          margin-bottom: 5px;
+      }
+
+      .invocation-table {
+          width: 500px;
+          border-collapse: collapse;
+      }
+
+      .invocation-table td,
+      .invocation-table th {
+          border: 1px solid #ddd;
+          padding: 8px;
+      }
+
+      .invocation-table tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+
+      .invocation-table th {
+          padding-top: 0px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+      }
+  </style>
+
+
+
+
 		<title>Gold</title>
 		<script>
 			window.addEventListener( 'load', ev => {
@@ -44,19 +157,75 @@
 
 	</head>
 	<body>
-		<main>
-			<p id="totalGold"></p>
-			<input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
 
-			<div id="app">
-			<button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="invocationHeros()">+</button>
-			<p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
+    <div class="container">
+      <div class="left-column">
+          <div class="character-list">
+            <p id="totalGold"></p>
+            <input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
 
+            <div id="app">
+              <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="invocationHeros()">+</button>
+              <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
             </div>
 
-            <div id="joueur"> Joueur </div>
+            
+      </div>
 
-	  	</main>
+      
+      <!-- <div class="right-column">
+         
+          <div class="bottom-right">
+              <table class="invocation-table">
+                  <thead>
+                      <div class="top-right"></div>
+                  </thead>
+                  <tr>
+                      <th>Invocation</th>
+                      <th>Gold</th>
+                      <th>Diamants</th>
+                      <th>Gold/s</th>
+                      <th>Diamants/s</th>
+                  </tr>
+                  <tr>
+                      <td>
+                          <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
+                          <div>50</div>
+                      </td>
+                      <td>100</td>
+                      <td>50</td>
+                      <td>1</td>
+                      <td>0.5</td>
+                  </tr>
+              </table>
+          </div>
+      </div> -->
+  </div>
+
+  <div id="joueur"> Joueur {nomjoueur} </div>
+
+  <div id ="affichageHeros" class="tabHeros">
+    <ul>
+      <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
+
+      <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
+    </ul>
+
+  </div>
+
+
+
+
+    <!-- <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
+      <div class="character-info">
+            <div class="character">
+            <div class="character-name">Personnage 1</div>
+            <div class="character-stats">Niveau: 10</div>
+            <div class="character-stats">Gold/s: 100</div>
+            <div class="character-stats">Diamants/s: 50</div>
+      </div>
+    </div> -->
+</div>
 
 
   <!-- Vendor JS Files -->
@@ -70,6 +239,42 @@
 
 
 <script>
+
+
+Vue.component("liste_heros",{
+				
+				template: `<table border="1pt" width="500px">
+						<tr>
+              
+							  <td>
+                <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
+                {{ personnage }}
+                </td>
+							<td>{{ niveau }}</td>
+              
+						</tr>
+					</table>`,
+        
+				props: ["personnage", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
+			})
+
+
+  // const liste_heros = new Vue({
+  //       el:"#affichageHeros",
+  //       data: function() {
+
+  //           //heros1:["personnage1",1,50,20];
+  //           //heros2:["personnage2",3,40,30];
+            
+          
+  //         return {
+            
+  //           heroes:[["personnage1",1,50,20],["personnage2",3,40,30],["personnage3",3,40,30]]
+
+  //         }
+            
+  //       }
+  // })
 
 
 /*
@@ -100,12 +305,24 @@
 
 })*/
 
+/*$(document).ready(function(){
+  $.ajax({
+    type: 'GET',
+    url: '/cart/initialisationHerosObtenus',
+    success: function(received) {
+    console.log("Pweeeet initialisationHerosObtenus");
+    console.log(received);
+    joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
+   },
+    error: function() {
+      alert('Problème AJAX');
+    }
+  });
+});*/
+
 
 const joueur = new Vue({ //Vue du joueur
-        el:"#joueur",
-        data:{
-          herosObtenus:[],
-        },
+        el:"#affichageHeros",
         methods:{
           possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
             console.log("PWET possedeHeros");
@@ -119,6 +336,9 @@ const joueur = new Vue({ //Vue du joueur
             }
             return false;
           }
+        },
+        data:{
+          herosObtenus:[],
         },
   });
 
