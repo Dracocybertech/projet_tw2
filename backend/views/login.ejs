@@ -57,6 +57,7 @@
         <% } else { %>
           <form action="/login" method="post" role="form" class="login-form">
               <% if (error!=undefined && error) {%>
+                <% unlogged = true%>
                 <p>Wrong credentials, try again!</p>
               <% }%>
               <div class="form-group">
@@ -70,7 +71,7 @@
           <br>
 
           <form action="/signup" method="post" role="form" class="login-form">
-              <% if (error!=undefined && error) {%>
+              <% if (error!=undefined && error && !unlogged) {%>
                 <p>Bad char</p>
               <% }%>
               <div class="form-group">

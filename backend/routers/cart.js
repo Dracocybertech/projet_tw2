@@ -114,6 +114,35 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
 });
 
 
+/*router.post('/logout', function (req, res) {
+    console.log("logout de cart.js");
+
+    res.redirect
+    
+});*/
+
+router.get('/rareteRandom', function (req, res) {
+    console.log("router rareteRandom");
+    let rarete = Math.random()*100;
+    //console.log(rarete);
+    db.serialize(() => {
+        db.all("SELECT * FROM niveauChance;", (err, rows) => {
+                if (rows) {
+                    let poids = 0;
+                        for(row in rows){
+                            poids += rows[row].poids;
+                            if (poids >= rarete) {
+                                res.status(200).json(rows[row].rarete).end();
+                                break;
+                            }
+                        }
+                }
+
+        })
+    });
+});
+
+
 router.use('/', function (req, res) {
     //console.log("router.use");
     db.serialize(() => {

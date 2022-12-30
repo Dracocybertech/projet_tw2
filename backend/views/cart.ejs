@@ -19,10 +19,45 @@
           height: 50%;
       }
 
+      img {
+          max-width: 100%;
+          max-height: 100%;
+          display: flex;
+      }
+
+      input {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
       .container {
           background-color: rgba(255, 255, 255, 0.8);
           padding: 20px;
           border-radius: 10px;
+      }
+
+      .system{
+        border: 1px solid black;
+        margin: 10px;
+        padding: 2px;
+        height: 20%;
+        text-align: center;
+        display: flex;
+        align-content: stretch;
+        justify-content: space-between;
+      }
+      .system-bar{
+        display:inline-flex
+        
+      }
+      .system-options-expanded{
+        display:inline-flex;
+        text-align: right;
       }
 
 
@@ -115,7 +150,7 @@
 
 
 
-		<title>Gold</title>
+		<title>Nope</title>
 		<script>
 			window.addEventListener( 'load', ev => {
 				goldPS=1;
@@ -151,21 +186,63 @@
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/main.css" rel="stylesheet">
+    <!-- <link href="assets/css/main2.css" rel="stylesheet"> -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> </script>
 
 
 	</head>
+
 	<body>
 
     <div class="container">
+
+      <div class="system">
+        <div class="system-bar">
+          <form action="/logout" method="post" role="form">
+            <div>
+              <button type="submit">
+                <div style="height:20px;width:20px;object-fit:contain;">
+                  <img src="assets/img/logout.png">
+                </div>
+              </button>
+            </div>
+          </form>
+          Save & Exit
+        </div>
+
+        <div class="system-bar" style="text-align:right;">
+          <form action="/logout" method="post" role="form">
+            <div>
+              <button type="submit">
+                <div style="height:20px;width:20px;object-fit:contain;">
+                  <img src="assets/img/settings.png">
+                </div>
+              </button>
+            </div>
+          </form>
+          Settings
+        </div>
+
+
+        <div class="system-options-expanded">
+          Music
+        </div>
+
+        <div class="system-options-expanded">
+          Darkmode
+        </div>
+
+
+      </div>
+
+
       <div class="left-column">
           <div class="character-list">
             <p id="totalGold"></p>
             <input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
 
             <div id="app">
-              <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="invocationHeros()">+</button>
+              <button style="background: var(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:2px" v-on:click="invocationHeros()">Invocation +</button>
               <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
             </div>
 
@@ -173,66 +250,69 @@
       </div>
 
       
-      <!-- <div class="right-column">
-         
-          <div class="bottom-right">
-              <table class="invocation-table">
-                  <thead>
-                      <div class="top-right"></div>
-                  </thead>
-                  <tr>
-                      <th>Invocation</th>
-                      <th>Gold</th>
-                      <th>Diamants</th>
-                      <th>Gold/s</th>
-                      <th>Diamants/s</th>
-                  </tr>
-                  <tr>
-                      <td>
-                          <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
-                          <div>50</div>
-                      </td>
-                      <td>100</td>
-                      <td>50</td>
-                      <td>1</td>
-                      <td>0.5</td>
-                  </tr>
-              </table>
-          </div>
+        <!-- <div class="right-column">
+          
+            <div class="bottom-right">
+                <table class="invocation-table">
+                    <thead>
+                        <div class="top-right"></div>
+                    </thead>
+                    <tr>
+                        <th>Invocation</th>
+                        <th>Gold</th>
+                        <th>Diamants</th>
+                        <th>Gold/s</th>
+                        <th>Diamants/s</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
+                            <div>50</div>
+                        </td>
+                        <td>100</td>
+                        <td>50</td>
+                        <td>1</td>
+                        <td>0.5</td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+    </div>
+
+    <div id="joueur"> Joueur {nomjoueur} </div>
+
+    <div id ="affichageHeros" class="tabHeros">
+      <ul>
+        <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
+
+        <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
+      </ul>
+
+    </div>
+
+
+
+
+      <!-- <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
+        <div class="character-info">
+              <div class="character">
+              <div class="character-name">Personnage 1</div>
+              <div class="character-stats">Niveau: 10</div>
+              <div class="character-stats">Gold/s: 100</div>
+              <div class="character-stats">Diamants/s: 50</div>
+        </div>
       </div> -->
-  </div>
 
-  <div id="joueur"> Joueur {nomjoueur} </div>
+      
 
-  <div id ="affichageHeros" class="tabHeros">
-    <ul>
-      <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
-
-      <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
-    </ul>
-
-  </div>
+    </div>
 
 
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
-      <div class="character-info">
-            <div class="character">
-            <div class="character-name">Personnage 1</div>
-            <div class="character-stats">Niveau: 10</div>
-            <div class="character-stats">Gold/s: 100</div>
-            <div class="character-stats">Diamants/s: 50</div>
-      </div>
-    </div> -->
-</div>
-
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
 	</body>
 </html>
 
