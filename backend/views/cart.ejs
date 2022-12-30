@@ -233,7 +233,7 @@
 				gold=100;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
-				totalGold.textContent = gold;
+				totalGold.innerText = gold;
 				function augmenter(){
 
 					if (gold + goldPS <= Number.MAX_VALUE){
@@ -530,12 +530,12 @@ const app = new Vue({ //Vue qui gère les invocations de héros
              $.ajax({
                type: 'POST',
                url: '/cart/argentSuffisant',//Vérifie si le joueur a assez d'argent pour faire une invocation
-               data: "argent="+totalGold.textContent,//Envoie de l'argent
+               data: "argent="+gold,//Envoie de l'argent
                success: function(received) {
                  console.log("Pweeeet argentSuffisant");
                  console.log(received);
                  if (received) { //Si on a assez d'argent
-                    totalGold.textContent = totalGold.textContent - 100;//A changer
+                    gold-=100;
                     let rarete = "";
                     $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
                         if (status == "error") {
@@ -561,6 +561,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                                 console.log("Ajout d'un heros.");
                                 console.log(joueur.herosObtenus);
                               }
+                              totalGold.innerText = gold;
                             },
                             error: function() {
                               alert('Problème AJAX');
