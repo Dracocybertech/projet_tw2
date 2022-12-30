@@ -12,11 +12,12 @@
       body {
           background-image: url('assets/img/nature.jpg');
           background-size: cover;
+          background-repeat: no-repeat;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-direction: column;
-          height: 50%;
+          height:100%;
       }
 
       img {
@@ -37,56 +38,124 @@
 
       .container {
           background-color: rgba(255, 255, 255, 0.8);
-          padding: 20px;
+          padding: 15px;
           border-radius: 10px;
       }
 
       .system{
-        border: 1px solid black;
+        background: rgba(177, 177, 177, 0.45);
+        border-radius: 15px;
         margin: 10px;
-        padding: 2px;
-        height: 20%;
+        padding: 10px;
+        height: 100%;
         text-align: center;
         display: flex;
-        align-content: stretch;
+        flex-direction: column;
         justify-content: space-between;
-      }
-      .system-bar{
-        display:inline-flex
         
       }
-      .system-options-expanded{
-        display:inline-flex;
-        text-align: right;
+      .system-bar{
+        margin: 1px;
+        display: flex;
+        justify-content: space-between;
       }
 
+      .system-logout {
+        display:inline-flex
+      }
 
-      .left-column {
-          width: 400px;
-          height: 500px;
+      .system-settings {
+        
+        display:inline-flex
+      }
+
+      .system-options-expanded{
+        margin: 1px;
+        width:100%;
+        display:inline-flex;
+        justify-content: flex-end;
+      }
+
+      .system-settings1 {
+        display:inline-flex;
+        margin-inline:10px;
+      }
+
+      .system-button {
+        margin-inline: 10px;
+        color: #fff;
+        border-radius: 10px;
+        background:red;
+        border:0px;
+      }
+
+      .play-zone {
+        background: red;
+        padding:.5em;
+        display:flex;
+        justify-content: space-between;
+      }
+
+      .play-left {
+        padding:.5em;
+        background: orangered;
+        display:flex;
+        width:50%;
+      }
+
+      .play-right {
+        padding:.5em;
+        background: blue;
+        display:flex;
+        width:50%;
+        flex-direction: column;
+        align-content: stretch;
+      }
+
+      .play-left-characters {
+        padding:.5em;
+        background: blueviolet;
+          width: 100%;
+          height: auto;
           overflow-y: auto;
       }
 
-      .right-column {
-          width: 800px;
-          display: flex;
-          flex-direction: column;
+      .play-right-background{
+        padding:.5em;
+        display:flex;
+        width:100%;
+        height:fit-content;
+        }
+
+      .play-right-stats{
+        padding:.5em;
+        background: yellow;
+        display:flex;
+        flex-direction: row;
+        width:100%;
+        height:100%;
       }
 
-      .top-right {
-          width: 100%;
-          height: 200px;
-          background-image: url('assets/img/nature.jpg');
-          background-size: cover;
+      
+
+      .play-right-stats-summon{
+        padding:.5em;
+        background: yellowgreen;
+          display:flex;
       }
 
-      .bottom-right {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+      .play-right-stats-money{
+        padding:.5em;
+        background: cornflowerblue;
+        display:flex;
       }
+
+      .play-right-stats-moneypersec{
+        padding:.5em;
+        background: indianred;
+          display:flex;
+      }
+
 
       .character-list {
           width: 100%;
@@ -124,24 +193,31 @@
       }
 
       .invocation-table {
-          width: 500px;
+          background-color: #f2f2f2;
+          width: fit-content;
           border-collapse: collapse;
+          text-align: center;
+          table-layout: fixed;
+
       }
 
       .invocation-table td,
       .invocation-table th {
           border: 1px solid #ddd;
           padding: 8px;
+          width: 102px;
       }
 
       .invocation-table tr:nth-child(even) {
           background-color: #f2f2f2;
       }
 
+      .invocation-table td {
+      }
+
       .invocation-table th {
           padding-top: 0px;
           padding-bottom: 12px;
-          text-align: left;
           background-color: #4CAF50;
           color: white;
       }
@@ -150,7 +226,7 @@
 
 
 
-		<title>Nope</title>
+		<title>Stickman Impact</title>
 		<script>
 			window.addEventListener( 'load', ev => {
 				goldPS=1;
@@ -195,104 +271,89 @@
 	<body>
 
     <div class="container">
-
       <div class="system">
         <div class="system-bar">
-          <form action="/logout" method="post" role="form">
-            <div>
-              <button type="submit">
-                <div style="height:20px;width:20px;object-fit:contain;">
-                  <img src="assets/img/logout.png">
-                </div>
-              </button>
-            </div>
-          </form>
-          Save & Exit
+          <div class="system-logout">
+            <form action="/logout" method="post" role="form">
+              <div>
+                <button type="submit">
+                  <div style="height:20px;width:20px;object-fit:contain;">
+                    <img src="assets/img/logout.png">
+                  </div>
+                </button>
+              </div>
+            </form>
+            Save & Exit
+          </div>
+          <div class="system-settings">
+            <form action="/settings" method="post" role="form">
+              <div>
+                <button type="submit">
+                  <div style="height:20px;width:20px;object-fit:contain;">
+                    <img src="assets/img/settings.png">
+                  </div>
+                </button>
+              </div>
+            </form>
+            Settings
+          </div>
         </div>
-
-        <div class="system-bar" style="text-align:right;">
-          <form action="/logout" method="post" role="form">
-            <div>
-              <button type="submit">
-                <div style="height:20px;width:20px;object-fit:contain;">
-                  <img src="assets/img/settings.png">
-                </div>
-              </button>
-            </div>
-          </form>
-          Settings
-        </div>
-
-
         <div class="system-options-expanded">
-          Music
+          <div class="system-settings1">
+            <button class="system-button">Music</button>
+            <button class="system-button">Darkmode</button>
+          </div>
         </div>
-
-        <div class="system-options-expanded">
-          Darkmode
-        </div>
-
-
       </div>
+      <div class="play-zone">
+        <div class="play-left">
+          <div class="play-left-characters">
+            <div id ="affichageHeros" class="tabHeros">
+              <table class="invocation-table">
+                <thead>
+                  <tr>
+                    <th>Invocation</th>
+                    <th>Niveau</th>
+                    <th>Coût</th>
+                    <th>Upgrade</th>
+                    <th>Gold/s</th>
+                    <th>Diamants/s</th>
+                  </tr>
+                </thead>
+                
+            </table>
 
-
-      <div class="left-column">
-          <div class="character-list">
-            <p id="totalGold"></p>
+              
+                <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
+        
+                <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
+        
+            </div>
+          </div>
+        </div>
+        <div class="play-right">
+          <div class="play-right-background">
+            <div style="object-fit:contain;">
+              <img src="assets/img/test.jpeg">
+            </div>
+          </div>
+          <div class="play-right-stats">
+            <div class="play-right-stats-summon">
+              <div id="app">
+                <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:2px" v-on:click="invocationHeros()">Invocation +</button>
+                <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
+              </div>
+            </div>
+            <div class="play-right-stats-money">
+              <p id="totalGold"></p>
+              Gold
+            </div>
+            <div class="play-right-stats-moneypersec">
             <input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
-
-            <div id="app">
-              <button style="background: var(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:2px" v-on:click="invocationHeros()">Invocation +</button>
-              <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
             </div>
-
-            
+          </div>
+        </div>
       </div>
-
-      
-        <!-- <div class="right-column">
-          
-            <div class="bottom-right">
-                <table class="invocation-table">
-                    <thead>
-                        <div class="top-right"></div>
-                    </thead>
-                    <tr>
-                        <th>Invocation</th>
-                        <th>Gold</th>
-                        <th>Diamants</th>
-                        <th>Gold/s</th>
-                        <th>Diamants/s</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
-                            <div>50</div>
-                        </td>
-                        <td>100</td>
-                        <td>50</td>
-                        <td>1</td>
-                        <td>0.5</td>
-                    </tr>
-                </table>
-            </div>
-        </div> -->
-    </div>
-
-    <div id="joueur"> Joueur {nomjoueur} </div>
-
-    <div id ="affichageHeros" class="tabHeros">
-      <ul>
-        <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
-
-        <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
-      </ul>
-
-    </div>
-
-
-
-
       <!-- <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
         <div class="character-info">
               <div class="character">
@@ -302,9 +363,6 @@
               <div class="character-stats">Diamants/s: 50</div>
         </div>
       </div> -->
-
-      
-
     </div>
 
 
@@ -318,24 +376,51 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 
 
 Vue.component("liste_heros",{
 				
-				template: `<table border="1pt" width="500px">
-						<tr>
-              
-							  <td>
-                <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
-                {{ personnage }}
+				template: `<table class=invocation-table>
+            <tbody>
+              <tr>
+                <td>
+                  {{ personnage }}
                 </td>
-							<td>{{ niveau }}</td>
-              
-						</tr>
+                <td>
+                  {{ niveau }}
+                </td>
+                <td>
+                  val?
+                </td>
+                <td>
+                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="invocationHeros()">++</button>
+                </td>
+                <td>
+                  val?
+                </td>
+                <td>
+                  val?
+                </td>
+              </tr>
+            </tbody>
 					</table>`,
         
 				props: ["personnage", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
+        //<div class="character-image" style="background-image: url('assets/img/stickman.jpg')">
 			})
 
 
