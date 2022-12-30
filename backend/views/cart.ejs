@@ -228,14 +228,22 @@
 
 		<title>Stickman Impact</title>
 		<script>
-			window.addEventListener( 'load', ev => {
-				goldPS=1;
-				gold=100;
+			window.addEventListener('load', ev => {
+        /*goldPS=0
+        herosObtenus.forEach((heros) => {
+          goldPS+=heros.goldpersec
+        })
+        console.log(goldPS)*/
+				goldPS=5;
+				gold=500;
+        diamantPS=1;
+				diamant=100;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
 				totalGold.innerText = gold;
+        totalDiamant = document.querySelector( "#totalDiamant" ),
+				totalDiamant.innerText = diamant;
 				function augmenter(){
-
 					if (gold + goldPS <= Number.MAX_VALUE){
 						gold += goldPS;
 						totalGold.textContent = gold;
@@ -243,8 +251,15 @@
 						clearInterval(ObjInterval);
 						gold = Number.MAX_VALUE;
 					}
+          if (diamant + diamantPS <= Number.MAX_VALUE){
+						diamant += diamantPS;
+						totalDiamant.textContent = diamant;
+					} else if (ObjInterval){
+						clearInterval(ObjInterval);
+						diamant = Number.MAX_VALUE;
+					}
 				}
-				ObjInterval = setInterval(augmenter, 1000, gold, goldPS);
+				ObjInterval = setInterval(augmenter, 1000, gold, goldPS, diamant, diamantPS);
 			});
 		</script>
 
@@ -346,10 +361,12 @@
             </div>
             <div class="play-right-stats-money">
               <p id="totalGold"></p>
-              Gold
+              <p>&ThinSpace; Gold(s)</p>
+              <p id="totalDiamant"></p>
+              <p>&ThinSpace; Diamant(s)</p>
             </div>
             <div class="play-right-stats-moneypersec">
-            <input id="1gold" type="button" value="+1 g/s" onclick="goldPS=goldPS+1">
+            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1">
             </div>
           </div>
         </div>
@@ -530,12 +547,12 @@ const app = new Vue({ //Vue qui gère les invocations de héros
              $.ajax({
                type: 'POST',
                url: '/cart/argentSuffisant',//Vérifie si le joueur a assez d'argent pour faire une invocation
-               data: "argent="+gold,//Envoie de l'argent
+               data: "argent="+diamant,//Envoie de l'argent
                success: function(received) {
                  console.log("Pweeeet argentSuffisant");
                  console.log(received);
                  if (received) { //Si on a assez d'argent
-                    gold-=100;
+                    diamant-=100;
                     let rarete = "";
                     $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
                         if (status == "error") {
@@ -561,7 +578,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                                 console.log("Ajout d'un heros.");
                                 console.log(joueur.herosObtenus);
                               }
-                              totalGold.innerText = gold;
+                              totalDiamant.innerText = diamant;
                             },
                             error: function() {
                               alert('Problème AJAX');
@@ -571,7 +588,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                       });
                  }
                  else {
-                    window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 golds."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
+                    window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 diamants."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
                  }
                },
                error: function() {
