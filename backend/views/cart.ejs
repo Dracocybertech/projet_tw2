@@ -113,11 +113,12 @@
       }
 
       .play-left-characters {
-        padding:.5em;
+        justify-content: center;
         background: blueviolet;
-          width: 100%;
-          height: auto;
-          overflow-y: auto;
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        overflow-x: auto;
       }
 
       .play-right-background{
@@ -134,6 +135,7 @@
         flex-direction: row;
         width:100%;
         height:100%;
+        overflow-y: auto;
       }
 
       
@@ -141,19 +143,25 @@
       .play-right-stats-summon{
         padding:.5em;
         background: yellowgreen;
-          display:flex;
+        display:flex;
+        width:100%;
+        height:100%;
       }
 
       .play-right-stats-money{
         padding:.5em;
         background: cornflowerblue;
         display:flex;
+        width:100%;
+        height:100%;
       }
 
       .play-right-stats-moneypersec{
         padding:.5em;
         background: indianred;
-          display:flex;
+        display:block;
+        width:100%;
+        height:100%;
       }
 
 
@@ -303,7 +311,7 @@
           <div class="system-settings">
             <form action="/settings" method="post" role="form">
               <div>
-                <button type="submit">
+                <button type="button">
                   <div style="height:20px;width:20px;object-fit:contain;">
                     <img src="assets/img/settings.png">
                   </div>
@@ -316,7 +324,7 @@
         <div class="system-options-expanded">
           <div class="system-settings1">
             <button class="system-button">Music</button>
-            <button class="system-button">Darkmode</button>
+            <button class="system-button">Background</button>
           </div>
         </div>
       </div>
@@ -339,7 +347,7 @@
             </table>
 
               
-                <liste_heros v-for="heros in herosObtenus" v-bind:personnage="heros.id_hero" v-bind:niveau="heros.niveau"/>
+                <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau"/>
         
                 <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
         
@@ -366,7 +374,9 @@
               <p>&ThinSpace; Diamant(s)</p>
             </div>
             <div class="play-right-stats-moneypersec">
-            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1">
+            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1" style="width:fit-content;height: fit-content;">
+              gold/s
+              diamonds/s
             </div>
           </div>
         </div>
@@ -408,8 +418,7 @@
 
 <script>
 
-
-Vue.component("liste_heros",{
+Vue.component("settings_bar",{
 				
 				template: `<table class=invocation-table>
             <tbody>
@@ -424,7 +433,7 @@ Vue.component("liste_heros",{
                   val?
                 </td>
                 <td>
-                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="invocationHeros()">++</button>
+                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
                 </td>
                 <td>
                   val?
@@ -437,6 +446,38 @@ Vue.component("liste_heros",{
 					</table>`,
         
 				props: ["personnage", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
+        //<div class="character-image" style="background-image: url('assets/img/stickman.jpg')">
+			})
+
+
+Vue.component("liste_heros",{
+				
+				template: `<table class=invocation-table>
+            <tbody>
+              <tr>
+                <td>
+                  {{ id_hero }}
+                </td>
+                <td>
+                  {{ niveau }}
+                </td>
+                <td>
+                  val?
+                </td>
+                <td>
+                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
+                </td>
+                <td>
+                  val?
+                </td>
+                <td>
+                  val?
+                </td>
+              </tr>
+            </tbody>
+					</table>`,
+        
+				props: ["id_hero", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
         //<div class="character-image" style="background-image: url('assets/img/stickman.jpg')">
 			})
 
