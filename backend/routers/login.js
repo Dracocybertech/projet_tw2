@@ -4,7 +4,20 @@ router.use(express.urlencoded({ extended: true }));
 
 const sqlite3 = require('sqlite3').verbose();
 
+//Fonction pour chiffrer et déchiffrer un mdp
+function chiffre(msg, cle) { 
 
+	var res ="";
+    	for (var i = 0; i < msg.length; i++) {
+        	var c = msg[i].charCodeAt(0) + cle;
+	        if (c<100){
+	            res =res+ "0"+String(c);
+        	}
+        	else
+            	res =res+ String(c);
+    	}
+	return res;
+}
 
 // connecting an existing database (handling errors)
 const db = new sqlite3.Database('../db/projet.sqlite', (err) => {
@@ -25,7 +38,7 @@ router.post('/login', function (req, res, next) {
 		db.serialize(() => {
 			// check if the password is okay
 			const statement = db.prepare("SELECT * FROM joueurs WHERE email=? AND mdp=?;");
-			statement.get(data['email'], data['mdp'], (err, result) => {
+			statement.get(data['email'], chiffre(data['mdp'],5), (err, result) => {
 				if(err){
 					next(err);
 				} else {
@@ -99,7 +112,7 @@ router.post('/signup', function (req, res, next) {
 								leId= result['MAX(id_joueur)']+1;
 								console.log("l'id du nouveau joueur",leId);
 								statement3 = db.prepare("INSERT INTO joueurs(id_joueur, email, mdp, golds, diamants, last_seen) VALUES (?,?,?,0,0,strftime('%s','now'));");
-								statement3.run(leId,data['email'],data['mdp']);
+								statement3.run(leId,data['email'],chiffre(data['mdp'],5));
 								statement3.finalize();
 								//console.log("statement3 réalisé",statement3);
 							}
