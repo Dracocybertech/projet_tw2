@@ -146,11 +146,40 @@
         display:flex;
         width:100%;
         height:100%;
+        align-items: center;
+        align-self:stretch;
+      }
+
+      .play-right-stats-summon-cost{
+        padding:4px;
+        border:2px solid;
+        height: fit-content;
+        width: fit-content;
+        background-color: blue;
+        color: white;
+        display: flex;
       }
 
       .play-right-stats-money{
         padding:.5em;
         background: cornflowerblue;
+        display:flex;
+        flex-direction: column;
+        width:100%;
+        height:100%;
+      }
+
+      .play-right-stats-money-golds{
+        padding:.5em;
+        background: grey;
+        display:flex;
+        width:100%;
+        height:100%;
+      }
+
+      .play-right-stats-money-diamonds{
+        padding:.5em;
+        background: aqua;
         display:flex;
         width:100%;
         height:100%;
@@ -159,11 +188,39 @@
       .play-right-stats-moneypersec{
         padding:.5em;
         background: indianred;
-        display:block;
+        display:flex;
+        flex-direction: column;
         width:100%;
         height:100%;
       }
 
+      .play-right-stats-moneypersec-golds{
+        padding:.5em;
+        background: aquamarine;
+        display:flex;
+        width:100%;
+        height:100%;
+      }
+
+      .play-right-stats-moneypersec-diamonds{
+        padding:.5em;
+        background: antiquewhite;
+        display:flex;
+        width:100%;
+        height:100%;
+      }
+
+      .gold-icon,.diamonds-icon{
+        height:30px;width:30px;object-fit:contain;
+      }
+
+      .gold-icon{
+        background-color: rgb(253, 215, 0);
+      }
+
+      .diamonds-icon{
+        background-color: rgb(0, 223, 253);
+      }
 
       .character-list {
           width: 100%;
@@ -293,7 +350,7 @@
 
 	<body>
 
-    <div class="container">
+    <div class="container" id="root">
       <div class="system">
         <div class="system-bar">
           <div class="system-logout">
@@ -309,7 +366,7 @@
             Save & Exit
           </div>
           <div class="system-settings">
-            <form action="/settings" method="post" role="form">
+            <form action="" method="post" role="form">
               <div>
                 <button type="button">
                   <div style="height:20px;width:20px;object-fit:contain;">
@@ -323,8 +380,14 @@
         </div>
         <div class="system-options-expanded">
           <div class="system-settings1">
-            <button class="system-button">Music</button>
-            <button class="system-button">Background</button>
+            <div id="music">
+              <button class="system-button" @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
+                {{ audio.isPlaying ? 'Pause' : 'Play' }} {{ audio.name }}
+              </button>
+            </div>
+            <!-- <button class="system-button">
+              Background
+            </button> -->
           </div>
         </div>
       </div>
@@ -343,14 +406,9 @@
                     <th>Diamants/s</th>
                   </tr>
                 </thead>
-                
             </table>
-
-              
                 <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau"/>
-        
                 <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
-        
             </div>
           </div>
         </div>
@@ -362,21 +420,44 @@
           </div>
           <div class="play-right-stats">
             <div class="play-right-stats-summon">
+              <div class="play-right-stats-summon-cost" id="coutInvocation">
+                cout?
+              </div>
               <div id="app">
                 <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:2px" v-on:click="invocationHeros()">Invocation +</button>
-                <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p>
+                <!-- <p> Appuyer sur le bouton pour déclencher une invocation. Inspecter la page pour voir les console.log. </p> -->
               </div>
             </div>
             <div class="play-right-stats-money">
-              <p id="totalGold"></p>
+              <div class="play-right-stats-money-golds">
+                <div class="gold-icon">
+                  <img src="assets/img/gold.png">
+                </div>
+                <p id="totalGold"></p>
               <p>&ThinSpace; Gold(s)</p>
-              <p id="totalDiamant"></p>
-              <p>&ThinSpace; Diamant(s)</p>
+              </div>
+              <div class="play-right-stats-money-diamonds">
+                <div class="diamonds-icon">
+                  <img src="assets/img/diamond.png">
+                </div>
+                <p id="totalDiamant"></p>
+                <p>&ThinSpace; Diamant(s)</p>
+              </div>
             </div>
             <div class="play-right-stats-moneypersec">
-            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1" style="width:fit-content;height: fit-content;">
-              gold/s
-              diamonds/s
+              <!-- <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1" style="width:fit-content;height: fit-content;"> -->
+              <div class="play-right-stats-moneypersec-golds">
+                <div class="gold-icon">
+                  <img src="assets/img/gold.png">
+                </div>
+                gold/s
+              </div>
+              <div class="play-right-stats-moneypersec-diamonds">
+                <div class="diamonds-icon">
+                  <img src="assets/img/diamond.png">
+                </div>
+                diamonds/s
+              </div>
             </div>
           </div>
         </div>
@@ -402,55 +483,49 @@
 </html>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
+  const music = new Vue({ // Vue qui gère la musique
+    el: '#music',
 
-Vue.component("settings_bar",{
-				
-				template: `<table class=invocation-table>
-            <tbody>
-              <tr>
-                <td>
-                  {{ personnage }}
-                </td>
-                <td>
-                  {{ niveau }}
-                </td>
-                <td>
-                  val?
-                </td>
-                <td>
-                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
-                </td>
-                <td>
-                  val?
-                </td>
-                <td>
-                  val?
-                </td>
-              </tr>
-            </tbody>
-					</table>`,
-        
-				props: ["personnage", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
-        //<div class="character-image" style="background-image: url('assets/img/stickman.jpg')">
-			})
+    data: {
+      audios: [
+        {
+          id: 'track1',
+          name: 'Blinx 1',
+          file: new Audio('assets/music/track1.mp3'),
+          isPlaying: false
+        },
+        {
+          id: 'track2',
+          name: 'Blinx 2',
+          file: new Audio('assets/music/track2.mp3'),
+          isPlaying: false
+        },
+        {
+          id: 'track3',
+          name: 'Darude',
+          file: new Audio('assets/music/darude.mp3'),
+          isPlaying: false
+        }
+      ]
+    },
+    
+    methods: {
+      play (audio) {
+        audio.isPlaying = true;
+        audio.file.play();
+      },
+      
+      pause (audio) {
+        audio.isPlaying = false;
+        audio.file.pause();
+      }
+    }
+  });
 
 
-Vue.component("liste_heros",{
+
+  Vue.component("liste_heros",{
 				
 				template: `<table class=invocation-table>
             <tbody>
@@ -462,46 +537,26 @@ Vue.component("liste_heros",{
                   {{ niveau }}
                 </td>
                 <td>
-                  val?
+                  {{ cout }}
                 </td>
                 <td>
                   <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
                 </td>
                 <td>
-                  val?
+                  {{ goldpersec }}
                 </td>
                 <td>
-                  val?
+                  {{ diamondspersec }}
                 </td>
               </tr>
             </tbody>
 					</table>`,
         
-				props: ["id_hero", "niveau"] //, "goldpersec","diamondspersec" //<td>{{ goldpersec }}</td> <td>{{ diamondspersec }}</td>
-        //<div class="character-image" style="background-image: url('assets/img/stickman.jpg')">
-			})
+				props: ["id_hero", "niveau","cout","goldpersec","diamondspersec"]
+	});
 
 
-  // const liste_heros = new Vue({
-  //       el:"#affichageHeros",
-  //       data: function() {
-
-  //           //heros1:["personnage1",1,50,20];
-  //           //heros2:["personnage2",3,40,30];
-            
-          
-  //         return {
-            
-  //           heroes:[["personnage1",1,50,20],["personnage2",3,40,30],["personnage3",3,40,30]]
-
-  //         }
-            
-  //       }
-  // })
-
-
-/*
-
+ /*
   Vue.component('listecart',{ //A garder en commentaire car j'en aurai besoin pour plus tard
 
   template:`<li v-bind:id="'item_'+id">
