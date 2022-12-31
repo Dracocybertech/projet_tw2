@@ -237,11 +237,21 @@
 		<title>Stickman Impact</title>
 		<script>
 			window.addEventListener('load', ev => {
-        /*goldPS=0
-        herosObtenus.forEach((heros) => {
-          goldPS+=heros.goldpersec
-        })
-        console.log(goldPS)*/
+        $.ajax({
+          type: 'GET',
+          url: '/cart/initialisationGoldEtDiamant',
+          success: function(received) {
+            console.log("Pweeeet initialisationGoldEtDiamant");
+            console.log(received);
+            gold = received['0']['golds']
+            diamant = received['diamants']
+            console.log("gold : "+gold);
+            console.log("diamant : "+diamant);
+          },
+          error: function() {
+            alert('Problème AJAX');
+          }
+        });
 				goldPS=5;
 				gold=500;
         diamantPS=1;
@@ -251,6 +261,10 @@
 				totalGold.innerText = gold;
         totalDiamant = document.querySelector( "#totalDiamant" ),
 				totalDiamant.innerText = diamant;
+        totalGoldPS = document.querySelector( "#totalGoldPS" ),
+				totalGoldPS.innerText = goldPS;
+        totalDiamantPS = document.querySelector( "#totalDiamantPS" ),
+				totalDiamantPS.innerText = diamantPS;
 				function augmenter(){
 					if (gold + goldPS <= Number.MAX_VALUE){
 						gold += goldPS;
@@ -374,9 +388,11 @@
               <p>&ThinSpace; Diamant(s)</p>
             </div>
             <div class="play-right-stats-moneypersec">
-            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1" style="width:fit-content;height: fit-content;">
-              gold/s
-              diamonds/s
+            <input id="1diamant" type="button" value="+1 diamant/s" onclick="diamantPS=diamantPS+1; totalDiamantPS.textContent = diamantPS;" style="width:fit-content;height: fit-content;">
+              <p id="totalGoldPS"></p>
+              <p>&ThinSpace; Golds/s</p>
+              <p id="totalDiamantPS"></p>
+              <p>&ThinSpace; Diamants/s</p>
             </div>
           </div>
         </div>

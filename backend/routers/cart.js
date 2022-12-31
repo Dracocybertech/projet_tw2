@@ -26,6 +26,18 @@ router.get('/initialisationHerosObtenus', function (req, res) {
         })
     });
 });
+
+router.get('/initialisationGoldEtDiamant', function (req, res) {
+    db.serialize(() => {
+        db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
+                if (rows) {
+                    res.status(200).json(rows).end();
+                }
+
+        })
+    });
+});
+
 router.post('/argentSuffisant', function (req, res) {
     console.log("router argentSuffisant");
 
