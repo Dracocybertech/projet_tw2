@@ -128,10 +128,8 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
 
 /*router.post('/logout', function (req, res) {
     console.log("logout de cart.js");
-
-    res.redirect
     
-});*/
+}); */
 
 router.get('/rareteRandom', function (req, res) {
     console.log("router rareteRandom");
@@ -155,22 +153,23 @@ router.get('/rareteRandom', function (req, res) {
 });
 
 
+
 router.use('/', function (req, res) {
     //console.log("router.use");
     db.serialize(() => {
         console.log("serialize");
-        db.all("SELECT * FROM joueurS;", (err, rows) => {
+        db.all("SELECT * FROM joueurs;", (err, rows) => {
                 console.log("db.all");
-                if (rows) {
+                /*if (rows) {
                     console.log(rows);
                         for(row in rows){
                             console.log(row);
                             }
-                        }
+                        }*/
 
                 })
             });
-        console.log("Nombre aléatoires");
+        //console.log("Nombre aléatoires");
         //console.log(Math.random()*100);
         res.render('cart.ejs');
         });
