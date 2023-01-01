@@ -47,10 +47,33 @@ router.post('/login', function (req, res, next) {
 						req.session.loggedin=true;
 						req.session.login=result['email'];
 						req.session.id_joueur = result['id_joueur'];
-						
-						console.log("Temps écoulé depuis la déco en s",Math.floor(Date.now() / 1000) - result['last_seen']);
-
 						console.log("bon email/mdp");
+
+						
+						let goldsec = 0;
+						let diamsec = 0;
+
+						const statement4 = db.prepare("SELECT G.*, niveau FROM herosObtenus O, guidePerso G WHERE O.id_joueur = ? AND G.id_hero = O.id_hero;");
+						statement4.all(req.session.id_joueur, (err, result2)=>{
+
+							result2.forEach(element => {
+								goldsec += element['niveau_'+element['niveau']];
+								diamsec += Math.floor(element['niveau_3']/100);
+							});
+							console.log('gsec tot: ', goldsec);
+							console.log('diamsec tot: ', diamsec);
+
+							console.log("Temps écoulé depuis la déco en s",Math.floor(Date.now() / 1000) - result['last_seen']);
+							let secondes_passees = Math.floor(Date.now() / 1000) - result['last_seen'];
+
+							statement5 = db.prepare("UPDATE joueurs SET diamants = diamants + ? , golds = golds + ?  WHERE id_joueur= ? ;");
+							statement5.run(diamsec * secondes_passees, goldsec * secondes_passees, req.session.id_joueur);
+							statement5.finalize();
+
+
+						});
+						statement4.finalize();
+						
 						//res.render('login.ejs', {logged: false, session: req.session, error: true});
 						res.redirect('/cart');
 						//next(); //res.render de cart.
@@ -60,6 +83,7 @@ router.post('/login', function (req, res, next) {
 				}
 			});
 			statement.finalize();
+			
 
 		});
 
