@@ -293,6 +293,7 @@
 
 		<title>Stickman Impact</title>
 		<script>
+      ///////////// TEST SAUVEGARDE 1 ////////////
       /*window.addEventListener('close', (event) => {
         $.ajax({
           type: 'POST',
@@ -306,6 +307,23 @@
           }
         });
 			});*/
+      
+
+      ///////////// TEST SAUVEGARDE 2 ////////////
+      /*boutonQuitter = document.querySelector("#boutonQuitter"),
+      boutonQuitter.addEventListener('click', () => {
+        $.ajax({
+          type: 'POST',
+          url: '/cart/sauvegarde',
+          data: "gold="+gold,
+          success: function(received) {
+            console.log("//////////////////////////////");
+          },
+          error: function() {
+            alert('Problème AJAX');
+          }
+        });
+      });*/
 
 			window.addEventListener('load', ev => {
         $.ajax({
@@ -384,7 +402,7 @@
           <div class="system-logout">
             <form action="/logout" method="post" role="form">
               <div>
-                <button type="submit">
+                <button id="boutonQuitter" type="submit">
                   <div style="height:20px;width:20px;object-fit:contain;">
                     <img src="assets/img/logout.png">
                   </div>
