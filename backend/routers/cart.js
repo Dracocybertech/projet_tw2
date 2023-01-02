@@ -31,6 +31,7 @@ router.get('/initialisationGoldEtDiamant', function (req, res) {
     db.serialize(() => {
         let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
         statement.run(req.session.id_joueur);
+        statement.finalize();
     });
 });
 
