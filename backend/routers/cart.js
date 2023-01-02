@@ -22,18 +22,29 @@ router.get('/initialisationHerosObtenus', function (req, res) {
                 if (rows) {
                     res.status(200).json(rows).end();
                 }
+        })
+    });
+});
+
+/*router.get('/initialisationGoldEtDiamant', function (req, res) {
+    db.serialize(() => {
+        console.log("Pweeeet initialisationGoldEtDiamant");
+        let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
+        statement.run(req.session.id_joueur);
+        statement.finalize();
+    });
+});*/
+router.get('/initialisationGoldEtDiamant', function (req, res) {
+    db.serialize(() => {
+        db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
+                if (rows) {
+                    res.status(200).json(rows).end();
+                }
 
         })
     });
 });
 
-router.get('/initialisationGoldEtDiamant', function (req, res) {
-    db.serialize(() => {
-        let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
-        statement.run(req.session.id_joueur);
-        statement.finalize();
-    });
-});
 
 router.post('/argentSuffisant', function (req, res) {
     console.log("router argentSuffisant");
@@ -93,13 +104,11 @@ router.post('/triParRarete', function (req, res) {//Obtention d'un tableau json 
             }
         });
         statement.finalize();
-
-            });
+    });
 });
 
 router.post('/invocationHero', function (req, res) {//Obtention d'un tableau json qui ne contient que les héros de la rareté demandée
     console.log("router invocationHero");
-
     let heros = req.body;
     console.log(heros);
     console.log(heros['rarete']);
@@ -116,8 +125,7 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
             }
         });
         statement.finalize();
-
-            });
+    });
 });
 
 /*router.post('/sauvegarde', function(req,res){

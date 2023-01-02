@@ -333,7 +333,7 @@
             console.log("Pweeeet initialisationGoldEtDiamant");
             console.log(received);
             gold = received['0']['golds']
-            diamant = received['diamants']
+            diamant = received['0']['diamants']
             console.log("gold : "+gold);
             console.log("diamant : "+diamant);
           },
@@ -342,9 +342,9 @@
           }
         });
 				goldPS=5;
-				gold=500;
+				gold=null;
         diamantPS=1;
-				diamant=100;
+				diamant=null;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
 				totalGold.innerText = gold;
