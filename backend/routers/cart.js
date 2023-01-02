@@ -29,23 +29,17 @@ router.get('/initialisationHerosObtenus', function (req, res) {
 
 router.get('/initialisationGoldEtDiamant', function (req, res) {
     db.serialize(() => {
-        db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
-                if (rows) {
-                    res.status(200).json(rows).end();
-                }
-
-        })
+        let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
+        statement.run(req.session.id_joueur);
     });
 });
 
 router.post('/argentSuffisant', function (req, res) {
     console.log("router argentSuffisant");
-
     let data = req.body;
     console.log(data);
     console.log(data['argent']);
     let argent = parseInt(data['argent']);
-    let test = 200;
     if (prixInvocation > argent){
         res.status(200).json(false).end();
     }
@@ -125,6 +119,19 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
             });
 });
 
+/*router.post('/sauvegarde', function(req,res){
+    console.log("Sauvegarde commencee dans le router");
+    let data = req.body;
+    console.log("data="+data);
+    gold=data['gold'];
+    console.log("gold="+gold);
+    console.log("Sauvegarde finie dans le router");
+});*/
+
+
+/*UPDATE address_book
+SET entry_country_id = 222
+WHERE entry_country_id = 257*/
 
 /*router.post('/logout', function (req, res) {
     console.log("logout de cart.js");

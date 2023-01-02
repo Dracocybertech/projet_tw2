@@ -293,6 +293,20 @@
 
 		<title>Stickman Impact</title>
 		<script>
+      /*window.addEventListener('close', (event) => {
+        $.ajax({
+          type: 'POST',
+          url: '/cart/sauvegarde',
+          data: "gold="+gold,
+          success: function(received) {
+            console.log("//////////////////////////////");
+          },
+          error: function() {
+            alert('Problème AJAX');
+          }
+        });
+			});*/
+
 			window.addEventListener('load', ev => {
         $.ajax({
           type: 'GET',
@@ -464,13 +478,15 @@
                 <div class="gold-icon">
                   <img src="assets/img/gold.png">
                 </div>
-                gold/s
+                <p id="totalGoldPS"/>
+                <p>&ThinSpace; Gold(s)/s</p>
               </div>
               <div class="play-right-stats-moneypersec-diamonds">
                 <div class="diamonds-icon">
                   <img src="assets/img/diamond.png">
                 </div>
-                diamonds/s
+                <p id="totalDiamantPS"/>
+                <p>&ThinSpace; Diamant(s)/s</p>
               </div>
             </div>
           </div>
