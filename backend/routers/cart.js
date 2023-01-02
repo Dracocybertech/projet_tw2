@@ -26,14 +26,17 @@ router.get('/initialisationHerosObtenus', function (req, res) {
     });
 });
 
-/*router.get('/initialisationGoldEtDiamant', function (req, res) {
+router.get('/initialisationGoldEtDiamant', function (req, res) {
     db.serialize(() => {
-        console.log("Pweeeet initialisationGoldEtDiamant");
+        console.log("initialisationGoldEtDiamant")
+        console.log(req.session.id_joueur)
         let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
         statement.run(req.session.id_joueur);
         statement.finalize();
     });
-});*/
+});
+
+/*
 router.get('/initialisationGoldEtDiamant', function (req, res) {
     db.serialize(() => {
         db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
@@ -43,7 +46,7 @@ router.get('/initialisationGoldEtDiamant', function (req, res) {
 
         })
     });
-});
+});*/
 
 
 router.post('/argentSuffisant', function (req, res) {
