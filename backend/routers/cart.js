@@ -26,12 +26,20 @@ router.get('/initialisationHerosObtenus', function (req, res) {
     });
 });
 
-router.get('/initialisationGoldEtDiamant', function (req, res) {
+router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     db.serialize(() => {
-        console.log("initialisationGoldEtDiamant")
-        console.log(req.session.id_joueur)
-        let statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
-        statement.run(req.session.id_joueur);
+        const statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
+        statement.get(req.session.id_joueur, (err, result)=>{
+            if(err){
+                next(err);
+            } else {
+                if(result){
+                    res.status(200).json(result).end();
+                } else {
+                    res.status(400).send('Bad request!');
+                }
+            }
+        });
         statement.finalize();
     });
 });

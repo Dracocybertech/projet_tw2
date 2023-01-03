@@ -330,12 +330,10 @@
           type: 'GET',
           url: '/cart/initialisationGoldEtDiamant',
           success: function(received) {
-            console.log("Pweeeet initialisationGoldEtDiamant");
-            console.log(received);
-            gold = received['0']['golds']
-            diamant = received['0']['diamants']
-            console.log("gold : "+gold);
-            console.log("diamant : "+diamant);
+            gold = received['golds'];
+            totalGold.textContent = gold;
+            diamant = received['diamants'];
+            totalDiamant.textContent = diamant;
           },
           error: function() {
             alert('Problème AJAX');
