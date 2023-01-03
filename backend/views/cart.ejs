@@ -451,8 +451,7 @@
                   </tr>
                 </thead>
             </table>
-                <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau"/>
-                <!-- v-bind:element="hero.goldpersec" v-bind:element="hero.diamondspersec" -->
+                <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau" v-bind:cout="heros.cout"/>
             </div>
           </div>
         </div>
@@ -589,16 +588,35 @@
                   <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
                 </td>
                 <td>
-                  {{ goldpersec }}
+                  {{ goldParSecComputed }}
                 </td>
                 <td>
-                  {{ diamondspersec }}
+                  {{diamondParSecComputed}}
                 </td>
               </tr>
             </tbody>
 					</table>`,
         
-				props: ["id_hero", "niveau","cout","goldpersec","diamondspersec"]
+				props: ["id_hero", "niveau","cout"],
+
+				methods:{
+         upgradeHeros: function() {
+            app.upgradeHeros(this.id_hero, this.niveau);
+
+          },
+        },
+        computed: {
+           goldParSecComputed: function() {
+             console.log("this.id_hero");
+             console.log(this.id_hero);
+             return joueur.goldParSecComputed(this.id_hero, this.niveau);
+           },
+           diamondParSecComputed: function() {
+            console.log("this.id_hero");
+            console.log(this.id_hero);
+            return joueur.diamondParSecComputed(this.id_hero, this.niveau);
+           }
+        }
 	});
 
 
@@ -659,20 +677,119 @@ const joueur = new Vue({ //Vue du joueur
               }
             }
             return false;
-          }
+          },
+          goldParSecComputed: function(id_hero,niveau) {
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
+              console.log("id_hero : ");
+              console.log(id_hero);
+              console.log(niveau);
+              if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
+                console.log("herosObtenu['niveau_'+herosObtenu['niveau']] :"+herosObtenu['niveau_'+herosObtenu['niveau']]);
+                return herosObtenu['niveau_'+herosObtenu['niveau']];
+              }
+            }
+          },
+          diamondParSecComputed: function(id_hero,niveau) {
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
+              console.log("id_hero : ");
+              console.log(id_hero);
+              console.log(niveau);
+              if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
+                console.log("herosObtenu['niveau_'+herosObtenu['niveau']] :"+herosObtenu['niveau_'+herosObtenu['niveau']]) / 10;
+                let temp = herosObtenu['niveau_'+herosObtenu['niveau']];
+                temp = temp / 10;
+                console.log("temp : "+temp);
+                return temp;
+              }
+            }
+          },
         },
         data:{
           herosObtenus:[],
         },
+        computed:{
+
+        }
   });
 
 $.ajax({
   type: 'GET',
   url: '/cart/initialisationHerosObtenus',
   success: function(received) {
-  console.log("Pweeeet initialisationHerosObtenus");
-  console.log(received);
-  joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
+    console.log("Pweeeet initialisationHerosObtenus");
+    console.log(received);
+    let tabHerosObtenus = received;
+    //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
+    if (tabHerosObtenus.length == 0) {
+      $.ajax({
+             type: 'GET',
+             url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
+             success: function(received) {
+             console.log("Pweeeeet fin initialisationHeros1");
+               let tabHero = received;
+               console.log("tabHeros : ");
+               console.log(tabHero);
+               joueur.herosObtenus.push(tabHero);
+              console.log(joueur.herosObtenus);
+
+              },
+             error: function() {
+               alert('Problème AJAX');
+             },
+             })
+    }
+    else {
+      tabHerosObtenus.forEach(row =>$.ajax({
+             type: 'POST',
+             url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
+             data:"niveau="+row.niveau,//Envoie de la rareté
+             success: function(received) {
+//                console.log("tabHerosObtenus[row].niveau : ");
+//                console.log(tabHerosObtenus[row].niveau);
+//                console.log("Pweeeet Fin initialisationHerosObtenuscoutEvolution");
+//                console.log(received);
+               let cout = received;
+               row.cout = cout;
+//                console.log("tabHerosObtenus[row] : ");
+//                console.log(tabHerosObtenus[row]);
+//               joueur.herosObtenus.push(row);
+//                console.log(joueur.herosObtenus);
+              },
+             error: function() {
+               alert('Problème AJAX');
+             },
+             })
+             );
+        tabHerosObtenus.forEach(row =>$.ajax({
+          type: 'POST',
+          url: '/cart/initialisationHerosObtenusguidePerso',//Obtention d'un héros au hasard qui a la rareté demandée
+          data:"id_hero="+row.id_hero,//Envoie de la rareté
+          success: function(received) {
+            console.log("row.id_hero : ");
+            console.log(row.id_hero);
+            console.log("Pweeeet Fin initialisationHerosObtenusguidePerso");
+            console.log(received);
+            console.log("row : "+row);
+            let herosGuidePerso = received;
+            row.rarete = herosGuidePerso.rarete;
+            row.niveau_1 = herosGuidePerso.niveau_1;
+            row.niveau_2 = herosGuidePerso.niveau_2;
+            row.niveau_3 = herosGuidePerso.niveau_3;
+            row.niveau_4 = herosGuidePerso.niveau_4;
+            row.niveau_5 = herosGuidePerso.niveau_5;
+            console.log("row : ");
+            console.log(row);
+            joueur.herosObtenus.push(row)
+            console.log("joueur.herosObtenus");
+            console.log(joueur.herosObtenus);
+          },
+          error: function() {
+            alert('Problème AJAX');
+          }
+        }));
+    }
    },
     error: function() {
       alert('Problème AJAX');
@@ -688,12 +805,12 @@ const app = new Vue({ //Vue qui gère les invocations de héros
 
              $.ajax({
                type: 'POST',
-               url: '/cart/argentSuffisant',//Vérifie si le joueur a assez d'argent pour faire une invocation
-               data: "argent="+diamant,//Envoie de l'argent
+               url: '/cart/diamantSuffisant',//Vérifie si le joueur a assez de diamants pour faire une invocation
+               data: "diamant="+diamant,//Envoie des diamants
                success: function(received) {
-                 console.log("Pweeeet argentSuffisant");
+                 console.log("Pweeeet diamantSuffisant");
                  console.log(received);
-                 if (received) { //Si on a assez d'argent
+                 if (received) { //Si on a assez de diamant
                     diamant-=100;
                     let rarete = "";
                     $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
@@ -711,14 +828,44 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                               console.log("Pweeeet Fin triParRarete");
                               console.log(received);
                               let heros = received; //Sauvegarde du héros
+                              console.log(heros['rarete']);
                               console.log(joueur.possedeHeros(heros));
                               if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
-                                console.log("Remboursement en cours."); //On rembourse le joueur d'un montant X selon la rareté
+                                  console.log("Remboursement en cours."); //On rembourse le joueur d'un montant X selon la rareté
+                                  $.ajax({
+                                  type: 'POST',
+                                  url: '/cart/remboursement',//Obtention d'un héros au hasard qui a la rareté demandée
+                                  data:"rarete="+heros['rarete'],//Envoie de la rareté
+                                  success: function(received) {
+                                    console.log("Pweeeet Fin remboursement");
+                                    console.log(received);
+                                    diamant+=parseInt(received,10);
+
+                                  },
+                                  error: function() {
+                                    alert('Problème AJAX');
+                                  }
+                                  });
                               }
                               else { //Si le joueur ne possède pas le héros
-                                joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
-                                console.log("Ajout d'un heros.");
-                                console.log(joueur.herosObtenus);
+                                $.ajax({
+                                      type: 'POST',
+                                      url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                                      data:"niveau="+heros['niveau'],//Envoie de la rareté
+                                      success: function(received) {
+                                        console.log("Pweeeet Fin ajoutInfosInvocationHeros");
+                                        console.log(received);
+                                        let cout = received;
+                                        heros.cout = cout;
+                                        joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
+                                        console.log("Ajout d'un heros.");
+                                        console.log(joueur.herosObtenus);
+                                      },
+                                      error: function() {
+                                        alert('Problème AJAX');
+                                      }
+                                      });
+
                               }
                               totalDiamant.innerText = diamant;
                             },
@@ -739,19 +886,24 @@ const app = new Vue({ //Vue qui gère les invocations de héros
             });
 
           },
+          upgradeHeros: function(id_hero, niveau) {
+            console.log("totalGold : "+totalGold.innerText);
+            $.ajax({
+              type: 'POST',
+              url: '/cart/argentSuffisant',//Obtention d'un héros au hasard qui a la rareté demandée
+              data:"argent="+totalGold.innerText,//Envoie de la rareté
+              success: function(received) {
+              console.log("Pweeeet Fin argentSuffisant");
+              console.log(received);
+              },
+              error: function() {
+                alert('Problème AJAX');
+              }
+            });
+          },
         },
     })
 
 </script>
-
-<!--<script>
-
-function invocationHeros(){
-      console.log("invocationHeros");
-      console.log(totalGold.textContent);
-      };
-
-</script>-->
-
 
 </html>
