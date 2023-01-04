@@ -341,7 +341,7 @@
         });
 				goldPS=1000;
 				gold=null;
-        diamantPS=1;
+        diamantPS=10000;
 				diamant=null;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
@@ -412,7 +412,7 @@
           <div class="system-settings">
             <form action="" method="post" role="form">
               <div>
-                <button type="button">
+                <button type="button" onclick="openGuidePopUp()">
                   <div style="height:20px;width:20px;object-fit:contain;">
                     <img src="assets/img/settings.png">
                   </div>
@@ -507,14 +507,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="character-image" style="background-image: url('assets/img/stickman.jpg')"></div>
-        <div class="character-info">
-              <div class="character">
-              <div class="character-name">Personnage 1</div>
-              <div class="character-stats">Niveau: 10</div>
-              <div class="character-stats">Gold/s: 100</div>
-              <div class="character-stats">Diamants/s: 50</div>
-        </div>
+
       </div> -->
     </div>
 
@@ -924,6 +917,29 @@ const app = new Vue({ //Vue qui gère les invocations de héros
             },
             });
 
+</script>
+
+<script type="text/javascript">
+var windowGuide = null; // variable globale
+function openGuidePopUp() {
+  if(windowGuide == null || windowGuide.closed)
+  /* si le pointeur vers l'objet window n'existe pas
+     ou s'il existe mais que la fenêtre a été fermée */
+  {
+    windowGuide = window.open("/guide",
+   "Guide", "popup");
+    /* on le crée. La nouvelle fenêtre sera créée et affichée
+       par-dessus les éventuelles autres fenêtres. */
+  }
+  else
+  {
+    windowGuide.focus();
+    /* sinon la référence existe et la fenêtre n'est pas fermée
+       on peut donc l'amener devant avec la méthode focus()
+       sans avoir à recréer la fenêtre ou à recharger la
+       ressource référencée. */
+  };
+}
 </script>
 
 </html>

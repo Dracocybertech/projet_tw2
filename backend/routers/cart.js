@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const sqlite3 = require('sqlite3').verbose();
-const prixInvocation = 100; //On a besoin de 100 golds pour invoquer un personnage
+const prixInvocation = Number.parseFloat(100).toExponential(2); //On a besoin de 100 golds pour invoquer un personnage
 const remboursementCommun = 10;
 const remboursementRare = 30;
 const remboursementSsr = 50;
@@ -192,9 +192,9 @@ router.post('/diamantSuffisant', function (req, res) {
 
     let data = req.body;
     console.log(data);
-    console.log(data['diamant']);
+    console.log("diamants : "+data['diamant']);
     let diamant = parseInt(data['diamant']);
-    let test = 200;
+
     if (prixInvocation > diamant){
         res.status(200).json(false).end();
     }

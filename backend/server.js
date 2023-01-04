@@ -28,6 +28,9 @@ app.use(session({
 const cart = require('./routers/cart');
 app.use('/cart', cart);
 
+const guide = require('./routers/guide');
+app.use('/guide', guide);
+
 const login = require('./routers/login');
 app.use('/', login);
 
