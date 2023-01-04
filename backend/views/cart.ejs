@@ -304,87 +304,6 @@
 
 
 		<title>Stickman Impact</title>
-		<script>
-      ///////////// TEST SAUVEGARDE 1 ////////////
-      /*window.addEventListener('close', (event) => {
-        $.ajax({
-          type: 'POST',
-          url: '/cart/sauvegarde',
-          data: "gold="+gold,
-          success: function(received) {
-            console.log("//////////////////////////////");
-          },
-          error: function() {
-            alert('Problème AJAX');
-          }
-        });
-			});*/
-      
-
-      ///////////// TEST SAUVEGARDE 2 ////////////
-      /*boutonQuitter = document.querySelector("#boutonQuitter"),
-      boutonQuitter.addEventListener('click', () => {
-        $.ajax({
-          type: 'POST',
-          url: '/cart/sauvegarde',
-          data: "gold="+gold,
-          success: function(received) {
-            console.log("//////////////////////////////");
-          },
-          error: function() {
-            alert('Problème AJAX');
-          }
-        });
-      });*/
-
-			window.addEventListener('load', ev => {
-        $.ajax({
-          type: 'GET',
-          url: '/cart/initialisationGoldEtDiamant',
-          success: function(received) {
-            gold = received['golds'];
-            totalGold.textContent = gold;
-            diamant = received['diamants'];
-            totalDiamant.textContent = diamant;
-          },
-          error: function() {
-            alert('Problème AJAX');
-          }
-        });
-				goldPS=joueur.sommeGoldPS();
-				gold=null;
-        diamantPS=joueur.sommeDiamantPS();
-				diamant=null;
-				ObjInterval = null,
-				totalGold = document.querySelector( "#totalGold" ),
-				totalGold.innerText = gold;
-        totalDiamant = document.querySelector( "#totalDiamant" ),
-				totalDiamant.innerText = diamant;
-        totalGoldPS = document.querySelector( "#totalGoldPS" ),
-				totalGoldPS.innerText = goldPS;
-        totalDiamantPS = document.querySelector( "#totalDiamantPS" ),
-				totalDiamantPS.innerText = diamantPS;
-				function augmenter(){
-					if (gold + goldPS <= Number.MAX_VALUE){
-						gold += goldPS;
-						totalGold.textContent = gold;
-					} else if (ObjInterval){
-						clearInterval(ObjInterval);
-						gold = Number.MAX_VALUE;
-					}
-          if (diamant + diamantPS <= Number.MAX_VALUE){
-						diamant += diamantPS;
-						totalDiamant.textContent = diamant;
-					} else if (ObjInterval){
-						clearInterval(ObjInterval);
-						diamant = Number.MAX_VALUE;
-					}
-				}
-				ObjInterval = setInterval(augmenter, 1000, gold, goldPS, diamant, diamantPS);
-			});
-		</script>
-
-
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="description">
@@ -607,9 +526,8 @@
 					</table>`,
         
 				props: ["id_hero", "niveau","cout"],
-
 				methods:{
-         upgradeHeros: function() {
+          upgradeHeros: function() {
             app.upgradeHeros(this.id_hero, this.niveau);
             if (joueur.obtenirNiveau(this.id_hero) == 5) {
               document.getElementById("buttonUpgrade").disabled = true;
@@ -630,17 +548,16 @@
         }
 	});
 
-
-
 const joueur = new Vue({ //Vue du joueur
         el:"#affichageHeros",
         methods:{
           sommeGoldPS: function(){
             let somme = 0;
+            console.log(joueur.herosObtenus,"GGGGGGGGGGGGGGGG");
             for (const herosObtenu of joueur.herosObtenus){
-              somme += joueur.goldParSecComputed(herosObtenu['id_hero'],joueur.obtenirNiveau(herosObtenu['id_hero']))
-              console.log(herosObtenu['id_hero'],"GGGGGGGGGGGGGGGG");
-              console.log(joueur.obtenirNiveau(herosObtenu['id_hero']),"GGGGGGGGGGGGGGGGG");
+              somme += joueur.goldParSecComputed(herosObtenu.id_hero,joueur.obtenirNiveau(herosObtenu.id_hero))
+              console.log(herosObtenu.id_hero,"GGGGGGGGGGGGGGGG");
+              console.log(joueur.obtenirNiveau(herosObtenu.id_hero),"GGGGGGGGGGGGGGGGG");
             }
             console.log(somme,"GGGGGGGGGGGGGGGGGG");
             return somme;
@@ -648,9 +565,9 @@ const joueur = new Vue({ //Vue du joueur
           sommeDiamantPS: function(){
             let somme = 0;
             for (const herosObtenu of joueur.herosObtenus){
-              somme += joueur.diamondParSecComputed(herosObtenu['id_hero'],joueur.obtenirNiveau(herosObtenu['id_hero']))
-              console.log(herosObtenu['id_hero'],"DDDDDDDDDDDDDDDDDD");
-              console.log(joueur.obtenirNiveau(herosObtenu['id_hero']),"DDDDDDDDDDDDDDDDDD");
+              somme += joueur.diamondParSecComputed(herosObtenu.id_hero,joueur.obtenirNiveau(herosObtenu.id_hero))
+              console.log(herosObtenu.id_hero,"DDDDDDDDDDDDDDDDDD");
+              console.log(joueur.obtenirNiveau(herosObtenu.id_hero),"DDDDDDDDDDDDDDDDDD");
             }
             console.log(somme,"DDDDDDDDDDDDDDDDDD");
             return somme;
@@ -743,6 +660,10 @@ $.ajax({
              success: function(received) {
                let tabHero = received;
                joueur.herosObtenus.push(tabHero);
+               goldPS=joueur.sommeGoldPS();
+               diamantPS=joueur.sommeDiamantPS();
+               totalGoldPS.innerText = goldPS;
+               totalDiamantPS.innerText = diamantPS;
               },
              error: function() {
                alert('Problème AJAX');
@@ -837,6 +758,8 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                                         joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
                                         goldPS=joueur.sommeGoldPS();
                                         diamantPS=joueur.sommeDiamantPS();
+                                        totalGoldPS.innerText = goldPS;
+                                        totalDiamantPS.innerText = diamantPS;
                                       },
                                       error: function() {
                                         alert('Problème AJAX');
@@ -875,6 +798,10 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                   success: function(received) {
                     joueur.modifierCout(id_hero, received);
                     gold-=parseInt(cout,10);
+                    goldPS=joueur.sommeGoldPS();
+                    diamantPS=joueur.sommeDiamantPS();
+                    totalGoldPS.innerText = goldPS;
+                    totalDiamantPS.innerText = diamantPS;
                   },
                   error: function() {
                     alert('Problème AJAX');
@@ -911,6 +838,54 @@ function openGuidePopUp() {
        ressource référencée. */
   };
 }
+</script>
+
+<script>
+  window.addEventListener('load', ev => {
+    $.ajax({
+      type: 'GET',
+      url: '/cart/initialisationGoldEtDiamant',
+      success: function(received) {
+        gold = received['golds'];
+        totalGold.textContent = gold;
+        diamant = received['diamants'];
+        totalDiamant.textContent = diamant;
+      },
+      error: function() {
+        alert('Problème AJAX');
+      }
+    });
+    goldPS=null;
+    gold=null;
+    diamantPS=null;
+    diamant=null;
+    ObjInterval = null,
+    totalGold = document.querySelector( "#totalGold" ),
+    totalGold.innerText = gold;
+    totalDiamant = document.querySelector( "#totalDiamant" ),
+    totalDiamant.innerText = diamant;
+    totalGoldPS = document.querySelector( "#totalGoldPS" ),
+    totalGoldPS.innerText = goldPS;
+    totalDiamantPS = document.querySelector( "#totalDiamantPS" ),
+    totalDiamantPS.innerText = diamantPS;
+    function augmenter(){
+      if (gold + goldPS <= Number.MAX_VALUE){
+        gold += goldPS;
+        totalGold.textContent = gold;
+      } else if (ObjInterval){
+        clearInterval(ObjInterval);
+        gold = Number.MAX_VALUE;
+      }
+      if (diamant + diamantPS <= Number.MAX_VALUE){
+        diamant += diamantPS;
+        totalDiamant.textContent = diamant;
+      } else if (ObjInterval){
+        clearInterval(ObjInterval);
+        diamant = Number.MAX_VALUE;
+      }
+    }
+    ObjInterval = setInterval(augmenter, 1000, gold, goldPS, diamant, diamantPS);
+  });
 </script>
 
 </html>
