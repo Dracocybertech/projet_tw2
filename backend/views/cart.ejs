@@ -420,8 +420,10 @@
                     <img src="assets/img/gold.png">
                   </div>
                 </button>
-                <p id="totalGoldPS">
+                <div id="totalGoldPS">
+                </div>
                 <p>&ThinSpace; Gold(s)/s</p>
+                
               </div>
               <div class="play-right-stats-moneypersec-diamonds">
                 <button style="border:0px;background:white;" onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
@@ -429,7 +431,8 @@
                     <img src="assets/img/diamond.png">
                   </div>
                 </button>
-                <p id="totalDiamantPS">
+                <div id="totalDiamantPS">
+                </div>
                 <p>&ThinSpace; Diamant(s)/s</p>
               </div>
             </div>
@@ -648,6 +651,7 @@ $.ajax({
              success: function(received) {
                let tabHero = received;
                joueur.herosObtenus.push(tabHero);
+               console.log(joueur.sommeGoldPS());
                goldPS=joueur.sommeGoldPS();
                diamantPS=joueur.sommeDiamantPS();
                totalGoldPS.innerText = goldPS;
@@ -844,9 +848,9 @@ function openGuidePopUp() {
         alert('Problème AJAX');
       }
     });
-    goldPS=null;
+    //goldPS=null;
     gold=null;
-    diamantPS=null;
+    //diamantPS=null;
     diamant=null;
     ObjInterval = null,
     totalGold = document.querySelector( "#totalGold" ),
