@@ -44,18 +44,29 @@ router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     });
 });
 
-/*
-router.get('/initialisationGoldEtDiamant', function (req, res) {
+router.get('/initialisationGoldPSEtDiamantPS', function (req, res, next) {
     db.serialize(() => {
-        db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
-                if (rows) {
-                    res.status(200).json(rows).end();
+        const statement2 = db.prepare("SELECT G.*, niveau FROM herosObtenus O, guidePerso G WHERE O.id_joueur = ? AND G.id_hero = O.id_hero;");
+		statement2.all(req.session.id_joueur, (err, result2)=>{
+    		if(err){
+                next(err);
+            } else {
+                if(result2){
+                    result2.forEach(element => {
+                        goldsec += element['niveau_'+element['niveau']];
+                        diamsec += Math.floor(element['niveau_3']/100);
+                    });
+                    console.log('gsec tot: ', goldsec);
+                    console.log('diamsec tot: ', diamsec);
+                    res.status(200).json(goldsec,diamsec).end();
+                } else {
+                    res.status(400).send('Bad request!');
                 }
-
-        })
+            }
+		});
+        statement.finalize();
     });
-});*/
-
+});
 
 router.post('/argentSuffisant', function (req, res) {
     console.log("router argentSuffisant");

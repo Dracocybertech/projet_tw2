@@ -339,6 +339,19 @@
             alert('Problème AJAX');
           }
         });
+        $.ajax({
+          type: 'GET',
+          url: '/cart/initialisationGoldPSEtDiamantPS',
+          success: function(goldsec,diamsec) {
+            goldPS = goldsec;
+            totalGoldPS.textContent = goldPS;
+            diamantPS = diamsec;
+            totalDiamantPS.textContent = diamantPS;
+          },
+          error: function() {
+            alert('Problème AJAX');
+          }
+        });
 				goldPS=5;
 				gold=null;
         diamantPS=1;
