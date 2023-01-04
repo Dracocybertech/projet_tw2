@@ -591,7 +591,7 @@
                   {{ cout }}
                 </td>
                 <td>
-                  <button id="buttonUpgrade" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
+                  <button v-bind:id="'button'+id_hero" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
                 </td>
                 <td>
                   {{ goldParSecComputed }}
@@ -609,24 +609,19 @@
          upgradeHeros: function() {
             app.upgradeHeros(this.id_hero, this.niveau);
             if (joueur.obtenirNiveau(this.id_hero) == 5) {
-              document.getElementById("buttonUpgrade").disabled = true;
+              document.getElementById("button"+this.id_hero).disabled = true;
             }
 
           },
           niveauMax: function(niveau) {
-          console.log(!(niveau < 6));
             return (niveau < 6);
           }
         },
         computed: {
            goldParSecComputed: function() {
-             console.log("this.id_hero");
-             console.log(this.id_hero);
              return joueur.goldParSecComputed(this.id_hero, this.niveau);
            },
            diamondParSecComputed: function() {
-            console.log("this.id_hero");
-            console.log(this.id_hero);
             return joueur.diamondParSecComputed(this.id_hero, this.niveau);
            }
         }
@@ -638,11 +633,7 @@ const joueur = new Vue({ //Vue du joueur
         el:"#affichageHeros",
         methods:{
           possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
-            console.log("PWET possedeHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              console.log(herosObtenu);
-              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
-              console.log("heros.id_hero : "+heros['id_hero']);
               if(herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
                 return true;
               }
@@ -650,7 +641,6 @@ const joueur = new Vue({ //Vue du joueur
             return false;
           },
           obtenirHeros: function(id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
-            console.log("PWET obtenirHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['id_hero'];
@@ -658,7 +648,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirRarete: function(id_hero) {
-            console.log("PWET obtenirRarete");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['rarete'];
@@ -666,7 +655,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirNiveau: function(id_hero) {
-            console.log("PWET obtenirNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['niveau'];
@@ -674,7 +662,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           augmenterNiveau: function(id_hero) {
-            console.log("PWET augmenterNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
@@ -682,47 +669,33 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirCoutHeros: function(id_hero) {
-            console.log("PWET obtenirCoutHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['cout'];
               }
             }
           },
+
           modifierCout: function(id_hero,cout) {
-          console.log("PWET modifierCout");
-          console.log(cout);
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 herosObtenu['cout'] = cout;
-                console.log("herosObtenu['cout'] = "+herosObtenu['cout']);
               }
             }
           },
 
           goldParSecComputed: function(id_hero,niveau) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
-              console.log("id_hero : ");
-              console.log(id_hero);
-              console.log(niveau);
               if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
-                console.log("herosObtenu['niveau_'+herosObtenu['niveau']] :"+herosObtenu['niveau_'+herosObtenu['niveau']]);
                 return herosObtenu['niveau_'+herosObtenu['niveau']];
               }
             }
           },
           diamondParSecComputed: function(id_hero,niveau) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
-              console.log("id_hero : ");
-              console.log(id_hero);
-              console.log(niveau);
               if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
-                console.log("herosObtenu['niveau_'+herosObtenu['niveau']] :"+herosObtenu['niveau_'+herosObtenu['niveau']]) / 10;
                 let temp = herosObtenu['niveau_'+herosObtenu['niveau']];
                 temp = temp / 10;
-                console.log("temp : "+temp);
                 return temp;
               }
             }
@@ -740,8 +713,7 @@ $.ajax({
   type: 'GET',
   url: '/cart/initialisationHerosObtenus',
   success: function(received) {
-    console.log("Pweeeet initialisationHerosObtenus");
-    console.log(received);
+
     let tabHerosObtenus = received;
     //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
     if (tabHerosObtenus.length == 0) {
@@ -749,13 +721,8 @@ $.ajax({
              type: 'GET',
              url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
              success: function(received) {
-             console.log("Pweeeeet fin initialisationHeros1");
                let tabHero = received;
-               console.log("tabHeros : ");
-               console.log(tabHero);
                joueur.herosObtenus.push(tabHero);
-              console.log(joueur.herosObtenus);
-
               },
              error: function() {
                alert('Problème AJAX');
@@ -768,16 +735,8 @@ $.ajax({
              url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
              data:"niveau="+row.niveau,//Envoie de la rareté
              success: function(received) {
-//                console.log("tabHerosObtenus[row].niveau : ");
-//                console.log(tabHerosObtenus[row].niveau);
-//                console.log("Pweeeet Fin initialisationHerosObtenuscoutEvolution");
-//                console.log(received);
                let cout = received;
                row.cout = cout;
-//                console.log("tabHerosObtenus[row] : ");
-//                console.log(tabHerosObtenus[row]);
-//               joueur.herosObtenus.push(row);
-//                console.log(joueur.herosObtenus);
               },
              error: function() {
                alert('Problème AJAX');
@@ -789,11 +748,6 @@ $.ajax({
           url: '/cart/initialisationHerosObtenusguidePerso',//Obtention d'un héros au hasard qui a la rareté demandée
           data:"id_hero="+row.id_hero,//Envoie de la rareté
           success: function(received) {
-            console.log("row.id_hero : ");
-            console.log(row.id_hero);
-            console.log("Pweeeet Fin initialisationHerosObtenusguidePerso");
-            console.log(received);
-            console.log("row : "+row);
             let herosGuidePerso = received;
             row.rarete = herosGuidePerso.rarete;
             row.niveau_1 = herosGuidePerso.niveau_1;
@@ -801,11 +755,7 @@ $.ajax({
             row.niveau_3 = herosGuidePerso.niveau_3;
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
-            console.log("row : ");
-            console.log(row);
             joueur.herosObtenus.push(row)
-            console.log("joueur.herosObtenus");
-            console.log(joueur.herosObtenus);
           },
           error: function() {
             alert('Problème AJAX');
@@ -822,16 +772,12 @@ const app = new Vue({ //Vue qui gère les invocations de héros
         el:"#app",
         methods:{
           invocationHeros: function() { //Invocation de heros
-             console.log("Pweeeet debut");
-             console.log(totalGold.textContent);
 
              $.ajax({
                type: 'POST',
                url: '/cart/diamantSuffisant',//Vérifie si le joueur a assez de diamants pour faire une invocation
                data: "diamant="+diamant,//Envoie des diamants
                success: function(received) {
-                 console.log("Pweeeet diamantSuffisant");
-                 console.log(received);
                  if (received) { //Si on a assez de diamant
                     diamant-=100;
                     let rarete = "";
@@ -839,28 +785,19 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                         if (status == "error") {
                           alert('erreur' + xhr.status + " " + xhr.statusText);
                         } else {
-                            console.log("data : "+data);
                             rarete = data; //Sauvegarde de la rareté obtenue
-                            console.log("rarete finale : "+rarete);
                             $.ajax({
                             type: 'POST',
                             url: '/cart/triParRarete',//Obtention d'un héros au hasard qui a la rareté demandée
                             data:"rarete="+rarete,//Envoie de la rareté
                             success: function(received) {
-                              console.log("Pweeeet Fin triParRarete");
-                              console.log(received);
                               let heros = received; //Sauvegarde du héros
-                              console.log(heros['rarete']);
-                              console.log(joueur.possedeHeros(heros));
                               if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
-                                  console.log("Remboursement en cours."); //On rembourse le joueur d'un montant X selon la rareté
                                   $.ajax({
                                   type: 'POST',
                                   url: '/cart/remboursement',//Obtention d'un héros au hasard qui a la rareté demandée
                                   data:"rarete="+heros['rarete'],//Envoie de la rareté
                                   success: function(received) {
-                                    console.log("Pweeeet Fin remboursement");
-                                    console.log(received);
                                     diamant+=parseInt(received,10);
 
                                   },
@@ -875,13 +812,9 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                                       url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                                       data:"niveau="+heros['niveau'],//Envoie de la rareté
                                       success: function(received) {
-                                        console.log("Pweeeet Fin ajoutInfosInvocationHeros");
-                                        console.log(received);
                                         let cout = received;
                                         heros.cout = cout;
                                         joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
-                                        console.log("Ajout d'un heros.");
-                                        console.log(joueur.herosObtenus);
                                       },
                                       error: function() {
                                         alert('Problème AJAX');
@@ -909,9 +842,8 @@ const app = new Vue({ //Vue qui gère les invocations de héros
 
           },
           upgradeHeros: function(id_hero) {
-            console.log("totalGold : "+totalGold.innerText);
             let cout = joueur.obtenirCoutHeros(id_hero);
-            if (totalGold.innerText >= cout) {
+            if (gold >= cout) {
               joueur.augmenterNiveau(id_hero);
 
               $.ajax({
@@ -919,11 +851,8 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                   url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
                   success: function(received) {
-                    console.log("Pweeeet Fin ajoutInfosInvocationHeros");
-                    console.log("Received : "+received);
                     joueur.modifierCout(id_hero, received);
-                    console.log("Cout : "+joueur.obtenirCoutHeros(id_hero));
-                    totalGold.textContent-=parseInt(cout,10);
+                    gold-=parseInt(cout,10);
                   },
                   error: function() {
                     alert('Problème AJAX');
