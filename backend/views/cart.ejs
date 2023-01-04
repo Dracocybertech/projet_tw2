@@ -339,7 +339,7 @@
             alert('Problème AJAX');
           }
         });
-				goldPS=5;
+				goldPS=1000;
 				gold=null;
         diamantPS=1;
 				diamant=null;
@@ -585,7 +585,7 @@
                   {{ cout }}
                 </td>
                 <td>
-                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros()">++</button>
+                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
                 </td>
                 <td>
                   {{ goldParSecComputed }}
@@ -620,48 +620,6 @@
 	});
 
 
- /*
-  Vue.component('listecart',{ //A garder en commentaire car j'en aurai besoin pour plus tard
-
-  template:`<li v-bind:id="'item_'+id">
-      <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="addItem()">+</button>  {{quantity}} <button style="background: var(--color-primary);border: 0; color: #fff; border-radius: 20px; width:20px;" v-on:click="removeItem()">-</button>
-      &#215; {{name }} ($ {{price}} each)
-     </li>`,
-  props:["id", "quantity", "name", "price"],
-
-  methods:{
-          addItem: function() {
-          console.log(this.id);
-            app.addItem(this.id);
-          },
-          removeItem: function() {
-          console.log(this.id);
-            app.removeItem(this.id);
-          },
-
-          estVide: function() {
-            app.estVide();
-          },
-
-        },
-
-})*/
-
-/*$(document).ready(function(){
-  $.ajax({
-    type: 'GET',
-    url: '/cart/initialisationHerosObtenus',
-    success: function(received) {
-    console.log("Pweeeet initialisationHerosObtenus");
-    console.log(received);
-    joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
-   },
-    error: function() {
-      alert('Problème AJAX');
-    }
-  });
-});*/
-
 
 const joueur = new Vue({ //Vue du joueur
         el:"#affichageHeros",
@@ -678,6 +636,57 @@ const joueur = new Vue({ //Vue du joueur
             }
             return false;
           },
+          obtenirHeros: function(id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
+            console.log("PWET obtenirHeros");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                return herosObtenu['id_hero'];
+              }
+            }
+          },
+          obtenirRarete: function(id_hero) {
+            console.log("PWET obtenirRarete");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                return herosObtenu['rarete'];
+              }
+            }
+          },
+          obtenirNiveau: function(id_hero) {
+            console.log("PWET obtenirNiveau");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                return herosObtenu['niveau'];
+              }
+            }
+          },
+          augmenterNiveau: function(id_hero) {
+            console.log("PWET augmenterNiveau");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
+              }
+            }
+          },
+          obtenirCoutHeros: function(id_hero) {
+            console.log("PWET obtenirCoutHeros");
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                return herosObtenu['cout'];
+              }
+            }
+          },
+          modifierCout: function(id_hero,cout) {
+          console.log("PWET modifierCout");
+          console.log(cout);
+            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              if(herosObtenu['id_hero'] == id_hero) {
+                herosObtenu['cout'] = cout;
+                console.log("herosObtenu['cout'] = "+herosObtenu['cout']);
+              }
+            }
+          },
+
           goldParSecComputed: function(id_hero,niveau) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
@@ -886,23 +895,34 @@ const app = new Vue({ //Vue qui gère les invocations de héros
             });
 
           },
-          upgradeHeros: function(id_hero, niveau) {
+          upgradeHeros: function(id_hero) {
             console.log("totalGold : "+totalGold.innerText);
-            $.ajax({
-              type: 'POST',
-              url: '/cart/argentSuffisant',//Obtention d'un héros au hasard qui a la rareté demandée
-              data:"argent="+totalGold.innerText,//Envoie de la rareté
-              success: function(received) {
-              console.log("Pweeeet Fin argentSuffisant");
-              console.log(received);
+            let cout = joueur.obtenirCoutHeros(id_hero);
+            if (totalGold.innerText >= cout) {
+              joueur.augmenterNiveau(id_hero);
+
+              $.ajax({
+                  type: 'POST',
+                  url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                  data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
+                  success: function(received) {
+                    console.log("Pweeeet Fin ajoutInfosInvocationHeros");
+                    console.log("Received : "+received);
+                    joueur.modifierCout(id_hero, received);
+                    console.log("Cout : "+joueur.obtenirCoutHeros(id_hero));
+                    totalGold.textContent-=parseInt(received,10);
+                  },
+                  error: function() {
+                    alert('Problème AJAX');
+                  }
+                });
+            }
+            else {
+              window.alert("Il n'y a pas assez d'argent pour augmenter le niveau d'un heros ! Attendez d'avoir plus de gold."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
+            }
               },
-              error: function() {
-                alert('Problème AJAX');
-              }
+            },
             });
-          },
-        },
-    })
 
 </script>
 

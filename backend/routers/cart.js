@@ -335,25 +335,22 @@ WHERE entry_country_id = 257*/
     
 }); */
 
-router.get('/rareteRandom', function (req, res) {
-    console.log("router rareteRandom");
-    let rarete = Math.random()*100;
-    //console.log(rarete);
-    db.serialize(() => {
-        db.all("SELECT * FROM niveauChance;", (err, rows) => {
-                if (rows) {
-                    let poids = 0;
-                        for(row in rows){
-                            poids += rows[row].poids;
-                            if (poids >= rarete) {
-                                res.status(200).json(rows[row].rarete).end();
-                                break;
-                            }
-                        }
-                }
-
-        })
-    });
+router.post('/remboursement', function (req, res) {//Obtention d'un tableau json qui ne contient que les héros de la rareté demandée
+    console.log("router remboursement");
+    let heros = req.body;
+    console.log(heros['rarete']);
+    let rarete = heros['rarete'];
+    if (rarete == "commun") {
+        res.status(200).json(remboursementCommun);
+    }
+    else {
+        if (rarete == "rare") {
+            res.status(200).json(remboursementRare);
+        }
+        else {
+            res.status(200).json(remboursementSsr);
+        }
+    }
 });
 
 
