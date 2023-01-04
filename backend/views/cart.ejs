@@ -591,7 +591,7 @@
                   {{ cout }}
                 </td>
                 <td>
-                  <button v-bind:id="'button'+id_hero" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
+                  <button id="buttonUpgrade" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
                 </td>
                 <td>
                   {{ goldParSecComputed }}
@@ -609,7 +609,7 @@
          upgradeHeros: function() {
             app.upgradeHeros(this.id_hero, this.niveau);
             if (joueur.obtenirNiveau(this.id_hero) == 5) {
-              document.getElementById("button"+this.id_hero).disabled = true;
+              document.getElementById("buttonUpgrade").disabled = true;
             }
 
           },
@@ -619,9 +619,13 @@
         },
         computed: {
            goldParSecComputed: function() {
+             console.log("this.id_hero");
+             console.log(this.id_hero);
              return joueur.goldParSecComputed(this.id_hero, this.niveau);
            },
            diamondParSecComputed: function() {
+            console.log("this.id_hero");
+            console.log(this.id_hero);
             return joueur.diamondParSecComputed(this.id_hero, this.niveau);
            }
         }
@@ -633,7 +637,11 @@ const joueur = new Vue({ //Vue du joueur
         el:"#affichageHeros",
         methods:{
           possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
+            console.log("PWET possedeHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              console.log(herosObtenu);
+              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
+              console.log("heros.id_hero : "+heros['id_hero']);
               if(herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
                 return true;
               }
@@ -641,6 +649,7 @@ const joueur = new Vue({ //Vue du joueur
             return false;
           },
           obtenirHeros: function(id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
+            console.log("PWET obtenirHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['id_hero'];
@@ -648,6 +657,7 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirRarete: function(id_hero) {
+            console.log("PWET obtenirRarete");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['rarete'];
@@ -655,6 +665,7 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirNiveau: function(id_hero) {
+            console.log("PWET obtenirNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['niveau'];
@@ -662,6 +673,7 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           augmenterNiveau: function(id_hero) {
+            console.log("PWET augmenterNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
@@ -669,13 +681,13 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirCoutHeros: function(id_hero) {
+            console.log("PWET obtenirCoutHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['cout'];
               }
             }
           },
-
           modifierCout: function(id_hero,cout) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
@@ -693,6 +705,10 @@ const joueur = new Vue({ //Vue du joueur
           },
           diamondParSecComputed: function(id_hero,niveau) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
+              console.log("id_hero : ");
+              console.log(id_hero);
+              console.log(niveau);
               if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
                 let temp = herosObtenu['niveau_'+herosObtenu['niveau']];
                 temp = temp / 10;
