@@ -44,7 +44,7 @@ router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     });
 });
 
-router.get('/initialisationGoldPSEtDiamantPS', function (req, res, next) {
+/*router.get('/initialisationGoldPSEtDiamantPS', function (req, res, next) {
     db.serialize(() => {
         const statement2 = db.prepare("SELECT G.*, niveau FROM herosObtenus O, guidePerso G WHERE O.id_joueur = ? AND G.id_hero = O.id_hero;");
 		statement2.all(req.session.id_joueur, (err, result2)=>{
@@ -66,7 +66,7 @@ router.get('/initialisationGoldPSEtDiamantPS', function (req, res, next) {
 		});
         statement.finalize();
     });
-});
+});*/
 
 router.post('/argentSuffisant', function (req, res) {
     console.log("router argentSuffisant");
