@@ -594,7 +594,7 @@
                   {{ cout }}
                 </td>
                 <td>
-                  <button id="buttonUpgrade" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
+                  <button v-bind:id="'button'+id_hero" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
                 </td>
                 <td>
                   {{ goldParSecComputed }}
