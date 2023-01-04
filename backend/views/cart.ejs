@@ -526,7 +526,7 @@
          upgradeHeros: function() {
             app.upgradeHeros(this.id_hero, this.niveau);
             if (joueur.obtenirNiveau(this.id_hero) == 5) {
-              document.getElementById("buttonUpgrade").disabled = true;
+              document.getElementById("button"+this.id_hero).disabled = true;
             }
 
           },
