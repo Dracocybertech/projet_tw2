@@ -395,23 +395,27 @@
             </div>
             <div class="play-right-stats-money">
               <div class="play-right-stats-money-golds">
-                <div class="gold-icon">
-                  <img src="assets/img/gold.png">
-                </div>
+                <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
+                  <div class="gold-icon">
+                    <img src="assets/img/gold.png">
+                  </div>
+                </button>
                 <p id="totalGold"></p>
               <p>&ThinSpace; Gold(s)</p>
               </div>
               <div class="play-right-stats-money-diamonds">
-                <div class="diamonds-icon">
-                  <img src="assets/img/diamond.png">
-                </div>
+                <button style="border:0px;background:white;" onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
+                  <div class="diamonds-icon">
+                    <img src="assets/img/diamond.png">
+                  </div>
+                </button>
                 <p id="totalDiamant"></p>
                 <p>&ThinSpace; Diamant(s)</p>
               </div>
             </div>
             <div class="play-right-stats-moneypersec">
               <div class="play-right-stats-moneypersec-golds">
-                <button style="border:0px;background:white;" onclick="goldPS=goldPS+1">
+                <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
                   <div class="gold-icon">
                     <img src="assets/img/gold.png">
                   </div>
@@ -420,12 +424,11 @@
                 <p>&ThinSpace; Gold(s)/s</p>
               </div>
               <div class="play-right-stats-moneypersec-diamonds">
-                <button style="border:0px;background:white;" onclick="diamantPS=diamantPS+1">
+                <button style="border:0px;background:white;" onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
                   <div class="diamonds-icon">
                     <img src="assets/img/diamond.png">
                   </div>
                 </button>
-                
                 <p id="totalDiamantPS">
                 <p>&ThinSpace; Diamant(s)/s</p>
               </div>
@@ -785,6 +788,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                     gold-=parseInt(cout,10);
                     goldPS=joueur.sommeGoldPS();
                     diamantPS=joueur.sommeDiamantPS();
+                    totalGold.innerText = gold;
                     totalGoldPS.innerText = goldPS;
                     totalDiamantPS.innerText = diamantPS;
                   },
@@ -874,4 +878,3 @@ function openGuidePopUp() {
 </script>
 
 </html>
->>>>>>> 6bcf7305cc5f567532504c334090b2b7471faf6c
