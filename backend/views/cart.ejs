@@ -351,9 +351,9 @@
             alert('Problème AJAX');
           }
         });
-				goldPS=1000;
+				goldPS=joueur.sommeGoldPS();
 				gold=null;
-        diamantPS=10000;
+        diamantPS=joueur.sommeDiamantPS();
 				diamant=null;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
@@ -622,13 +622,9 @@
         },
         computed: {
            goldParSecComputed: function() {
-             console.log("this.id_hero");
-             console.log(this.id_hero);
              return joueur.goldParSecComputed(this.id_hero, this.niveau);
            },
            diamondParSecComputed: function() {
-            console.log("this.id_hero");
-            console.log(this.id_hero);
             return joueur.diamondParSecComputed(this.id_hero, this.niveau);
            }
         }
@@ -639,12 +635,28 @@
 const joueur = new Vue({ //Vue du joueur
         el:"#affichageHeros",
         methods:{
+          sommeGoldPS: function(){
+            let somme = 0;
+            for (const herosObtenu of joueur.herosObtenus){
+              somme += joueur.goldParSecComputed(herosObtenu['id_hero'],joueur.obtenirNiveau(herosObtenu['id_hero']))
+              console.log(herosObtenu['id_hero'],"GGGGGGGGGGGGGGGG");
+              console.log(joueur.obtenirNiveau(herosObtenu['id_hero']),"GGGGGGGGGGGGGGGGG");
+            }
+            console.log(somme,"GGGGGGGGGGGGGGGGGG");
+            return somme;
+          },
+          sommeDiamantPS: function(){
+            let somme = 0;
+            for (const herosObtenu of joueur.herosObtenus){
+              somme += joueur.diamondParSecComputed(herosObtenu['id_hero'],joueur.obtenirNiveau(herosObtenu['id_hero']))
+              console.log(herosObtenu['id_hero'],"DDDDDDDDDDDDDDDDDD");
+              console.log(joueur.obtenirNiveau(herosObtenu['id_hero']),"DDDDDDDDDDDDDDDDDD");
+            }
+            console.log(somme,"DDDDDDDDDDDDDDDDDD");
+            return somme;
+          },
           possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
-            console.log("PWET possedeHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              console.log(herosObtenu);
-              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
-              console.log("heros.id_hero : "+heros['id_hero']);
               if(herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
                 return true;
               }
@@ -652,7 +664,6 @@ const joueur = new Vue({ //Vue du joueur
             return false;
           },
           obtenirHeros: function(id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
-            console.log("PWET obtenirHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['id_hero'];
@@ -660,7 +671,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirRarete: function(id_hero) {
-            console.log("PWET obtenirRarete");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['rarete'];
@@ -668,7 +678,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirNiveau: function(id_hero) {
-            console.log("PWET obtenirNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['niveau'];
@@ -676,7 +685,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           augmenterNiveau: function(id_hero) {
-            console.log("PWET augmenterNiveau");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
@@ -684,7 +692,6 @@ const joueur = new Vue({ //Vue du joueur
             }
           },
           obtenirCoutHeros: function(id_hero) {
-            console.log("PWET obtenirCoutHeros");
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
               if(herosObtenu['id_hero'] == id_hero) {
                 return herosObtenu['cout'];
@@ -708,10 +715,6 @@ const joueur = new Vue({ //Vue du joueur
           },
           diamondParSecComputed: function(id_hero,niveau) {
             for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              console.log("herosObtenu.id_hero : "+herosObtenu['id_hero']);
-              console.log("id_hero : ");
-              console.log(id_hero);
-              console.log(niveau);
               if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
                 let temp = herosObtenu['niveau_'+herosObtenu['niveau']];
                 temp = temp / 10;
@@ -724,7 +727,6 @@ const joueur = new Vue({ //Vue du joueur
           herosObtenus:[],
         },
         computed:{
-
         }
   });
 
@@ -732,7 +734,6 @@ $.ajax({
   type: 'GET',
   url: '/cart/initialisationHerosObtenus',
   success: function(received) {
-
     let tabHerosObtenus = received;
     //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
     if (tabHerosObtenus.length == 0) {
@@ -834,6 +835,8 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                                         let cout = received;
                                         heros.cout = cout;
                                         joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
+                                        goldPS=joueur.sommeGoldPS();
+                                        diamantPS=joueur.sommeDiamantPS();
                                       },
                                       error: function() {
                                         alert('Problème AJAX');
