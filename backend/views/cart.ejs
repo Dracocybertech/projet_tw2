@@ -155,7 +155,7 @@
       .play-right-stats-summon-cost{
         margin:5px;
         border-radius: 20px;
-        background:rgba(255, 0, 0, 0.707);
+        background:red;
         border:2px;
         color: white;
         padding:5px;
@@ -391,7 +391,7 @@
     <meta content="" name="keywords">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <!-- Favicons -->
-    <link href="assets/img/pageIcon.png" rel="icon">
+    <link href="assets/img/favicon.png" rel="icon">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -417,7 +417,6 @@
                 </button>
               </div>
             </form>
-            <!-- Ce bouton permet de sauvegarder ses données, se déconnecter et revenir au menu de connexion -->
             Save & Exit
           </div>
           <div class="system-settings">
@@ -430,14 +429,12 @@
                 </button>
               </div>
             </form>
-            <!-- Ce bouton permet d'accéder au Guide qui donne des informations au joueur. -->
-            Guide
+            Settings
           </div>
         </div>
         <div class="system-options-expanded">
           <div class="system-settings1">
             <div id="music">
-              <!-- Ces boutons dynamiques permettent de lancer de la musique. Attention, elles peuvent se joueur en même temps. -->
               <button class="system-button" @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
                 {{ audio.isPlaying ? 'Pause' : 'Play' }} {{ audio.name }}
               </button>
@@ -542,7 +539,7 @@
     el: '#music',
 
     data: {
-      audios: [ //On implémente des morceaux en dur qui seront automatiquement ajouté grâce au template.
+      audios: [
         {
           id: 'track1',
           name: 'Blinx 1',
@@ -579,8 +576,8 @@
 
 
 
-  Vue.component("liste_heros",{ //Le template gère le tableau des héros. Il ajoute automatiquement toutes les caractéristiques utile au joueur pour la micro-gestion.
-                        // Le bouton upgrade appelle la fonction upgradeHeros() ce qui permet de monter d'un niveau le héros sélectionné et de consommer l'argent du joueur.
+  Vue.component("liste_heros",{
+				
 				template: `<table class=invocation-table>
             <tbody>
               <tr>
