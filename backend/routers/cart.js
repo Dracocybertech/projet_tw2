@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const sqlite3 = require('sqlite3').verbose();
-const prixInvocation = 100; //On a besoin de 100 golds pour invoquer un personnage
+const prixInvocation = Number.parseFloat(100).toExponential(2); //On a besoin de 100 golds pour invoquer un personnage
 const remboursementCommun = 10;
 const remboursementRare = 30;
 const remboursementSsr = 50;
@@ -192,9 +192,9 @@ router.post('/diamantSuffisant', function (req, res) {
 
     let data = req.body;
     console.log(data);
-    console.log(data['diamant']);
+    console.log("diamants : "+data['diamant']);
     let diamant = parseInt(data['diamant']);
-    let test = 200;
+
     if (prixInvocation > diamant){
         res.status(200).json(false).end();
     }
@@ -260,21 +260,26 @@ router.post('/ajoutInfosInvocationHeros', function(req,res) {
     let niveau = data['niveau'];
     console.log("niveau : "+niveau);
     let cout = 0;
-    const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
-    statement.all(niveau, (err, result) => {
-        if(err){
-            res.status(400);
-        } else {
-            console.log("coutEvolution.");
-            console.log(result);
-            cout = result[0].cout;
-            console.log("cout");
-            console.log(cout);
-            res.status(200).json(cout).end();
-        }
-    });
+    if (niveau < 5) {
+        const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
+        statement.all(niveau, (err, result) => {
+            if(err){
+                res.status(400);
+            } else {
+                console.log("coutEvolution.");
+                console.log(result);
+                cout = result[0].cout;
+                console.log("cout");
+                console.log(cout);
+                res.status(200).json(cout).end();
+            }
+        });
 
-    statement.finalize();
+        statement.finalize();
+    }
+    else {
+        res.status(200).json(0).end();
+    }
 
 });
 

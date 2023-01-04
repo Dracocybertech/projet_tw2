@@ -353,7 +353,7 @@
         });
 				goldPS=1000;
 				gold=null;
-        diamantPS=1;
+        diamantPS=10000;
 				diamant=null;
 				ObjInterval = null,
 				totalGold = document.querySelector( "#totalGold" ),
@@ -422,7 +422,7 @@
           <div class="system-settings">
             <form action="" method="post" role="form">
               <div>
-                <button type="button">
+                <button type="button" onclick="openGuidePopUp()">
                   <div style="height:20px;width:20px;object-fit:contain;">
                     <img src="assets/img/settings.png">
                   </div>
@@ -591,7 +591,7 @@
                   {{ cout }}
                 </td>
                 <td>
-                  <button style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
+                  <button id="buttonUpgrade" style="background: v ar(--color-primary);border: 0; margin:5px; color: #fff; border-radius: 20px; background:red; border:0px" v-on:click="upgradeHeros(id_hero)">++</button>
                 </td>
                 <td>
                   {{ goldParSecComputed }}
@@ -608,8 +608,15 @@
 				methods:{
          upgradeHeros: function() {
             app.upgradeHeros(this.id_hero, this.niveau);
+            if (joueur.obtenirNiveau(this.id_hero) == 5) {
+              document.getElementById("buttonUpgrade").disabled = true;
+            }
 
           },
+          niveauMax: function(niveau) {
+          console.log(!(niveau < 6));
+            return (niveau < 6);
+          }
         },
         computed: {
            goldParSecComputed: function() {
@@ -916,7 +923,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                     console.log("Received : "+received);
                     joueur.modifierCout(id_hero, received);
                     console.log("Cout : "+joueur.obtenirCoutHeros(id_hero));
-                    totalGold.textContent-=parseInt(received,10);
+                    totalGold.textContent-=parseInt(cout,10);
                   },
                   error: function() {
                     alert('Problème AJAX');
@@ -930,6 +937,29 @@ const app = new Vue({ //Vue qui gère les invocations de héros
             },
             });
 
+</script>
+
+<script type="text/javascript">
+var windowGuide = null; // variable globale
+function openGuidePopUp() {
+  if(windowGuide == null || windowGuide.closed)
+  /* si le pointeur vers l'objet window n'existe pas
+     ou s'il existe mais que la fenêtre a été fermée */
+  {
+    windowGuide = window.open("/guide",
+   "Guide", "popup");
+    /* on le crée. La nouvelle fenêtre sera créée et affichée
+       par-dessus les éventuelles autres fenêtres. */
+  }
+  else
+  {
+    windowGuide.focus();
+    /* sinon la référence existe et la fenêtre n'est pas fermée
+       on peut donc l'amener devant avec la méthode focus()
+       sans avoir à recréer la fenêtre ou à recharger la
+       ressource référencée. */
+  };
+}
 </script>
 
 </html>
