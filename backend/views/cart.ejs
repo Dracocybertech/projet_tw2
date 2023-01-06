@@ -364,6 +364,7 @@
                 </tr>
               </thead>
             </table>
+          <!-- Cette liste permet d'afficher un tableau avec les héros qui s'afficheront de manière dynamique. -->
             <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau"
               v-bind:cout="heros.cout" />
           </div>
@@ -377,25 +378,30 @@
         </div>
         <div class="play-right-stats">
           <div class="play-right-stats-summon">
+            <!-- Affichage du coût d'une invocation. -->
             <div class="play-right-stats-summon-cost" id="coutInvocation">
               100 Diamants
             </div>
             <div id="app">
+            <!-- Ce bouton sert à lancer une invocation d'un héros. -->
               <button class="play-right-stats-summon-button" v-on:click="invocationHeros()">
                 + Invocation +
               </button>
             </div>
           </div>
+          <!-- Affichage de la valeur du gold. -->
           <div class="play-right-stats-money">
             <div class="play-right-stats-money-golds">
               <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
                 <div class="gold-icon">
                   <img src="assets/img/gold.png">
                 </div>
+                <!-- Ce bouton sert à augmenter la valeur en gold. -->
               </button>
               <p id="totalGold"></p>
               <p>&ThinSpace; Gold(s)</p>
             </div>
+            <!-- Affichage de la valeur des diamants. -->
             <div class="play-right-stats-money-diamonds">
               <button style="border:0px;background:white;"
                 onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
@@ -420,6 +426,7 @@
 
             </div>
             <div class="play-right-stats-moneypersec-diamonds">
+            <!-- Ce buton sert à augmenter la valeur des diamants. -->
               <button style="border:0px;background:white;"
                 onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
                 <div class="diamonds-icon">
@@ -523,7 +530,7 @@
     props: ["id_hero", "niveau", "cout"],
 
 				methods:{
-         upgradeHeros: function() {
+         upgradeHeros: function() { //Augmente le niveau d'un héros et empêche d'appuyer sur le bouton si le niveau maximal a été atteint
           if (joueur.obtenirNiveau(this.id_hero) == 5) {
               document.getElementById("button"+this.id_hero).disabled = true;            
             }
@@ -532,15 +539,15 @@
             }
 
       },
-      niveauMax: function (niveau) {
+      niveauMax: function (niveau) { //Retourne vrai si le niveau n'est pas maximal
         return (niveau < 6);
       }
     },
     computed: {
-      goldParSecComputed: function () {
+      goldParSecComputed: function () {//Retourne la valeur de gold obtenue pur un héros précis à un niveau donné
         return joueur.goldParSecComputed(this.id_hero, this.niveau);
       },
-      diamondParSecComputed: function () {
+      diamondParSecComputed: function () { //Retourne la valeur de diamant obtenue pur un héros précis à un niveau donné
         return joueur.diamondParSecComputed(this.id_hero, this.niveau);
       }
     }
@@ -624,35 +631,35 @@
           }
         }
       },
-      obtenirRarete: function (id_hero) {
+      obtenirRarete: function (id_hero) {//Retourne la rareté d'un héros
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {
             return herosObtenu['rarete'];
           }
         }
       },
-      obtenirNiveau: function (id_hero) {
+      obtenirNiveau: function (id_hero) {//Retourne le niveau d'un héros
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {
             return herosObtenu['niveau'];
           }
         }
       },
-      augmenterNiveau: function (id_hero) {
+      augmenterNiveau: function (id_hero) {//Augmente de 1 le niveau d'un héros
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {
             herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
           }
         }
       },
-      obtenirCoutHeros: function (id_hero) {
+      obtenirCoutHeros: function (id_hero) {//Retourne le coût d'un héros
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {
             return herosObtenu['cout'];
           }
         }
       },
-      modifierCout: function (id_hero, cout) {
+      modifierCout: function (id_hero, cout) {//Permet de modifier le coût pour le prochain niveau d'un héros
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {
             herosObtenu['cout'] = cout;
@@ -660,14 +667,14 @@
         }
       },
 
-      goldParSecComputed: function (id_hero, niveau) {
+      goldParSecComputed: function (id_hero, niveau) {//Retourne la valeur de gold obtenue pour un héros à un niveau donné
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
             return herosObtenu['niveau_' + herosObtenu['niveau']];
           }
         }
       },
-      diamondParSecComputed: function (id_hero, niveau) {
+      diamondParSecComputed: function (id_hero, niveau) {//Retourne la valeur de diamant obtenue pour un héros à un niveau donné
         for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
           if (herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
             let temp = herosObtenu['niveau_' + herosObtenu['niveau']];
@@ -686,20 +693,19 @@
 
   $.ajax({
     type: 'GET',
-    url: '/cart/initialisationHerosObtenus',
+    url: '/cart/initialisationHerosObtenus',//initialise le tableau des héros de la vue joueur
     success: function (received) {
       let tabHerosObtenus = received;
-      //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
-      if (tabHerosObtenus.length == 0) {
+      if (tabHerosObtenus.length == 0) {//Si c'est un nouveau compte qui ne possède pas de héros sauvegardé
         $.ajax({
           type: 'GET',
-          url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
+          url: '/cart/initialisationHeros1',//Obtention d'un héros au niveau 1
           success: function (received) {
             let tabHero = received;
-            joueur.herosObtenus.push(tabHero);
+            joueur.herosObtenus.push(tabHero);//On ajoute le hérosau tableau des héros de la vue joueur
             boolArgentInit = true;
-            goldPS = joueur.sommeGoldPS();
-            diamantPS = joueur.sommeDiamantPS();
+            goldPS = joueur.sommeGoldPS();//Calcul du gold par seconde
+            diamantPS = joueur.sommeDiamantPS();//Calcul du diamant par seconde
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
 
@@ -709,14 +715,14 @@
           },
         })
       }
-      else {
+      else {//Si jamais il y a des héros qui sont sauvegardés
         tabHerosObtenus.forEach(row => $.ajax({
           type: 'POST',
-          url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
-          data: "niveau=" + row.niveau,//Envoie de la rareté
+          url: '/cart/initialisationHerosObtenuscoutEvolution',//Initialisation du tableau des héros
+          data: "niveau=" + row.niveau,//Envoie du niveau
           success: function (received) {
             let cout = received;
-            row.cout = cout;
+            row.cout = cout;//Ajout de l'information du coût
           },
           error: function () {
             alert('Problème AJAX');
@@ -725,20 +731,20 @@
         );
         tabHerosObtenus.forEach(row => $.ajax({
           type: 'POST',
-          url: '/cart/initialisationHerosObtenusguidePerso',//Obtention d'un héros au hasard qui a la rareté demandée
+          url: '/cart/initialisationHerosObtenusguidePerso',//Initialisation du tableau des héros
           data: "id_hero=" + row.id_hero,//Envoie de la rareté
           success: function (received) {
             let herosGuidePerso = received;
-            row.rarete = herosGuidePerso.rarete;
-            row.niveau_1 = herosGuidePerso.niveau_1;
-            row.niveau_2 = herosGuidePerso.niveau_2;
-            row.niveau_3 = herosGuidePerso.niveau_3;
-            row.niveau_4 = herosGuidePerso.niveau_4;
-            row.niveau_5 = herosGuidePerso.niveau_5;
-            joueur.herosObtenus.push(row)
+            row.rarete = herosGuidePerso.rarete;//Ajout de la rareté
+            row.niveau_1 = herosGuidePerso.niveau_1;//Ajout de niveau_1
+            row.niveau_2 = herosGuidePerso.niveau_2;//Ajout de niveau_2
+            row.niveau_3 = herosGuidePerso.niveau_3;//Ajout de niveau_3
+            row.niveau_4 = herosGuidePerso.niveau_4;//Ajout de niveau_4
+            row.niveau_5 = herosGuidePerso.niveau_5;//Ajout de niveau_5
+            joueur.herosObtenus.push(row)//Ajout du héros dans herosObtenus de la vue joueur
             boolArgentInit = true;
-            goldPS = joueur.sommeGoldPS();
-            diamantPS = joueur.sommeDiamantPS();
+            goldPS = joueur.sommeGoldPS();//Calcul du gold par seconde
+            diamantPS = joueur.sommeDiamantPS();//Calcul du diamant par seconde
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
           },
@@ -753,7 +759,7 @@
     }
   });
 
-  const app = new Vue({ //Vue qui gère les invocations de héros
+  const app = new Vue({ //Vue qui gère les invocations de héros, l'upgrade du héros
     el: "#app",
     methods: {
       invocationHeros: function () { //Invocation de heros
@@ -764,7 +770,7 @@
           data: "diamant=" + diamant,//Envoie des diamants
           success: function (received) {
             if (received) { //Si on a assez de diamant
-              diamant -= 100;
+              diamant -= 100;//On retire le coût de l'invocation
               let rarete = "";
               $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
                 if (status == "error") {
@@ -780,10 +786,10 @@
                       if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
                         $.ajax({
                           type: 'POST',
-                          url: '/cart/remboursement',//Obtention d'un héros au hasard qui a la rareté demandée
+                          url: '/cart/remboursement',//Remboursement en fonction de la rareté du héros
                           data: "rarete=" + heros['rarete'],//Envoie de la rareté
                           success: function (received) {
-                            diamant += parseInt(received, 10);
+                            diamant += parseInt(received, 10);//Remboursement des diamants
                           },
                           error: function () {
                             alert('Problème AJAX');
@@ -793,14 +799,14 @@
                       else { //Si le joueur ne possède pas le héros
                         $.ajax({
                           type: 'POST',
-                          url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                          data: "niveau=" + heros['niveau'],//Envoie de la rareté
+                          url: '/cart/ajoutInfosInvocationHeros',//Ajout d'informations pour le héros
+                          data: "niveau=" + heros['niveau'],//Envoie du niveau
                           success: function (received) {
                             let cout = received;
-                            heros.cout = cout;
+                            heros.cout = cout;//Sauvegarde du coût
                             joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
-                            goldPS = joueur.sommeGoldPS();
-                            diamantPS = joueur.sommeDiamantPS();
+                            goldPS = joueur.sommeGoldPS();//Calcul du gold
+                            diamantPS = joueur.sommeDiamantPS(); //Calcul du diamant
                             totalGoldPS.innerText = goldPS;
                             totalDiamantPS.innerText = diamantPS;
                           },
@@ -819,7 +825,7 @@
                 };
               });
             }
-            else {
+            else {//Si on n'a pas assez de diamants
               window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 diamants."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
             }
           },
@@ -829,20 +835,20 @@
         });
 
       },
-      upgradeHeros: function (id_hero) {
-        let cout = joueur.obtenirCoutHeros(id_hero);
-        if (gold >= cout) {
-          joueur.augmenterNiveau(id_hero);
+      upgradeHeros: function (id_hero) {//Augmente le niveau d'un héros et met à jour son coût pour le prochain niveau
+        let cout = joueur.obtenirCoutHeros(id_hero);//Obtention du coût
+        if (gold >= cout) {//Si on a assez d'argent
+          joueur.augmenterNiveau(id_hero);//On augmente le niveau
 
               $.ajax({
                   type: 'POST',
-                  url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                  data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
+                  url: '/cart/ajoutInfosInvocationHeros',//Obtention d'infos supplémentaire pour le coût
+                  data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie du niveau
                   success: function(received) {
-                    joueur.modifierCout(id_hero, received);
-                    gold-=parseInt(cout,10);
-                    goldPS=joueur.sommeGoldPS();
-                    diamantPS=joueur.sommeDiamantPS();
+                    joueur.modifierCout(id_hero, received);//Modification du coût
+                    gold-=parseInt(cout,10);//Retrait de l'argent qu'a coûté l'upgrade
+                    goldPS=joueur.sommeGoldPS();//Calcul du gold
+                    diamantPS=joueur.sommeDiamantPS();//Calcul du diamant
                     totalGold.innerText = gold;
                     totalGoldPS.innerText = goldPS;
                     totalDiamantPS.innerText = diamantPS;
@@ -852,30 +858,30 @@
                   }
                 });
             }
-            else {
+            else {//Dans le cas où on n'a pas assez de gold
               window.alert("Il n'y a pas assez d'argent pour augmenter le niveau d'un heros ! Attendez d'avoir plus de gold."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
             }
               },
-              save: function() {
+              save: function() {//Sauvegarde les héros et le gold et les diamants du joueur
             $.ajax({
                   type: 'POST',
-                  url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
-                  data:{gold,diamant},//Envoie de la rareté
+                  url: '/cart/enregistrementGoldDiamant',//Enregistrement du gold et des diamants du joueur
+                  data:{gold,diamant},//Envoi de la valeur du gold et des diamants
                   success: function(received) {
                     $.ajax({
                       type: 'GET',
-                      url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
+                      url: '/cart/vueTableSQL',//Vérification que les informations sont ajoutées à la table
                       success: function(received) {
                         $.ajax({
                           type: 'GET',
-                          url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                          url: '/cart/deleteHeros',//Suppression de tous les héros du joueur dans la base de donnée
                           success: function(received) {
                               joueur.herosObtenus.forEach(row =>$.ajax({
                                 type: 'POST',
-                                url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                                data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de la rareté
+                                url: '/cart/enregistrementHeros',//Enregistrement dans la base de donnée de tous les héros du joueur
+                                data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de l'id, du niveau
                                 success: function(received) {
-                                    window.location.href = 'logout';
+                                    window.location.href = 'logout';//Renvoi vers la page du logout
                                   },
                                   error: function() {
                                     alert('Problème AJAX');
@@ -905,7 +911,7 @@
 <script type="text/javascript">
 var windowGuide = null; // variable globale
 var WIP = true;
-function openGuidePopUp() {
+function openGuidePopUp() {//Fenêtre du guide des héros
 
   window.alert("WIP !"); //Message d'alerte pour signaler que ce sera terminé plus tard
 
