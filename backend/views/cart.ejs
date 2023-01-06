@@ -442,6 +442,10 @@
 	</body>
 </html>
 
+<script>
+  boolArgentInit = false;
+</script>
+
 
 <script>
   const music = new Vue({ // Vue qui gère la musique
@@ -643,7 +647,10 @@ $.ajax({
              success: function(received) {
                let tabHero = received;
                joueur.herosObtenus.push(tabHero);
+               boolArgentInit = true;
+               console.log("Init des héros");
                goldPS=joueur.sommeGoldPS();
+               console.log("goldPS :",goldPS);
                diamantPS=joueur.sommeDiamantPS();
                totalGoldPS.innerText = goldPS;
                totalDiamantPS.innerText = diamantPS;
@@ -661,6 +668,13 @@ $.ajax({
              success: function(received) {
                let cout = received;
                row.cout = cout;
+               boolArgentInit = true;
+               console.log("Init des initialisationHerosObtenuscoutEvolution");
+               goldPS=joueur.sommeGoldPS();
+               console.log("goldPS :",goldPS);
+               diamantPS=joueur.sommeDiamantPS();
+               totalGoldPS.innerText = goldPS;
+               totalDiamantPS.innerText = diamantPS;
               },
              error: function() {
                alert('Problème AJAX');
@@ -679,7 +693,15 @@ $.ajax({
             row.niveau_3 = herosGuidePerso.niveau_3;
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
+            
             joueur.herosObtenus.push(row)
+            boolArgentInit = true;
+            console.log("Init des initialisationHerosObtenusguidePerso");
+            goldPS=joueur.sommeGoldPS();
+            console.log("goldPS :",goldPS);
+            diamantPS=joueur.sommeDiamantPS();
+            totalGoldPS.innerText = goldPS;
+            totalDiamantPS.innerText = diamantPS;
           },
           error: function() {
             alert('Problème AJAX');
@@ -873,10 +895,11 @@ function openGuidePopUp() {
 </script>
 
 <script>
-  boolArgentInit = false;
-  goldPS=null;
+  if (!boolArgentInit){
+    goldPS=null;
+    diamantPS=null;
+  };
   gold=null;
-  diamantPS=null;
   diamant=null;
   window.addEventListener('load', ev => {
     $.ajax({
