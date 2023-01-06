@@ -18,7 +18,7 @@ function chiffre(msg, cle) {
 	return res;
 }
 
-// connecting an existing database (handling errors)
+//Connexion à la BD
 const db = new sqlite3.Database('./db/projet.sqlite', (err) => {
 	if (err) {
 		console.error(err.message);
@@ -27,34 +27,38 @@ const db = new sqlite3.Database('./db/projet.sqlite', (err) => {
 });
 
 
-// check credentials in database + initialize session
+//Initialise et vérifie le mdp 
 router.post('/login', function (req, res, next) {
 	let data = req.body;
 	if (data['email'] != null && data['email'] != "" && data['mdp'] != null && data['mdp'] != "") {
 		db.serialize(() => {
-			// check if the password is okay
+			// Vérifie que le login et le mdp correspondent bien à ceux dans la BD
 			const statement = db.prepare("SELECT * FROM joueurs WHERE email=? AND mdp=?;");
 			statement.get(data['email'], chiffre(data['mdp'], 5), (err, result) => {
 				if (err) {
 					next(err);
 				} else {
-					if (result) {
+					if (result) { //Initialise la session
 						req.session.ses = result;
 						req.session.loggedin = true;
 						req.session.login = result['email'];
 						req.session.id_joueur = result['id_joueur'];
 						console.log("bon email/mdp");
+						//Calcule les golds/s et les diams/s pour prendre en compte les golds et les diams gagnés pendant l'absence
 						let goldsec = 0;
 						let diamsec = 0;
+						//Requête pour obtenir les niveaux de tous les persos du joueur
 						const statement4 = db.prepare("SELECT G.*, niveau FROM herosObtenus O, guidePerso G WHERE O.id_joueur = ? AND G.id_hero = O.id_hero;");
 						statement4.all(req.session.id_joueur, (err, result2) => {
 							result2.forEach(element => {
+								//Fait la somme des diams/s et des golds/s des persos du joueurs
 								goldsec += element['niveau_' + element['niveau']];
-								diamsec += Math.floor(element['niveau_3'] / 100);
+								diamsec += Math.floor(element['niveau_' + element['niveau']] / 10);
 							})
+							//Calcule le nombre de secondes passées depuis la déconnexion
 							console.log("Temps écoulé depuis la déco en s", Math.floor(Date.now() / 1000) - result['last_seen']);
 							let secondes_passees = Math.floor(Date.now() / 1000) - result['last_seen'];
-
+							//Met à jour la BD avec le bon nombre de golds et de diamants
 							statement5 = db.prepare("UPDATE joueurs SET diamants = diamants + ? , golds = golds + ?  WHERE id_joueur= ? ;");
 							statement5.run(diamsec * secondes_passees, goldsec * secondes_passees, req.session.id_joueur);
 							statement5.finalize();
@@ -79,7 +83,7 @@ router.post('/login', function (req, res, next) {
 	}
 });
 
-// check credentials in database + initialize session
+// Pour créer un compte
 router.post('/signup', function (req, res, next) {
 	let newUser = true;
 	let data = req.body;
@@ -101,12 +105,13 @@ router.post('/signup', function (req, res, next) {
 						next(err);
 					} else {// Nouveaux login et id donc on enchaîne
 						let leId;
-
+						//Crée un id pour le joueur en fonction de l'id max
 						statement2 = db.prepare("SELECT MAX(id_joueur) FROM joueurs");
 						statement2.get((err, result) => {
 							if (err) {
 								next(err);
 							} else {
+								//Insère le nouuveau compte dans la BD
 								leId = result['MAX(id_joueur)'] + 1;
 								statement3 = db.prepare("INSERT INTO joueurs(id_joueur, email, mdp, golds, diamants, last_seen) VALUES (?,?,?,0,0,strftime('%s','now'));");
 								statement3.run(leId, data['email'], chiffre(data['mdp'], 5));
@@ -133,7 +138,7 @@ router.use('/login', function (req, res) {
 });
 
 router.use('/logout', function (req, res) {
-	db.serialize(() => {
+	db.serialize(() => {// Met à jour la date de déconnexion
 		statement = db.prepare("UPDATE joueurs SET last_seen = strftime('%s','now') WHERE id_joueur=? ;");
 		statement.run(req.session.id_joueur);
 	});
