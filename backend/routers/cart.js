@@ -22,15 +22,14 @@ router.get('/initialisationHerosObtenus', function (req, res) {
     db.serialize(() => {
         const statement = db.prepare("SELECT id_joueur FROM joueurs WHERE email = ?;");//On cherche l'id du joueur dont on  a l'email
         statement.all(req.session.login, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400)
             } else {
 
                 id_joueur = result[0].id_joueur;
                 const statement2 = db.prepare("SELECT id_hero, niveau FROM herosObtenus WHERE id_joueur = ?;");//On cherche les héros liés à l'id d'un joueur dans la table herosObtenus
                 statement2.all(id_joueur, (err, result2) => {
-//                 console.log("statement2");
-                    if(err){
+                    if (err) {
                         res.status(400)
                     } else {
                         if (result2.length == 0) {
@@ -52,47 +51,47 @@ router.get('/initialisationHerosObtenus', function (req, res) {
 
 });
 
-router.get('/initialisationHeros1', function(req, res) {
+router.get('/initialisationHeros1', function (req, res) {
     let heros1 = {};
     let id_hero = 1;
     const statement = db.prepare("SELECT rarete, niveau_1, niveau_2, niveau_3, niveau_4, niveau_5 FROM guidePerso WHERE id_hero = ?;");
     statement.all(id_hero, (err, result) => {
-                    if(err){
-                        res.status(400)
-                    } else {
-                        for (row in result) {
-                        heros1.rarete = result[0].rarete;
-                        heros1.niveau_1 = result[0].niveau_1;
-                        heros1.niveau_2 = result[0].niveau_2;
-                        heros1.niveau_3 = result[0].niveau_3;
-                        heros1.niveau_4 = result[0].niveau_4;
-                        heros1.niveau_5 = result[0].niveau_5;
-                        heros1.niveau = 1;
-                        heros1.id_hero = id_hero;
-                        }
-                        const statement2 = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
-                        statement2.all(heros1.niveau, (err, result2) => {
-                            if(err){
-                                res.status(400)
-                            } else {
-                                heros1.cout = result2[0].cout;
-                                res.status(200).json(heros1).end();
-                            }
-                        });
-                        statement2.finalize();
-                    };
-                });
+        if (err) {
+            res.status(400)
+        } else {
+            for (row in result) {
+                heros1.rarete = result[0].rarete;
+                heros1.niveau_1 = result[0].niveau_1;
+                heros1.niveau_2 = result[0].niveau_2;
+                heros1.niveau_3 = result[0].niveau_3;
+                heros1.niveau_4 = result[0].niveau_4;
+                heros1.niveau_5 = result[0].niveau_5;
+                heros1.niveau = 1;
+                heros1.id_hero = id_hero;
+            }
+            const statement2 = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
+            statement2.all(heros1.niveau, (err, result2) => {
+                if (err) {
+                    res.status(400)
+                } else {
+                    heros1.cout = result2[0].cout;
+                    res.status(200).json(heros1).end();
+                }
+            });
+            statement2.finalize();
+        };
+    });
     statement.finalize();
 
 });
 
-router.post('/initialisationHerosObtenusguidePerso', function(req, res) {
+router.post('/initialisationHerosObtenusguidePerso', function (req, res) {
     let data = req.body;
     let id_hero = data['id_hero'];
     let heros = {};
     const statement = db.prepare("SELECT rarete, niveau_1, niveau_2, niveau_3, niveau_4, niveau_5 FROM guidePerso WHERE id_hero = ?;");//Collecte des infos de la table guidePerso
     statement.all(id_hero, (err, result) => {
-        if(err){
+        if (err) {
             res.status(400);
         } else {
             for (row in result) {
@@ -110,19 +109,16 @@ router.post('/initialisationHerosObtenusguidePerso', function(req, res) {
     statement.finalize();
 });
 
-router.post('/initialisationHerosObtenuscoutEvolution', function(req, res) {
+router.post('/initialisationHerosObtenuscoutEvolution', function (req, res) {
     let data = req.body;
     let niveau = data['niveau'];
-    console.log("niveau : "+niveau)
     let cout = 0;
     if (niveau < 5) {
         const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
         statement.all(niveau, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400);
             } else {
-                console.log("result");
-                console.log(result);
                 cout = result[0].cout;
                 res.status(200).json(cout).end();
             }
@@ -138,11 +134,11 @@ router.post('/initialisationHerosObtenuscoutEvolution', function(req, res) {
 router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     db.serialize(() => {
         const statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
-        statement.get(req.session.id_joueur, (err, result)=>{
-            if(err){
+        statement.get(req.session.id_joueur, (err, result) => {
+            if (err) {
                 next(err);
             } else {
-                if(result){
+                if (result) {
                     res.status(200).json(result).end();
                 } else {
                     res.status(400).send('Bad request!');
@@ -170,7 +166,7 @@ router.post('/diamantSuffisant', function (req, res) {
     let data = req.body;
     let diamant = parseInt(data['diamant']);
 
-    if (prixInvocation > diamant){
+    if (prixInvocation > diamant) {
         res.status(200).json(false).end();
     }
     else {
@@ -179,20 +175,19 @@ router.post('/diamantSuffisant', function (req, res) {
 });
 
 router.get('/rareteRandom', function (req, res) {
-    let rarete = Math.random()*100;
-    //console.log(rarete);
+    let rarete = Math.random() * 100;
     db.serialize(() => {
         db.all("SELECT * FROM niveauChance;", (err, rows) => {
-                if (rows) {
-                    let poids = 0;
-                        for(row in rows){
-                            poids += rows[row].poids;
-                            if (poids >= rarete) {
-                                res.status(200).json(rows[row].rarete).end();
-                                break;
-                            }
-                        }
+            if (rows) {
+                let poids = 0;
+                for (row in rows) {
+                    poids += rows[row].poids;
+                    if (poids >= rarete) {
+                        res.status(200).json(rows[row].rarete).end();
+                        break;
+                    }
                 }
+            }
 
         })
     });
@@ -205,7 +200,7 @@ router.post('/triParRarete', function (req, res) {//Obtention d'un tableau json 
     db.serialize(() => {
         const statement = db.prepare("SELECT * FROM guidePerso WHERE rarete = ?;");
         statement.all(data['rarete'], (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400);
             } else {
                 tabHeros = result;
@@ -217,24 +212,20 @@ router.post('/triParRarete', function (req, res) {//Obtention d'un tableau json 
         });
         statement.finalize();
 
-            });
+    });
 });
 
-router.post('/ajoutInfosInvocationHeros', function(req,res) {
+router.post('/ajoutInfosInvocationHeros', function (req, res) {
     let data = req.body;
     let niveau = data['niveau'];
-    console.log("niveau : "+niveau);
     let cout = 0;
     if (niveau < 5) {
         const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
         statement.all(niveau, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400);
             } else {
                 cout = result[0].cout;
-                
-                console.log("cout : ");
-                console.log(cout);
                 res.status(200).json(cout).end();
             }
         });
@@ -242,7 +233,6 @@ router.post('/ajoutInfosInvocationHeros', function(req,res) {
         statement.finalize();
     }
     else {
-        console.log("0 cout");
         res.status(200).json(0).end();
     }
 
@@ -250,8 +240,8 @@ router.post('/ajoutInfosInvocationHeros', function(req,res) {
 
 router.post('/argentSuffisant', function (req, res) {
     let data = req.body;
-    let argent = parseInt(data['argent'],10);
-    if (prixInvocation > argent){
+    let argent = parseInt(data['argent'], 10);
+    if (prixInvocation > argent) {
         res.status(200).json(false).end();
     }
     else {
@@ -264,7 +254,7 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
     db.serialize(() => {
         const statement = db.prepare("SELECT * FROM guidePerso WHERE rarete = ?;");
         statement.all(data['rarete'], (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400)
             } else {
                 tabHeros = result;
@@ -293,22 +283,15 @@ router.post('/remboursement', function (req, res) {//Obtention d'un tableau json
 
 
 router.post('/enregistrementGoldDiamant', function (req, res) {
-    console.log("route enregistrementGoldDiamant");
-    console.log(req.session.login);
     let data = req.body;
-    console.log("data : ");
-    console.log(data);
     let gold = data.gold;
-    console.log("gold : "+gold);
     let diamant = data.diamant;
-    console.log("diamant : "+diamant);
     db.serialize(() => {
         const statement = db.prepare("UPDATE joueurs SET golds = ?, diamants = ? WHERE email= ?");
         statement.run(gold, diamant, req.session.login, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400)
             } else {
-                console.log("PWEEET UPDATE joueurs SET golds = ?, diamants = ? WHERE email= ?");
                 res.status(200).json(true).end();
             }
 
@@ -319,16 +302,13 @@ router.post('/enregistrementGoldDiamant', function (req, res) {
 });
 
 router.get('/deleteHeros', function (req, res) {
-    console.log("route deleteHeros");
-    console.log(req.session.id_joueur);
     id_joueur = req.session.id_joueur;
     db.serialize(() => {
         const statement = db.prepare("DELETE FROM herosObtenus WHERE id_joueur= ?");
         statement.run(id_joueur, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400)
             } else {
-                console.log("DELETE FROM herosObtenus WHERE id_joueur= ?");
                 res.status(200).json(true).end();
             }
 
@@ -338,24 +318,16 @@ router.get('/deleteHeros', function (req, res) {
 });
 
 router.post('/enregistrementHeros', function (req, res) {
-    console.log("route enregistrementHeros");
-    console.log(req.session.id_joueur);
     id_joueur = req.session.id_joueur;
     let heros = req.body;
-    console.log("heros : ");
-    console.log(heros);
     let id_hero = heros.id_hero;
-    console.log("id_hero : "+id_hero);
     let niveau = heros.niveau;
-    console.log("niveau : "+niveau);
-
     db.serialize(() => {
-        const statement = db.prepare("INSERT INTO herosObtenus (id_joueur, id_hero, niveau) VALUES (?,?,?)") ;
+        const statement = db.prepare("INSERT INTO herosObtenus (id_joueur, id_hero, niveau) VALUES (?,?,?)");
         statement.run(id_joueur, id_hero, niveau, (err, result) => {
-            if(err){
+            if (err) {
                 res.status(400)
             } else {
-                console.log("INSERT INTO herosObtenus (id_joueur, id_hero, niveau) VALUES (?,?,?)");
                 res.status(200).json(true).end();
             }
 
@@ -369,14 +341,11 @@ router.post('/enregistrementHeros', function (req, res) {
 
 router.get('/vueTableSQL', function (req, res) {
 
-        db.all("SELECT * FROM joueurs;", (err, rows) => {
-            console.log("rows : ");
+    db.all("SELECT * FROM joueurs;", (err, rows) => {
+        if (rows) {
             console.log(rows);
-                if (rows) {
-                    console.log(rows);
-                }
-
-        })
+        }
+    })
 
     res.status(200).json(true).end();
 
@@ -384,13 +353,11 @@ router.get('/vueTableSQL', function (req, res) {
 
 router.get('/vueTableSQLHerosObtenus', function (req, res) {
 
-        db.all("SELECT * FROM joueurs;", (err, rows) => {
-            console.log("rows : ");
+    db.all("SELECT * FROM joueurs;", (err, rows) => {
+        if (rows) {
             console.log(rows);
-                if (rows) {
-                    console.log(rows);
-                }
-        })
+        }
+    })
     res.status(200).json(true).end();
 
 });
