@@ -285,9 +285,7 @@
     .invocation-table tr:nth-child(even) {
       background-color: #f2f2f2;
     }
-
-    .invocation-table td {}
-
+    
     .invocation-table th {
       padding-top: 0px;
       padding-bottom: 12px;
@@ -699,7 +697,6 @@
           success: function (received) {
             let tabHero = received;
             joueur.herosObtenus.push(tabHero);
-            console.log(joueur.sommeGoldPS());
             goldPS = joueur.sommeGoldPS();
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
@@ -841,7 +838,6 @@
                   url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
                   success: function(received) {
-                    console.log("received : "+received);
                     joueur.modifierCout(id_hero, received);
                     gold-=parseInt(cout,10);
                     goldPS=joueur.sommeGoldPS();
