@@ -1,92 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-  <style>
-    body {
-      background-image: url('assets/img/background.jpg');
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      height: 100vh;
-    }
 
-    .container {
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-    }
-  </style>
+<head>
+  <!-- Template Main CSS File -->
+  <link href="assets/css/login.css" rel="stylesheet">
 </head>
+
 <body>
   <div class="container">
 
-        <% if(logged) { %>
-          <form action="/logout" method="post" role="form" class="login-form">
-            <div class="text-center"><button type="submit">Logout</button></div>
-          </form>
-        <% } else { %>
-          <form action="/login" method="post" role="form" class="login-form">
-              <% if (error!=undefined && error) {%>
-                <% unlogged = true%>
-                <p>Wrong credentials, try again!</p>
+    <% if(logged) { %>
+      <form action="/logout" method="post" role="form" class="login-form">
+        <div class="text-center"><button type="submit">Logout</button></div>
+      </form>
+      <% } else { %>
+        <form action="/login" method="post" role="form" class="login-form">
+          <% if (error!=undefined && error) {%>
+            <% unlogged=true%>
+              <p>Wrong credentials, try again!</p>
               <% }%>
-              <div class="form-group">
-                <input type="email" name="email" class="form-control" id="emailsignin" placeholder="E-mail" required>
-              </div>
-              <div class="form-group">
-                <input type="password" class="form-control" name="mdp" id="mdpsignin" placeholder="Password" required>
-              </div>
-            <div class="text-center"><button type="submit">Jouer</button></div>
-          </form>
-          <br>
+                <div class="form-group">
+                  <input type="email" name="email" class="form-control" id="emailsignin" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" name="mdp" id="mdpsignin" placeholder="Password" required>
+                </div>
+                <div class="text-center"><button type="submit">Jouer</button></div>
+        </form>
+        <br>
 
-          <form action="/signup" method="post" role="form" class="login-form">
-              <% if (error!=undefined && error && !unlogged) {%>
-                <p>Bad char</p>
-              <% }%>
+        <form action="/signup" method="post" role="form" class="login-form">
+          <% if (error!=undefined && error && !unlogged) {%>
+            <p>Bad char</p>
+            <% }%>
               <div class="form-group">
                 <input type="email" name="email" class="form-control" id="emailsignup" placeholder="E-mail" required>
               </div>
               <div class="form-group">
                 <input type="password" class="form-control" name="mdp" id="mdpsignup" placeholder="Password" required>
               </div>
-            <div class="text-center"><button type="submit">S'inscrire</button></div>
-          </form>
+              <div class="text-center"><button type="submit">S'inscrire</button></div>
+        </form>
         <% } %>
-        <!--End Contact Form -->
+          <!--End Contact Form -->
 
-      </div>
+  </div>
 </body>
+
 </html>
-
-
