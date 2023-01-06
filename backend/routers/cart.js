@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const sqlite3 = require('sqlite3').verbose();
-const prixInvocation = Number.parseFloat(100).toExponential(2); //On a besoin de 100 golds pour invoquer un personnage
+const prixInvocation = Number.parseFloat(100).toExponential(2); //On a besoin de 100 diamants pour invoquer un personnage
 const remboursementCommun = 10;
 const remboursementRare = 30;
 const remboursementSsr = 50;
 
 
-// connecting an existing database (handling errors)
+// connection a une base de données
 const db = new sqlite3.Database('./db/projet.sqlite', (err) => {
     if (err) {
         console.error(err.message);
@@ -51,6 +51,7 @@ router.get('/initialisationHerosObtenus', function (req, res) {
 
 });
 
+// Initialisation du premier héros
 router.get('/initialisationHeros1', function (req, res) {
     let heros1 = {};
     let id_hero = 1;
@@ -103,7 +104,6 @@ router.post('/initialisationHerosObtenusguidePerso', function (req, res) {
                 heros.niveau_5 = result[row].niveau_5;
             }
             res.status(200).json(heros);
-
         }
     });
     statement.finalize();
@@ -131,6 +131,7 @@ router.post('/initialisationHerosObtenuscoutEvolution', function (req, res) {
     }
 });
 
+// Initialise les golds et les diamants du joueur. Retourne les golds et les diamants du joueur dont l'id est passé en paramètre.
 router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     db.serialize(() => {
         const statement = db.prepare("SELECT golds,diamants FROM joueurs WHERE id_joueur = ?");
@@ -149,19 +150,7 @@ router.get('/initialisationGoldEtDiamant', function (req, res, next) {
     });
 });
 
-/*
-router.get('/initialisationGoldEtDiamant', function (req, res) {
-    db.serialize(() => {
-        db.all("SELECT golds,diamants FROM joueurs;", (err, rows) => {
-                if (rows) {
-                    res.status(200).json(rows).end();
-                }
-
-        })
-    });
-});*/
-
-
+// Vérifie si le joueur a suffisamment de diamants pour faire une invocation. Retourne les true si le joueur a assez d'argent, false sinon.
 router.post('/diamantSuffisant', function (req, res) {
     let data = req.body;
     let diamant = parseInt(data['diamant']);
@@ -192,7 +181,6 @@ router.get('/rareteRandom', function (req, res) {
         })
     });
 });
-
 
 router.post('/triParRarete', function (req, res) {//Obtention d'un tableau json qui ne contient que les héros de la rareté demandée
     let data = req.body;
@@ -265,6 +253,7 @@ router.post('/invocationHero', function (req, res) {//Obtention d'un tableau jso
     });
 });
 
+//Rembourse les diamants du joueur en fonction de la rareté du personnage invoqué.
 router.post('/remboursement', function (req, res) {//Obtention d'un tableau json qui ne contient que les héros de la rareté demandée
     let heros = req.body;
     let rarete = heros['rarete'];
@@ -340,29 +329,22 @@ router.post('/enregistrementHeros', function (req, res) {
 });
 
 router.get('/vueTableSQL', function (req, res) {
-
     db.all("SELECT * FROM joueurs;", (err, rows) => {
         if (rows) {
             console.log(rows);
         }
     })
-
     res.status(200).json(true).end();
-
 });
 
 router.get('/vueTableSQLHerosObtenus', function (req, res) {
-
     db.all("SELECT * FROM joueurs;", (err, rows) => {
         if (rows) {
             console.log(rows);
         }
     })
     res.status(200).json(true).end();
-
 });
-
-
 
 router.use('/', function (req, res) {
     db.serialize(() => {
@@ -372,16 +354,10 @@ router.use('/', function (req, res) {
     res.render('cart.ejs');
 });
 
-
-
 // handling errors
 router.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 })
-
-
-//						res.render('cart.ejs', {logged: false, session: req.session, error: true});
-
 
 module.exports = router;

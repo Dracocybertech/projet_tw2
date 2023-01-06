@@ -285,14 +285,13 @@
     .invocation-table tr:nth-child(even) {
       background-color: #f2f2f2;
     }
-    
+
     .invocation-table th {
       padding-top: 0px;
       padding-bottom: 12px;
       background-color: #4CAF50;
       color: white;
     }
-
   </style>
 
   <title>Stickman Impact</title>
@@ -309,40 +308,40 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> </script>
 
 </head>
-
 <body>
 
-    <div class="container" id="root">
-      <div class="system">
-        <div class="system-bar">
-          <div class="system-logout">
-            <button id="boutonQuitter" onclick="app.save()">
-              <div style="height:20px;width:20px;object-fit:contain;">
-                <img src="assets/img/logout.png">
-              </div>
-            </button>
-            <!-- Ce bouton permet de sauvegarder ses données, se déconnecter et revenir au menu de connexion -->
-            Save & Exit
-          </div>
-          <div class="system-settings">
-            <button type="button" onclick="openGuidePopUp()">
-              <div style="height:20px;width:20px;object-fit:contain;">
-                <img src="assets/img/settings.png">
-              </div>
-            </button>
-            <!-- Ce bouton permet d'accéder au Guide qui donne des informations au joueur. -->
-            Guide
-          </div>
-        </div>
-        <div class="system-options-expanded">
-          <div class="system-settings1">
-            <div id="music">
-              <!-- Ces boutons dynamiques permettent de lancer de la musique. Attention, elles peuvent se joueur en même temps. -->
-              <button class="system-button" @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
-                {{ audio.isPlaying ? 'Pause' : 'Play' }} {{ audio.name }}
-              </button>
+  <div class="container" id="root">
+    <div class="system">
+      <div class="system-bar">
+        <div class="system-logout">
+          <button id="boutonQuitter" onclick="app.save()">
+            <div style="height:20px;width:20px;object-fit:contain;">
+              <img src="assets/img/logout.png">
             </div>
-            <!-- <button class="system-button">
+          </button>
+          <!-- Ce bouton permet de sauvegarder ses données, se déconnecter et revenir au menu de connexion -->
+          Save & Exit
+        </div>
+        <div class="system-settings">
+          <button type="button" onclick="openGuidePopUp()">
+            <div style="height:20px;width:20px;object-fit:contain;">
+              <img src="assets/img/settings.png">
+            </div>
+          </button>
+          <!-- Ce bouton permet d'accéder au Guide qui donne des informations au joueur. -->
+          Guide
+        </div>
+      </div>
+      <div class="system-options-expanded">
+        <div class="system-settings1">
+          <div id="music">
+            <!-- Ces boutons dynamiques permettent de lancer de la musique. Attention, elles peuvent se joueur en même temps. -->
+            <button class="system-button" @click.prevent="audio.isPlaying ? pause(audio) : play(audio)"
+              v-for="audio in audios" :key="audio.id">
+              {{ audio.isPlaying ? 'Pause' : 'Play' }} {{ audio.name }}
+            </button>
+          </div>
+          <!-- <button class="system-button">
               Background
             </button> -->
         </div>
@@ -435,11 +434,8 @@
       </div>
     </div>
   </div>
-
-
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 </body>
@@ -447,14 +443,12 @@
 </html>
 
 <script>
-  boolArgentInit = false;
+  boolArgentInit = false; //réglage d'une erreur de synchronisation
 </script>
-
 
 <script>
   const music = new Vue({ // Vue qui gère la musique
     el: '#music',
-
     data: {
       audios: [ //On implémente des morceaux en dur qui seront automatiquement ajouté grâce au template.
         {
@@ -477,13 +471,11 @@
         }
       ]
     },
-
     methods: {
       play(audio) {
         audio.isPlaying = true;
         audio.file.play();
       },
-
       pause(audio) {
         audio.isPlaying = false;
         audio.file.pause();
@@ -522,14 +514,14 @@
 
     props: ["id_hero", "niveau", "cout"],
 
-				methods:{
-         upgradeHeros: function() {
-          if (joueur.obtenirNiveau(this.id_hero) == 5) {
-              document.getElementById("button"+this.id_hero).disabled = true;            
-            }
-            else {
-              app.upgradeHeros(this.id_hero, this.niveau);
-            }
+    methods: {
+      upgradeHeros: function () {
+        if (joueur.obtenirNiveau(this.id_hero) == 5) {
+          document.getElementById("button" + this.id_hero).disabled = true;
+        }
+        else {
+          app.upgradeHeros(this.id_hero, this.niveau);
+        }
 
       },
       niveauMax: function (niveau) {
@@ -546,11 +538,10 @@
     }
   });
 
-
-
   const joueur = new Vue({ //Vue du joueur
     el: "#affichageHeros",
     methods: {
+      //Charge les golds et diamants du joueur et les affiche.
       chargementGoldsEtDiamants: function () {
         $.ajax({
           type: 'GET',
@@ -565,9 +556,7 @@
             alert('Problème AJAX');
           }
         });
-        //goldPS = null;
         gold = null;
-        //diamantPS = null;
         diamant = null;
         ObjInterval = null,
           totalGold = document.querySelector("#totalGold"),
@@ -579,6 +568,7 @@
         totalDiamantPS = document.querySelector("#totalDiamantPS"),
           totalDiamantPS.innerText = diamantPS;
       },
+      // augmente une fois les golds et les diamants du joueur en fonction de ses golds/s et diamants/s
       augmenter: function () {
         if (gold + goldPS <= Number.MAX_VALUE) {
           gold += goldPS;
@@ -683,7 +673,7 @@
     computed: {
     }
   });
-
+  
   $.ajax({
     type: 'GET',
     url: '/cart/initialisationHerosObtenus',
@@ -691,18 +681,18 @@
       let tabHerosObtenus = received;
       //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
       if (tabHerosObtenus.length == 0) {
+        //initialisation du premier heros du joueur s'il n'en a aucun
         $.ajax({
           type: 'GET',
           url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
           success: function (received) {
             let tabHero = received;
             joueur.herosObtenus.push(tabHero);
-            boolArgentInit = true;
-            goldPS = joueur.sommeGoldPS();
+            boolArgentInit = true; //réglage d'une erreur de synchronisation
+            goldPS = joueur.sommeGoldPS(); //chargement et affichage des golds/s et diamants/s
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
-
           },
           error: function () {
             alert('Problème AJAX');
@@ -710,6 +700,7 @@
         })
       }
       else {
+        //initialisation des héros du joueur
         tabHerosObtenus.forEach(row => $.ajax({
           type: 'POST',
           url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
@@ -736,8 +727,8 @@
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
             joueur.herosObtenus.push(row)
-            boolArgentInit = true;
-            goldPS = joueur.sommeGoldPS();
+            boolArgentInit = true; //réglage d'une erreur de synchronisation
+            goldPS = joueur.sommeGoldPS();//chargement et affichage des golds/s et diamants/s
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
@@ -757,7 +748,6 @@
     el: "#app",
     methods: {
       invocationHeros: function () { //Invocation de heros
-
         $.ajax({
           type: 'POST',
           url: '/cart/diamantSuffisant',//Vérifie si le joueur a assez de diamants pour faire une invocation
@@ -799,7 +789,7 @@
                             let cout = received;
                             heros.cout = cout;
                             joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
-                            goldPS = joueur.sommeGoldPS();
+                            goldPS = joueur.sommeGoldPS();//chargement et affichage des golds/s et diamants/s
                             diamantPS = joueur.sommeDiamantPS();
                             totalGoldPS.innerText = goldPS;
                             totalDiamantPS.innerText = diamantPS;
@@ -827,120 +817,112 @@
             alert('Problème AJAX');
           }
         });
-
       },
       upgradeHeros: function (id_hero) {
         let cout = joueur.obtenirCoutHeros(id_hero);
         if (gold >= cout) {
           joueur.augmenterNiveau(id_hero);
-
-              $.ajax({
-                  type: 'POST',
-                  url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                  data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
-                  success: function(received) {
-                    joueur.modifierCout(id_hero, received);
-                    gold-=parseInt(cout,10);
-                    goldPS=joueur.sommeGoldPS();
-                    diamantPS=joueur.sommeDiamantPS();
-                    totalGold.innerText = gold;
-                    totalGoldPS.innerText = goldPS;
-                    totalDiamantPS.innerText = diamantPS;
-                  },
-                  error: function() {
-                    alert('Problème AJAX');
-                  }
-                });
-            }
-            else {
-              window.alert("Il n'y a pas assez d'argent pour augmenter le niveau d'un heros ! Attendez d'avoir plus de gold."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
-            }
-              },
-              save: function() {
-            $.ajax({
-                  type: 'POST',
-                  url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
-                  data:{gold,diamant},//Envoie de la rareté
-                  success: function(received) {
-                    $.ajax({
-                      type: 'GET',
-                      url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
-                      success: function(received) {
-                        $.ajax({
-                          type: 'GET',
-                          url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                          success: function(received) {
-                              joueur.herosObtenus.forEach(row =>$.ajax({
-                                type: 'POST',
-                                url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                                data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de la rareté
-                                success: function(received) {
-                                    window.location.href = 'logout';
-                                  },
-                                  error: function() {
-                                    alert('Problème AJAX');
-                                  }
-                              }));
-                            },
-                            error: function() {
-                              alert('Problème AJAX');
-                            }
-                        })
-                        },
-                      error: function() {
-                        alert('Problème AJAX');
-                      },
-                    })
-                  },
-                  error: function() {
-                    alert('Problème AJAX');
-                  }
-                });
-          },
+          $.ajax({
+            type: 'POST',
+            url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+            data: "niveau=" + joueur.obtenirNiveau(id_hero),//Envoie de la rareté
+            success: function (received) {
+              joueur.modifierCout(id_hero, received);
+              gold -= parseInt(cout, 10);
+              //chargement et affichage des golds/s et diamants/s + les affichage des golds
+              goldPS = joueur.sommeGoldPS();
+              diamantPS = joueur.sommeDiamantPS();
+              totalGold.innerText = gold;
+              totalGoldPS.innerText = goldPS;
+              totalDiamantPS.innerText = diamantPS;
             },
-            });
+            error: function () {
+              alert('Problème AJAX');
+            }
+          });
+        }
+        else {
+          window.alert("Il n'y a pas assez d'argent pour augmenter le niveau d'un heros ! Attendez d'avoir plus de gold."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
+        }
+      },
+      save: function () {
+        $.ajax({
+          type: 'POST',
+          url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
+          data: { gold, diamant },//Envoie de la rareté
+          success: function (received) {
+            $.ajax({
+              type: 'GET',
+              url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
+              success: function (received) {
+                $.ajax({
+                  type: 'GET',
+                  url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                  success: function (received) {
+                    joueur.herosObtenus.forEach(row => $.ajax({
+                      type: 'POST',
+                      url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                      data: { id_hero: row.id_hero, niveau: row.niveau },//Envoie de la rareté
+                      success: function (received) {
+                        window.location.href = 'logout';
+                      },
+                      error: function () {
+                        alert('Problème AJAX');
+                      }
+                    }));
+                  },
+                  error: function () {
+                    alert('Problème AJAX');
+                  }
+                })
+              },
+              error: function () {
+                alert('Problème AJAX');
+              },
+            })
+          },
+          error: function () {
+            alert('Problème AJAX');
+          }
+        });
+      },
+    },
+  });
 
 </script>
 
 <script type="text/javascript">
-var windowGuide = null; // variable globale
-var WIP = true;
-function openGuidePopUp() {
-
-  window.alert("WIP !"); //Message d'alerte pour signaler que ce sera terminé plus tard
-
-  if (!WIP){
-    if(windowGuide == null || windowGuide.closed)
+  var windowGuide = null; // variable globale
+  var WIP = true;
+  function openGuidePopUp() {
+    window.alert("WIP !"); //Message d'alerte pour signaler que ce sera terminé plus tard
+    if (!WIP) {
+      if (windowGuide == null || windowGuide.closed)
     /* si le pointeur vers l'objet window n'existe pas
-      ou s'il existe mais que la fenêtre a été fermée */
-    {
-      windowGuide = window.open("/guide",
-    "Guide", "popup");
-      /* on le crée. La nouvelle fenêtre sera créée et affichée
-        par-dessus les éventuelles autres fenêtres. */
+      ou s'il existe mais que la fenêtre a été fermée */ {
+        windowGuide = window.open("/guide",
+          "Guide", "popup");
+        /* on le crée. La nouvelle fenêtre sera créée et affichée
+          par-dessus les éventuelles autres fenêtres. */
+      }
+      else {
+        windowGuide.focus();
+        /* sinon la référence existe et la fenêtre n'est pas fermée
+          on peut donc l'amener devant avec la méthode focus()
+          sans avoir à recréer la fenêtre ou à recharger la
+          ressource référencée. */
+      };
     }
-    else
-    {
-      windowGuide.focus();
-      /* sinon la référence existe et la fenêtre n'est pas fermée
-        on peut donc l'amener devant avec la méthode focus()
-        sans avoir à recréer la fenêtre ou à recharger la
-        ressource référencée. */
-    };
-
   }
-
-  
-}
 </script>
 
 <script>
-  if (!boolArgentInit){
-    goldPS=null;
-    diamantPS=null;
+  //réglage d'une erreur de synchronisation
+  if (!boolArgentInit) {
+    goldPS = null;
+    diamantPS = null;
   };
-  //gold=null;
-  //diamant=null;
+  // Chargement et lancement de l'augmentation des golds et diamants chaque seconde.
   window.addEventListener('load', ev => {
     joueur.chargementGoldsEtDiamants();
     ObjInterval = setInterval(joueur.augmenter, 1000, gold, goldPS, diamant, diamantPS);
