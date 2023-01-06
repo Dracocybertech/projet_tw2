@@ -1,316 +1,316 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 
-	<head>
+<head>
 
-    <style>
-      body {
-          background-image: url('assets/img/background.jpg');
-          background-size: cover;
-          background-repeat: no-repeat;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          height:100%;
-      }
+  <style>
+    body {
+      background-image: url('assets/img/background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100%;
+    }
 
-      img {
-          max-width: 100%;
-          max-height: 100%;
-          display: flex;
-      }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      display: flex;
+    }
 
-      input {
-        display: block;
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-      }
+    input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
 
-      .container {
-          background-color: rgba(255, 255, 255, 0.8);
-          padding: 15px;
-          border-radius: 10px;
-      }
+    .container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+    }
 
-      .system{
-        background: rgba(177, 177, 177, 0.45);
-        border-radius: 15px;
-        margin: 10px;
-        padding: 10px;
-        height: 100%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        
-      }
-      .system-bar{
-        margin: 1px;
-        display: flex;
-        justify-content: space-between;
-      }
+    .system {
+      background: rgba(177, 177, 177, 0.45);
+      border-radius: 15px;
+      margin: 10px;
+      padding: 10px;
+      height: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      .system-logout {
-        display:inline-flex
-      }
+    }
 
-      .system-settings {
-        
-        display:inline-flex
-      }
+    .system-bar {
+      margin: 1px;
+      display: flex;
+      justify-content: space-between;
+    }
 
-      .system-options-expanded{
-        margin: 1px;
-        width:100%;
-        display:inline-flex;
-        justify-content: flex-end;
-      }
+    .system-logout {
+      display: inline-flex
+    }
 
-      .system-settings1 {
-        display:inline-flex;
-        margin-inline:10px;
-      }
+    .system-settings {
 
-      .system-button {
-        margin-inline: 10px;
-        color: #fff;
-        border-radius: 10px;
-        background:red;
-        border:0px;
-      }
+      display: inline-flex
+    }
 
-      .play-zone {
-        padding:.5em;
-        display:flex;
-        justify-content: space-between;
-        background:rgba(167, 167, 167, 0.668);
-      }
+    .system-options-expanded {
+      margin: 1px;
+      width: 100%;
+      display: inline-flex;
+      justify-content: flex-end;
+    }
 
-      .play-left {
-        padding:.5em;
-        display:flex;
-        width:50%;
-        border:2px solid;
-      }
+    .system-settings1 {
+      display: inline-flex;
+      margin-inline: 10px;
+    }
 
-      .play-right {
-        padding:.5em;
-        display:flex;
-        width:50%;
-        flex-direction: column;
-        align-content: stretch;
-        border:2px solid;
-      }
+    .system-button {
+      margin-inline: 10px;
+      color: #fff;
+      border-radius: 10px;
+      background: red;
+      border: 0px;
+    }
 
-      .play-left-characters {
-        justify-content: center;
-        width: 100%;
-        height: auto;
-        overflow-y: auto;
-        overflow-x: auto;
-        background :white;
-      }
+    .play-zone {
+      padding: .5em;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(167, 167, 167, 0.668);
+    }
 
-      .play-right-background{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:fit-content;
-        }
+    .play-left {
+      padding: .5em;
+      display: flex;
+      width: 50%;
+      border: 2px solid;
+    }
 
-      .play-right-stats{
-        padding:.5em;
-        display:flex;
-        flex-direction: row;
-        width:100%;
-        height:100%;
-        overflow-y: auto;
-        border-color: black;
-        border:5px solid;
-        background :white;
-      }
+    .play-right {
+      padding: .5em;
+      display: flex;
+      width: 50%;
+      flex-direction: column;
+      align-content: stretch;
+      border: 2px solid;
+    }
 
-      
+    .play-left-characters {
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      overflow-y: auto;
+      overflow-x: auto;
+      background: white;
+    }
 
-      .play-right-stats-summon{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:100%;
-        align-items: center;
-        align-self:stretch;
-        border:2px solid;
-      }
+    .play-right-background {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: fit-content;
+    }
 
-      .play-right-stats-summon-cost{
-        margin:5px;
-        border-radius: 20px;
-        background:rgba(255, 0, 0, 0.707);
-        border:2px;
-        color: white;
-        padding:5px;
-        text-align: center;
-      }
+    .play-right-stats {
+      padding: .5em;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      border-color: black;
+      border: 5px solid;
+      background: white;
+    }
 
-      .play-right-stats-summon-button{
-        border: 0;
-        margin:5px;
-        color: #fff;
-        border-radius: 20px;
-        background:red;
-        border:2px;
-        padding:5px;
-        align-items:center;
-      }
 
-      .play-right-stats-money{
-        padding:.5em;
-        display:flex;
-        flex-direction: column;
-        width:100%;
-        height:100%;
-        border:2px solid;
-      }
 
-      .play-right-stats-money-golds{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:100%;
-      }
+    .play-right-stats-summon {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      align-self: stretch;
+      border: 2px solid;
+    }
 
-      .play-right-stats-money-diamonds{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:100%;
-      }
+    .play-right-stats-summon-cost {
+      margin: 5px;
+      border-radius: 20px;
+      background: rgba(255, 0, 0, 0.707);
+      border: 2px;
+      color: white;
+      padding: 5px;
+      text-align: center;
+    }
 
-      .play-right-stats-moneypersec{
-        padding:.5em;
-        display:flex;
-        flex-direction: column;
-        width:100%;
-        height:100%;
-        border:2px solid;
-      }
+    .play-right-stats-summon-button {
+      border: 0;
+      margin: 5px;
+      color: #fff;
+      border-radius: 20px;
+      background: red;
+      border: 2px;
+      padding: 5px;
+      align-items: center;
+    }
 
-      .play-right-stats-moneypersec-golds{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:100%;
-      }
+    .play-right-stats-money {
+      padding: .5em;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      border: 2px solid;
+    }
 
-      .play-right-stats-moneypersec-diamonds{
-        padding:.5em;
-        display:flex;
-        width:100%;
-        height:100%;
-      }
+    .play-right-stats-money-golds {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
 
-      .gold-icon,.diamonds-icon{
-        height:30px;
-        width:30px;
-        object-fit:contain;
-        margin: 2px;
-      }
+    .play-right-stats-money-diamonds {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
 
-      .gold-icon{
-        background-color: rgb(253, 215, 0);
-      }
+    .play-right-stats-moneypersec {
+      padding: .5em;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      border: 2px solid;
+    }
 
-      .diamonds-icon{
-        background-color: rgb(0, 223, 253);
-      }
+    .play-right-stats-moneypersec-golds {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
 
-      .character-list {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-      }
+    .play-right-stats-moneypersec-diamonds {
+      padding: .5em;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
 
-      .character {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-      }
+    .gold-icon,
+    .diamonds-icon {
+      height: 30px;
+      width: 30px;
+      object-fit: contain;
+      margin: 2px;
+    }
 
-      .character-image {
-          width: 50px;
-          height: 50px;
-          background-size: cover;
-          margin-right: 10px;
-      }
+    .gold-icon {
+      background-color: rgb(253, 215, 0);
+    }
 
-      .character-info {
-          display: flex;
-          flex-direction: column;
-      }
+    .diamonds-icon {
+      background-color: rgb(0, 223, 253);
+    }
 
-      .character-name {
-          font-size: 18px;
-          font-weight: bold;
-          margin-bottom: 5px;
-      }
+    .character-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-      .character-stats {
-          font-size: 14px;
-          margin-bottom: 5px;
-      }
+    .character {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-      .invocation-table {
-          background-color: #f2f2f2;
-          width: fit-content;
-          border-collapse: collapse;
-          text-align: center;
-          table-layout: fixed;
+    .character-image {
+      width: 50px;
+      height: 50px;
+      background-size: cover;
+      margin-right: 10px;
+    }
 
-      }
+    .character-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-      .invocation-table td,
-      .invocation-table th {
-          border: 1px solid #ddd;
-          padding: 8px;
-          width: 103px;
-      }
+    .character-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
 
-      .invocation-table tr:nth-child(even) {
-          background-color: #f2f2f2;
-      }
+    .character-stats {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
 
-      .invocation-table td {
-      }
+    .invocation-table {
+      background-color: #f2f2f2;
+      width: fit-content;
+      border-collapse: collapse;
+      text-align: center;
+      table-layout: fixed;
 
-      .invocation-table th {
-          padding-top: 0px;
-          padding-bottom: 12px;
-          background-color: #4CAF50;
-          color: white;
-      }
+    }
+
+    .invocation-table td,
+    .invocation-table th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      width: 103px;
+    }
+
+    .invocation-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    .invocation-table th {
+      padding-top: 0px;
+      padding-bottom: 12px;
+      background-color: #4CAF50;
+      color: white;
+    }
+
   </style>
 
-		<title>Stickman Impact</title>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <!-- Favicons -->
-    <link href="assets/img/pageIcon.png" rel="icon">
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> </script>
+  <title>Stickman Impact</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <!-- Favicons -->
+  <link href="assets/img/pageIcon.png" rel="icon">
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> </script>
 
-	</head>
+</head>
 
-	<body>
+<body>
 
     <div class="container" id="root">
       <div class="system">
@@ -345,101 +345,105 @@
             <!-- <button class="system-button">
               Background
             </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="play-zone">
+      <div class="play-left">
+        <div class="play-left-characters">
+          <div id="affichageHeros" class="tabHeros">
+            <table class="invocation-table">
+              <thead>
+                <tr>
+                  <th>Invocation</th>
+                  <th>Niveau</th>
+                  <th>Coût</th>
+                  <th>Upgrade</th>
+                  <th>Gold/s</th>
+                  <th>Diamants/s</th>
+                </tr>
+              </thead>
+            </table>
+            <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau"
+              v-bind:cout="heros.cout" />
           </div>
         </div>
       </div>
-      <div class="play-zone">
-        <div class="play-left">
-          <div class="play-left-characters">
-            <div id ="affichageHeros" class="tabHeros">
-              <table class="invocation-table">
-                <thead>
-                  <tr>
-                    <th>Invocation</th>
-                    <th>Niveau</th>
-                    <th>Coût</th>
-                    <th>Upgrade</th>
-                    <th>Gold/s</th>
-                    <th>Diamants/s</th>
-                  </tr>
-                </thead>
-            </table>
-                <liste_heros v-for="heros in herosObtenus" v-bind:id_hero="heros.id_hero" v-bind:niveau="heros.niveau" v-bind:cout="heros.cout"/>
-            </div>
+      <div class="play-right">
+        <div class="play-right-background">
+          <div style="object-fit:contain;">
+            <img src="assets/img/test.jpeg">
           </div>
         </div>
-        <div class="play-right">
-          <div class="play-right-background">
-            <div style="object-fit:contain;">
-              <img src="assets/img/test.jpeg">
+        <div class="play-right-stats">
+          <div class="play-right-stats-summon">
+            <div class="play-right-stats-summon-cost" id="coutInvocation">
+              100 Diamants
+            </div>
+            <div id="app">
+              <button class="play-right-stats-summon-button" v-on:click="invocationHeros()">
+                + Invocation +
+              </button>
             </div>
           </div>
-          <div class="play-right-stats">
-            <div class="play-right-stats-summon">
-              <div class="play-right-stats-summon-cost" id="coutInvocation">
-                100 Diamants
-              </div>
-              <div id="app">
-                <button class="play-right-stats-summon-button" v-on:click="invocationHeros()">
-                    + Invocation +                  
-                </button>
-              </div>
-            </div>
-            <div class="play-right-stats-money">
-              <div class="play-right-stats-money-golds">
-                <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
-                  <div class="gold-icon">
-                    <img src="assets/img/gold.png">
-                  </div>
-                </button>
-                <p id="totalGold"></p>
+          <div class="play-right-stats-money">
+            <div class="play-right-stats-money-golds">
+              <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
+                <div class="gold-icon">
+                  <img src="assets/img/gold.png">
+                </div>
+              </button>
+              <p id="totalGold"></p>
               <p>&ThinSpace; Gold(s)</p>
-              </div>
-              <div class="play-right-stats-money-diamonds">
-                <button style="border:0px;background:white;" onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
-                  <div class="diamonds-icon">
-                    <img src="assets/img/diamond.png">
-                  </div>
-                </button>
-                <p id="totalDiamant"></p>
-                <p>&ThinSpace; Diamant(s)</p>
-              </div>
             </div>
-            <div class="play-right-stats-moneypersec">
-              <div class="play-right-stats-moneypersec-golds">
-                <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
-                  <div class="gold-icon">
-                    <img src="assets/img/gold.png">
-                  </div>
-                </button>
-                <div id="totalGoldPS">
+            <div class="play-right-stats-money-diamonds">
+              <button style="border:0px;background:white;"
+                onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
+                <div class="diamonds-icon">
+                  <img src="assets/img/diamond.png">
                 </div>
-                <p>&ThinSpace; Gold(s)/s</p>
-                
-              </div>
-              <div class="play-right-stats-moneypersec-diamonds">
-                <button style="border:0px;background:white;" onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
-                  <div class="diamonds-icon">
-                    <img src="assets/img/diamond.png">
-                  </div>
-                </button>
-                <div id="totalDiamantPS">
+              </button>
+              <p id="totalDiamant"></p>
+              <p>&ThinSpace; Diamant(s)</p>
+            </div>
+          </div>
+          <div class="play-right-stats-moneypersec">
+            <div class="play-right-stats-moneypersec-golds">
+              <button style="border:0px;background:white;" onclick="gold=gold+10;totalGold.innerText = gold;">
+                <div class="gold-icon">
+                  <img src="assets/img/gold.png">
                 </div>
-                <p>&ThinSpace; Diamant(s)/s</p>
+              </button>
+              <div id="totalGoldPS">
               </div>
+              <p>&ThinSpace; Gold(s)/s</p>
+
+            </div>
+            <div class="play-right-stats-moneypersec-diamonds">
+              <button style="border:0px;background:white;"
+                onclick="diamant=diamant+1;totalDiamant.innerText = diamant;">
+                <div class="diamonds-icon">
+                  <img src="assets/img/diamond.png">
+                </div>
+              </button>
+              <div id="totalDiamantPS">
+              </div>
+              <p>&ThinSpace; Diamant(s)/s</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-	</body>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</body>
+
 </html>
 
 <script>
@@ -473,14 +477,14 @@
         }
       ]
     },
-    
+
     methods: {
-      play (audio) {
+      play(audio) {
         audio.isPlaying = true;
         audio.file.play();
       },
-      
-      pause (audio) {
+
+      pause(audio) {
         audio.isPlaying = false;
         audio.file.pause();
       }
@@ -489,9 +493,9 @@
 
 
 
-  Vue.component("liste_heros",{ //Le template gère le tableau des héros. Il ajoute automatiquement toutes les caractéristiques utile au joueur pour la micro-gestion.
-                        // Le bouton upgrade appelle la fonction upgradeHeros() ce qui permet de monter d'un niveau le héros sélectionné et de consommer l'argent du joueur.
-				template: `<table class=invocation-table>
+  Vue.component("liste_heros", { //Le template gère le tableau des héros. Il ajoute automatiquement toutes les caractéristiques utile au joueur pour la micro-gestion.
+    // Le bouton upgrade appelle la fonction upgradeHeros() ce qui permet de monter d'un niveau le héros sélectionné et de consommer l'argent du joueur.
+    template: `<table class=invocation-table>
             <tbody>
               <tr>
                 <td>
@@ -515,8 +519,8 @@
               </tr>
             </tbody>
 					</table>`,
-        
-				props: ["id_hero", "niveau","cout"],
+
+    props: ["id_hero", "niveau", "cout"],
 
 				methods:{
          upgradeHeros: function() {
@@ -527,169 +531,202 @@
               app.upgradeHeros(this.id_hero, this.niveau);
             }
 
-          },
-          niveauMax: function(niveau) {
-            return (niveau < 6);
-          }
-        },
-        computed: {
-           goldParSecComputed: function() {
-             return joueur.goldParSecComputed(this.id_hero, this.niveau);
-           },
-           diamondParSecComputed: function() {
-            return joueur.diamondParSecComputed(this.id_hero, this.niveau);
-           }
-        }
-	});
-
-
-
-const joueur = new Vue({ //Vue du joueur
-        el:"#affichageHeros",
-        methods:{
-          sommeGoldPS: function(){
-            let somme = 0;
-            for (const herosObtenu of joueur.herosObtenus){
-              somme += joueur.goldParSecComputed(herosObtenu.id_hero,joueur.obtenirNiveau(herosObtenu.id_hero))
-            }
-            return somme;
-          },
-          sommeDiamantPS: function(){
-            let somme = 0;
-            for (const herosObtenu of joueur.herosObtenus){
-              somme += joueur.diamondParSecComputed(herosObtenu.id_hero,joueur.obtenirNiveau(herosObtenu.id_hero))
-            }
-            return somme;
-          },
-          possedeHeros: function(heros) {//Fonction qui renvoie true si herosObtenus contient heros
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
-                return true;
-              }
-            }
-            return false;
-          },
-          obtenirHeros: function(id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                return herosObtenu['id_hero'];
-              }
-            }
-          },
-          obtenirRarete: function(id_hero) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                return herosObtenu['rarete'];
-              }
-            }
-          },
-          obtenirNiveau: function(id_hero) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                return herosObtenu['niveau'];
-              }
-            }
-          },
-          augmenterNiveau: function(id_hero) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
-              }
-            }
-          },
-          obtenirCoutHeros: function(id_hero) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                return herosObtenu['cout'];
-              }
-            }
-          },
-          modifierCout: function(id_hero,cout) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {
-                herosObtenu['cout'] = cout;
-              }
-            }
-          },
-
-          goldParSecComputed: function(id_hero,niveau) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
-                return herosObtenu['niveau_'+herosObtenu['niveau']];
-              }
-            }
-          },
-          diamondParSecComputed: function(id_hero,niveau) {
-            for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
-              if(herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
-                let temp = herosObtenu['niveau_'+herosObtenu['niveau']];
-                temp = temp / 10;
-                return temp;
-              }
-            }
-          },
-        },
-        data:{
-          herosObtenus:[],
-        },
-        computed:{
-        }
+      },
+      niveauMax: function (niveau) {
+        return (niveau < 6);
+      }
+    },
+    computed: {
+      goldParSecComputed: function () {
+        return joueur.goldParSecComputed(this.id_hero, this.niveau);
+      },
+      diamondParSecComputed: function () {
+        return joueur.diamondParSecComputed(this.id_hero, this.niveau);
+      }
+    }
   });
 
-$.ajax({
-  type: 'GET',
-  url: '/cart/initialisationHerosObtenus',
-  success: function(received) {
-    let tabHerosObtenus = received;
-    console.log("tabHeros : ");
-    console.log(tabHerosObtenus);
-    //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
-    if (tabHerosObtenus.length == 0) {
-      $.ajax({
-             type: 'GET',
-             url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
-             success: function(received) {
-               let tabHero = received;
-               joueur.herosObtenus.push(tabHero);
-               boolArgentInit = true;
-               console.log("Init des héros");
-               goldPS=joueur.sommeGoldPS();
-               console.log("goldPS :",goldPS);
-               diamantPS=joueur.sommeDiamantPS();
-               totalGoldPS.innerText = goldPS;
-               totalDiamantPS.innerText = diamantPS;
-              },
-             error: function() {
-               alert('Problème AJAX');
-             },
-      })
+
+
+  const joueur = new Vue({ //Vue du joueur
+    el: "#affichageHeros",
+    methods: {
+      chargementGoldsEtDiamants: function () {
+        $.ajax({
+          type: 'GET',
+          url: '/cart/initialisationGoldEtDiamant',
+          success: function (received) {
+            gold = received['golds'];
+            totalGold.textContent = gold;
+            diamant = received['diamants'];
+            totalDiamant.textContent = diamant;
+          },
+          error: function () {
+            alert('Problème AJAX');
+          }
+        });
+        goldPS = null;
+        gold = null;
+        diamantPS = null;
+        diamant = null;
+        ObjInterval = null,
+          totalGold = document.querySelector("#totalGold"),
+          totalGold.innerText = gold;
+        totalDiamant = document.querySelector("#totalDiamant"),
+          totalDiamant.innerText = diamant;
+        totalGoldPS = document.querySelector("#totalGoldPS"),
+          totalGoldPS.innerText = goldPS;
+        totalDiamantPS = document.querySelector("#totalDiamantPS"),
+          totalDiamantPS.innerText = diamantPS;
+      },
+      augmenter: function () {
+        if (gold + goldPS <= Number.MAX_VALUE) {
+          gold += goldPS;
+          totalGold.textContent = gold;
+        } else if (ObjInterval) {
+          clearInterval(ObjInterval);
+          gold = Number.MAX_VALUE;
+        }
+        if (diamant + diamantPS <= Number.MAX_VALUE) {
+          diamant += diamantPS;
+          totalDiamant.textContent = diamant;
+        } else if (ObjInterval) {
+          clearInterval(ObjInterval);
+          diamant = Number.MAX_VALUE;
+        }
+      },
+      sommeGoldPS: function () {
+        let somme = 0;
+        for (const herosObtenu of joueur.herosObtenus) {
+          somme += joueur.goldParSecComputed(herosObtenu.id_hero, joueur.obtenirNiveau(herosObtenu.id_hero))
+        }
+        return somme;
+      },
+      sommeDiamantPS: function () {
+        let somme = 0;
+        for (const herosObtenu of joueur.herosObtenus) {
+          somme += joueur.diamondParSecComputed(herosObtenu.id_hero, joueur.obtenirNiveau(herosObtenu.id_hero))
+        }
+        return somme;
+      },
+      possedeHeros: function (heros) {//Fonction qui renvoie true si herosObtenus contient heros
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == heros['id_hero']) {//Comparaison des id qui sont uniques
+            return true;
+          }
+        }
+        return false;
+      },
+      obtenirHeros: function (id_hero) {//Fonction qui renvoie un héros en fonction de son id_hero
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            return herosObtenu['id_hero'];
+          }
+        }
+      },
+      obtenirRarete: function (id_hero) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            return herosObtenu['rarete'];
+          }
+        }
+      },
+      obtenirNiveau: function (id_hero) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            return herosObtenu['niveau'];
+          }
+        }
+      },
+      augmenterNiveau: function (id_hero) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            herosObtenu['niveau'] = herosObtenu['niveau'] + 1;
+          }
+        }
+      },
+      obtenirCoutHeros: function (id_hero) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            return herosObtenu['cout'];
+          }
+        }
+      },
+      modifierCout: function (id_hero, cout) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {
+            herosObtenu['cout'] = cout;
+          }
+        }
+      },
+
+      goldParSecComputed: function (id_hero, niveau) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
+            return herosObtenu['niveau_' + herosObtenu['niveau']];
+          }
+        }
+      },
+      diamondParSecComputed: function (id_hero, niveau) {
+        for (const herosObtenu of joueur.herosObtenus) {//Parcours de herosObtenus
+          if (herosObtenu['id_hero'] == id_hero) {//Comparaison des id qui sont uniques
+            let temp = herosObtenu['niveau_' + herosObtenu['niveau']];
+            temp = temp / 10;
+            return temp;
+          }
+        }
+      },
+    },
+    data: {
+      herosObtenus: [],
+    },
+    computed: {
     }
-    else {
-      tabHerosObtenus.forEach(row =>$.ajax({
-             type: 'POST',
-             url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
-             data:"niveau="+row.niveau,//Envoie de la rareté
-             success: function(received) {
-               let cout = received;
-               row.cout = cout;
-               boolArgentInit = true;
-               console.log("Init des initialisationHerosObtenuscoutEvolution");
-               goldPS=joueur.sommeGoldPS();
-               console.log("goldPS :",goldPS);
-               diamantPS=joueur.sommeDiamantPS();
-               totalGoldPS.innerText = goldPS;
-               totalDiamantPS.innerText = diamantPS;
-              },
-             error: function() {
-               alert('Problème AJAX');
-             },
-             })
-             );
-        tabHerosObtenus.forEach(row =>$.ajax({
+  });
+
+  $.ajax({
+    type: 'GET',
+    url: '/cart/initialisationHerosObtenus',
+    success: function (received) {
+      let tabHerosObtenus = received;
+      //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
+      if (tabHerosObtenus.length == 0) {
+        $.ajax({
+          type: 'GET',
+          url: '/cart/initialisationHeros1',//Obtention d'un héros au hasard qui a la rareté demandée
+          success: function (received) {
+            let tabHero = received;
+            joueur.herosObtenus.push(tabHero);
+            goldPS = joueur.sommeGoldPS();
+            diamantPS = joueur.sommeDiamantPS();
+            totalGoldPS.innerText = goldPS;
+            totalDiamantPS.innerText = diamantPS;
+            boolArgentInit = true;
+          },
+          error: function () {
+            alert('Problème AJAX');
+          },
+        })
+      }
+      else {
+        tabHerosObtenus.forEach(row => $.ajax({
+          type: 'POST',
+          url: '/cart/initialisationHerosObtenuscoutEvolution',//Obtention d'un héros au hasard qui a la rareté demandée
+          data: "niveau=" + row.niveau,//Envoie de la rareté
+          success: function (received) {
+            let cout = received;
+            row.cout = cout;
+          },
+          error: function () {
+            alert('Problème AJAX');
+          },
+        })
+        );
+        tabHerosObtenus.forEach(row => $.ajax({
           type: 'POST',
           url: '/cart/initialisationHerosObtenusguidePerso',//Obtention d'un héros au hasard qui a la rareté demandée
-          data:"id_hero="+row.id_hero,//Envoie de la rareté
-          success: function(received) {
+          data: "id_hero=" + row.id_hero,//Envoie de la rareté
+          success: function (received) {
             let herosGuidePerso = received;
             row.rarete = herosGuidePerso.rarete;
             row.niveau_1 = herosGuidePerso.niveau_1;
@@ -697,115 +734,110 @@ $.ajax({
             row.niveau_3 = herosGuidePerso.niveau_3;
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
-
             joueur.herosObtenus.push(row)
-            boolArgentInit = true;
-            console.log("Init des initialisationHerosObtenusguidePerso");
-            goldPS=joueur.sommeGoldPS();
-            console.log("goldPS :",goldPS);
-            diamantPS=joueur.sommeDiamantPS();
+            goldPS = joueur.sommeGoldPS();
+            diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
+            boolArgentInit = true;
           },
-          error: function() {
+          error: function () {
             alert('Problème AJAX');
           }
         }));
-    }
-   },
-    error: function() {
+      }
+    },
+    error: function () {
       alert('Problème AJAX');
     }
-});
+  });
 
-const app = new Vue({ //Vue qui gère les invocations de héros
-        el:"#app",
-        methods:{
-          invocationHeros: function() { //Invocation de heros
+  const app = new Vue({ //Vue qui gère les invocations de héros
+    el: "#app",
+    methods: {
+      invocationHeros: function () { //Invocation de heros
 
-             $.ajax({
-               type: 'POST',
-               url: '/cart/diamantSuffisant',//Vérifie si le joueur a assez de diamants pour faire une invocation
-               data: "diamant="+diamant,//Envoie des diamants
-               success: function(received) {
-                 if (received) { //Si on a assez de diamant
-                    diamant-=100;
-                    let rarete = "";
-                    $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
-                        if (status == "error") {
-                          alert('erreur' + xhr.status + " " + xhr.statusText);
-                        } else {
-                            rarete = data; //Sauvegarde de la rareté obtenue
-                            $.ajax({
-                            type: 'POST',
-                            url: '/cart/triParRarete',//Obtention d'un héros au hasard qui a la rareté demandée
-                            data:"rarete="+rarete,//Envoie de la rareté
-                            success: function(received) {
-                              let heros = received; //Sauvegarde du héros
-                              if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
-                                  $.ajax({
-                                  type: 'POST',
-                                  url: '/cart/remboursement',//Obtention d'un héros au hasard qui a la rareté demandée
-                                  data:"rarete="+heros['rarete'],//Envoie de la rareté
-                                  success: function(received) {
-                                    diamant+=parseInt(received,10);
+        $.ajax({
+          type: 'POST',
+          url: '/cart/diamantSuffisant',//Vérifie si le joueur a assez de diamants pour faire une invocation
+          data: "diamant=" + diamant,//Envoie des diamants
+          success: function (received) {
+            if (received) { //Si on a assez de diamant
+              diamant -= 100;
+              let rarete = "";
+              $.get("/cart/rareteRandom", function (data, status, xhr) {//Obtention d'une rareté au hasard
+                if (status == "error") {
+                  alert('erreur' + xhr.status + " " + xhr.statusText);
+                } else {
+                  rarete = data; //Sauvegarde de la rareté obtenue
+                  $.ajax({
+                    type: 'POST',
+                    url: '/cart/triParRarete',//Obtention d'un héros au hasard qui a la rareté demandée
+                    data: "rarete=" + rarete,//Envoie de la rareté
+                    success: function (received) {
+                      let heros = received; //Sauvegarde du héros
+                      if (joueur.possedeHeros(heros)) { //Si le joueur possède déjà le héros
+                        $.ajax({
+                          type: 'POST',
+                          url: '/cart/remboursement',//Obtention d'un héros au hasard qui a la rareté demandée
+                          data: "rarete=" + heros['rarete'],//Envoie de la rareté
+                          success: function (received) {
+                            diamant += parseInt(received, 10);
+                          },
+                          error: function () {
+                            alert('Problème AJAX');
+                          }
+                        });
+                      }
+                      else { //Si le joueur ne possède pas le héros
+                        $.ajax({
+                          type: 'POST',
+                          url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                          data: "niveau=" + heros['niveau'],//Envoie de la rareté
+                          success: function (received) {
+                            let cout = received;
+                            heros.cout = cout;
+                            joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
+                            goldPS = joueur.sommeGoldPS();
+                            diamantPS = joueur.sommeDiamantPS();
+                            totalGoldPS.innerText = goldPS;
+                            totalDiamantPS.innerText = diamantPS;
+                          },
+                          error: function () {
+                            alert('Problème AJAX');
+                          }
+                        });
 
-                                  },
-                                  error: function() {
-                                    alert('Problème AJAX');
-                                  }
-                                  });
-                              }
-                              else { //Si le joueur ne possède pas le héros
-                                $.ajax({
-                                      type: 'POST',
-                                      url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
-                                      data:"niveau="+heros['niveau'],//Envoie de la rareté
-                                      success: function(received) {
-                                        let cout = received;
-                                        heros.cout = cout;
-                                        joueur.herosObtenus.push(heros); //On ajoute le héros à herosObtenus
-                                        goldPS=joueur.sommeGoldPS();
-                                        diamantPS=joueur.sommeDiamantPS();
-                                        totalGoldPS.innerText = goldPS;
-                                        totalDiamantPS.innerText = diamantPS;
-                                      },
-                                      error: function() {
-                                        alert('Problème AJAX');
-                                      }
-                                      });
-
-                              }
-                              totalDiamant.innerText = diamant;
-                            },
-                            error: function() {
-                              alert('Problème AJAX');
-                            }
-                            });
-                          };
-                      });
-                 }
-                 else {
-                    window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 diamants."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
-                 }
-               },
-               error: function() {
-                 alert('Problème AJAX');
-               }
-            });
-
+                      }
+                      totalDiamant.innerText = diamant;
+                    },
+                    error: function () {
+                      alert('Problème AJAX');
+                    }
+                  });
+                };
+              });
+            }
+            else {
+              window.alert("Il n'y a pas assez d'argent pour acheter un heros ! Attendez d'avoir 100 diamants."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
+            }
           },
-          upgradeHeros: function(id_hero) {
-            let cout = joueur.obtenirCoutHeros(id_hero);
-            if (gold >= cout) {
-              joueur.augmenterNiveau(id_hero);
+          error: function () {
+            alert('Problème AJAX');
+          }
+        });
+
+      },
+      upgradeHeros: function (id_hero) {
+        let cout = joueur.obtenirCoutHeros(id_hero);
+        if (gold >= cout) {
+          joueur.augmenterNiveau(id_hero);
 
               $.ajax({
                   type: 'POST',
                   url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
                   success: function(received) {
-                    console.log("received : "+received);
                     joueur.modifierCout(id_hero, received);
                     gold-=parseInt(cout,10);
                     goldPS=joueur.sommeGoldPS();
@@ -824,31 +856,24 @@ const app = new Vue({ //Vue qui gère les invocations de héros
             }
               },
               save: function() {
-            console.log("save");
             $.ajax({
                   type: 'POST',
                   url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:{gold,diamant},//Envoie de la rareté
                   success: function(received) {
-                    console.log("received");
-                    console.log(received);
                     $.ajax({
                       type: 'GET',
                       url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
                       success: function(received) {
-                        console.log("PWEEET tablesSQL");
-                        console.log(received);
                         $.ajax({
                           type: 'GET',
                           url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                           success: function(received) {
-                              console.log("PWEEET deleteHeros");
                               joueur.herosObtenus.forEach(row =>$.ajax({
                                 type: 'POST',
                                 url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                                 data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de la rareté
                                 success: function(received) {
-                                    console.log("PWEEET enregistrementHeros");
                                     window.location.href = 'logout';
                                   },
                                   error: function() {
@@ -916,45 +941,8 @@ function openGuidePopUp() {
   gold=null;
   diamant=null;
   window.addEventListener('load', ev => {
-    $.ajax({
-      type: 'GET',
-      url: '/cart/initialisationGoldEtDiamant',
-      success: function(received) {
-        gold = received['golds'];
-        totalGold.textContent = gold;
-        diamant = received['diamants'];
-        totalDiamant.textContent = diamant;
-      },
-      error: function() {
-        alert('Problème AJAX');
-      }
-    });
-    ObjInterval = null,
-    totalGold = document.querySelector( "#totalGold" ),
-    totalGold.innerText = gold;
-    totalDiamant = document.querySelector( "#totalDiamant" ),
-    totalDiamant.innerText = diamant;
-    totalGoldPS = document.querySelector( "#totalGoldPS" ),
-    totalGoldPS.innerText = goldPS;
-    totalDiamantPS = document.querySelector( "#totalDiamantPS" ),
-    totalDiamantPS.innerText = diamantPS;
-    function augmenter(){
-      if (gold + goldPS <= Number.MAX_VALUE){
-        gold += goldPS;
-        totalGold.textContent = gold;
-      } else if (ObjInterval){
-        clearInterval(ObjInterval);
-        gold = Number.MAX_VALUE;
-      }
-      if (diamant + diamantPS <= Number.MAX_VALUE){
-        diamant += diamantPS;
-        totalDiamant.textContent = diamant;
-      } else if (ObjInterval){
-        clearInterval(ObjInterval);
-        diamant = Number.MAX_VALUE;
-      }
-    }
-    ObjInterval = setInterval(augmenter, 1000, gold, goldPS, diamant, diamantPS);
+    joueur.chargementGoldsEtDiamants();
+    ObjInterval = setInterval(joueur.augmenter, 1000, gold, goldPS, diamant, diamantPS);
   });
 </script>
 
