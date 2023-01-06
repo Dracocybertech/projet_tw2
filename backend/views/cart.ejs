@@ -805,6 +805,7 @@ const app = new Vue({ //Vue qui gère les invocations de héros
                   url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
                   success: function(received) {
+                    console.log("received : "+received);
                     joueur.modifierCout(id_hero, received);
                     gold-=parseInt(cout,10);
                     goldPS=joueur.sommeGoldPS();
