@@ -565,9 +565,9 @@
             alert('Problème AJAX');
           }
         });
-        goldPS = null;
+        //goldPS = null;
         gold = null;
-        diamantPS = null;
+        //diamantPS = null;
         diamant = null;
         ObjInterval = null,
           totalGold = document.querySelector("#totalGold"),
@@ -697,11 +697,12 @@
           success: function (received) {
             let tabHero = received;
             joueur.herosObtenus.push(tabHero);
+            boolArgentInit = true;
             goldPS = joueur.sommeGoldPS();
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
-            boolArgentInit = true;
+
           },
           error: function () {
             alert('Problème AJAX');
@@ -735,11 +736,11 @@
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
             joueur.herosObtenus.push(row)
+            boolArgentInit = true;
             goldPS = joueur.sommeGoldPS();
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
-            boolArgentInit = true;
           },
           error: function () {
             alert('Problème AJAX');
@@ -938,8 +939,8 @@ function openGuidePopUp() {
     goldPS=null;
     diamantPS=null;
   };
-  gold=null;
-  diamant=null;
+  //gold=null;
+  //diamant=null;
   window.addEventListener('load', ev => {
     joueur.chargementGoldsEtDiamants();
     ObjInterval = setInterval(joueur.augmenter, 1000, gold, goldPS, diamant, diamantPS);
