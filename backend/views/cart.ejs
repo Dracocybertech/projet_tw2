@@ -294,6 +294,7 @@
       background-color: #4CAF50;
       color: white;
     }
+
   </style>
 
   <title>Stickman Impact</title>
@@ -701,6 +702,7 @@
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
+            boolArgentInit = true;
           },
           error: function () {
             alert('Problème AJAX');
@@ -733,12 +735,12 @@
             row.niveau_3 = herosGuidePerso.niveau_3;
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
-            
             joueur.herosObtenus.push(row)
             goldPS = joueur.sommeGoldPS();
             diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
+            boolArgentInit = true;
           },
           error: function () {
             alert('Problème AJAX');
@@ -782,7 +784,6 @@
                           data: "rarete=" + heros['rarete'],//Envoie de la rareté
                           success: function (received) {
                             diamant += parseInt(received, 10);
-
                           },
                           error: function () {
                             alert('Problème AJAX');
@@ -856,31 +857,24 @@
             }
               },
               save: function() {
-            console.log("save");
             $.ajax({
                   type: 'POST',
                   url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:{gold,diamant},//Envoie de la rareté
                   success: function(received) {
-                    console.log("received");
-                    console.log(received);
                     $.ajax({
                       type: 'GET',
                       url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
                       success: function(received) {
-                        console.log("PWEEET tablesSQL");
-                        console.log(received);
                         $.ajax({
                           type: 'GET',
                           url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                           success: function(received) {
-                              console.log("PWEEET deleteHeros");
                               joueur.herosObtenus.forEach(row =>$.ajax({
                                 type: 'POST',
                                 url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                                 data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de la rareté
                                 success: function(received) {
-                                    console.log("PWEEET enregistrementHeros");
                                     window.location.href = 'logout';
                                   },
                                   error: function() {
