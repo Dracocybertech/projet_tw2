@@ -524,12 +524,14 @@
 
     props: ["id_hero", "niveau", "cout"],
 
-    methods: {
-      upgradeHeros: function () {
-        app.upgradeHeros(this.id_hero, this.niveau);
-        if (joueur.obtenirNiveau(this.id_hero) == 5) {
-          document.getElementById("button" + this.id_hero).disabled = true;
-        }
+				methods:{
+         upgradeHeros: function() {
+          if (joueur.obtenirNiveau(this.id_hero) == 5) {
+              document.getElementById("button"+this.id_hero).disabled = true;            
+            }
+            else {
+              app.upgradeHeros(this.id_hero, this.niveau);
+            }
 
       },
       niveauMax: function (niveau) {
@@ -839,6 +841,7 @@
                   url: '/cart/ajoutInfosInvocationHeros',//Obtention d'un héros au hasard qui a la rareté demandée
                   data:"niveau="+joueur.obtenirNiveau(id_hero),//Envoie de la rareté
                   success: function(received) {
+                    console.log("received : "+received);
                     joueur.modifierCout(id_hero, received);
                     gold-=parseInt(cout,10);
                     goldPS=joueur.sommeGoldPS();
@@ -903,24 +906,35 @@
 </script>
 
 <script type="text/javascript">
-  var windowGuide = null; // variable globale
-  function openGuidePopUp() {
-    if (windowGuide == null || windowGuide.closed)
-  /* si le pointeur vers l'objet window n'existe pas
-     ou s'il existe mais que la fenêtre a été fermée */ {
+var windowGuide = null; // variable globale
+var WIP = true;
+function openGuidePopUp() {
+
+  window.alert("WIP !"); //Message d'alerte pour signaler que ce sera terminé plus tard
+
+  if (!WIP){
+    if(windowGuide == null || windowGuide.closed)
+    /* si le pointeur vers l'objet window n'existe pas
+      ou s'il existe mais que la fenêtre a été fermée */
+    {
       windowGuide = window.open("/guide",
-        "Guide", "popup");
+    "Guide", "popup");
       /* on le crée. La nouvelle fenêtre sera créée et affichée
-         par-dessus les éventuelles autres fenêtres. */
+        par-dessus les éventuelles autres fenêtres. */
     }
-    else {
+    else
+    {
       windowGuide.focus();
       /* sinon la référence existe et la fenêtre n'est pas fermée
-         on peut donc l'amener devant avec la méthode focus()
-         sans avoir à recréer la fenêtre ou à recharger la
-         ressource référencée. */
+        on peut donc l'amener devant avec la méthode focus()
+        sans avoir à recréer la fenêtre ou à recharger la
+        ressource référencée. */
     };
+
   }
+
+  
+}
 </script>
 
 <script>
