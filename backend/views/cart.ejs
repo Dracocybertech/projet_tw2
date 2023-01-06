@@ -734,9 +734,9 @@
             row.niveau_4 = herosGuidePerso.niveau_4;//Ajout de niveau_4
             row.niveau_5 = herosGuidePerso.niveau_5;//Ajout de niveau_5
             joueur.herosObtenus.push(row)//Ajout du héros dans herosObtenus de la vue joueur
-            boolArgentInit = true;
-            goldPS = joueur.sommeGoldPS();//Calcul du gold par seconde
-            diamantPS = joueur.sommeDiamantPS();//Calcul du diamant par seconde
+            boolArgentInit = true; //réglage d'une erreur de synchronisation
+            goldPS = joueur.sommeGoldPS();//chargement et affichage des golds/s et diamants/s
+            diamantPS = joueur.sommeDiamantPS();
             totalGoldPS.innerText = goldPS;
             totalDiamantPS.innerText = diamantPS;
           },

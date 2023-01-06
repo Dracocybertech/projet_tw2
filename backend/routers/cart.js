@@ -51,8 +51,6 @@ router.get('/initialisationHerosObtenus', function (req, res) {//Initialisation 
 
 });
 
-// Initialisation du premier héros
-router.get('/initialisationHeros1', function (req, res) {
 router.get('/initialisationHeros1', function (req, res) {//Initialisation du héros s'il y a un nouveau compte
     let heros1 = {};
     let id_hero = 1;
@@ -183,7 +181,6 @@ router.get('/rareteRandom', function (req, res) {//Retourne une rareté aléatoi
         })
     });
 });
-
 
 router.post('/triParRarete', function (req, res) {//Obtention d'un héros à la rareté demandée
     let data = req.body;
@@ -363,5 +360,4 @@ router.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 })
-
 module.exports = router;
