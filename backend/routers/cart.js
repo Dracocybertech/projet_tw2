@@ -113,19 +113,26 @@ router.post('/initialisationHerosObtenusguidePerso', function(req, res) {
 router.post('/initialisationHerosObtenuscoutEvolution', function(req, res) {
     let data = req.body;
     let niveau = data['niveau'];
+    console.log("niveau : "+niveau)
     let cout = 0;
-    const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
-    statement.all(niveau, (err, result) => {
-        if(err){
-            res.status(400);
-        } else {
-            cout = result[0].cout;
-            res.status(200).json(cout).end();
-        }
-    });
+    if (niveau < 5) {
+        const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
+        statement.all(niveau, (err, result) => {
+            if(err){
+                res.status(400);
+            } else {
+                console.log("result");
+                console.log(result);
+                cout = result[0].cout;
+                res.status(200).json(cout).end();
+            }
+        });
 
-    statement.finalize();
-
+        statement.finalize();
+    }
+    else {
+        res.status(200).json(cout).end();
+    }
 });
 
 router.get('/initialisationGoldEtDiamant', function (req, res, next) {
@@ -216,6 +223,7 @@ router.post('/triParRarete', function (req, res) {//Obtention d'un tableau json 
 router.post('/ajoutInfosInvocationHeros', function(req,res) {
     let data = req.body;
     let niveau = data['niveau'];
+    console.log("niveau : "+niveau);
     let cout = 0;
     if (niveau < 5) {
         const statement = db.prepare("SELECT cout FROM coutEvolution WHERE niveau = ?;");
@@ -224,6 +232,9 @@ router.post('/ajoutInfosInvocationHeros', function(req,res) {
                 res.status(400);
             } else {
                 cout = result[0].cout;
+                
+                console.log("cout : ");
+                console.log(cout);
                 res.status(200).json(cout).end();
             }
         });
@@ -231,6 +242,7 @@ router.post('/ajoutInfosInvocationHeros', function(req,res) {
         statement.finalize();
     }
     else {
+        console.log("0 cout");
         res.status(200).json(0).end();
     }
 

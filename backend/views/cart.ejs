@@ -520,9 +520,11 @@
 
 				methods:{
          upgradeHeros: function() {
-            app.upgradeHeros(this.id_hero, this.niveau);
-            if (joueur.obtenirNiveau(this.id_hero) == 5) {
-              document.getElementById("button"+this.id_hero).disabled = true;
+          if (joueur.obtenirNiveau(this.id_hero) == 5) {
+              document.getElementById("button"+this.id_hero).disabled = true;            
+            }
+            else {
+              app.upgradeHeros(this.id_hero, this.niveau);
             }
 
           },
@@ -639,6 +641,8 @@ $.ajax({
   url: '/cart/initialisationHerosObtenus',
   success: function(received) {
     let tabHerosObtenus = received;
+    console.log("tabHeros : ");
+    console.log(tabHerosObtenus);
     //joueur.herosObtenus = received; //Sauvegarde des héros de la db dans herosObtenus
     if (tabHerosObtenus.length == 0) {
       $.ajax({
@@ -693,7 +697,7 @@ $.ajax({
             row.niveau_3 = herosGuidePerso.niveau_3;
             row.niveau_4 = herosGuidePerso.niveau_4;
             row.niveau_5 = herosGuidePerso.niveau_5;
-            
+
             joueur.herosObtenus.push(row)
             boolArgentInit = true;
             console.log("Init des initialisationHerosObtenusguidePerso");
@@ -873,24 +877,33 @@ const app = new Vue({ //Vue qui gère les invocations de héros
 
 <script type="text/javascript">
 var windowGuide = null; // variable globale
+var WIP = true;
 function openGuidePopUp() {
-  if(windowGuide == null || windowGuide.closed)
-  /* si le pointeur vers l'objet window n'existe pas
-     ou s'il existe mais que la fenêtre a été fermée */
-  {
-    windowGuide = window.open("/guide",
-   "Guide", "popup");
-    /* on le crée. La nouvelle fenêtre sera créée et affichée
-       par-dessus les éventuelles autres fenêtres. */
+
+  window.alert("WIP !"); //Message d'alerte pour signaler que ce sera terminé plus tard
+
+  if (!WIP){
+    if(windowGuide == null || windowGuide.closed)
+    /* si le pointeur vers l'objet window n'existe pas
+      ou s'il existe mais que la fenêtre a été fermée */
+    {
+      windowGuide = window.open("/guide",
+    "Guide", "popup");
+      /* on le crée. La nouvelle fenêtre sera créée et affichée
+        par-dessus les éventuelles autres fenêtres. */
+    }
+    else
+    {
+      windowGuide.focus();
+      /* sinon la référence existe et la fenêtre n'est pas fermée
+        on peut donc l'amener devant avec la méthode focus()
+        sans avoir à recréer la fenêtre ou à recharger la
+        ressource référencée. */
+    };
+
   }
-  else
-  {
-    windowGuide.focus();
-    /* sinon la référence existe et la fenêtre n'est pas fermée
-       on peut donc l'amener devant avec la méthode focus()
-       sans avoir à recréer la fenêtre ou à recharger la
-       ressource référencée. */
-  };
+
+  
 }
 </script>
 
