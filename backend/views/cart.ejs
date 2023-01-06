@@ -316,28 +316,20 @@
       <div class="system">
         <div class="system-bar">
           <div class="system-logout">
-            <form action="/logout" method="post" role="form">
-              <div>
-                <button id="boutonQuitter" type="submit">
-                  <div style="height:20px;width:20px;object-fit:contain;">
-                    <img src="assets/img/logout.png">
-                  </div>
-                </button>
+            <button id="boutonQuitter" onclick="app.save()">
+              <div style="height:20px;width:20px;object-fit:contain;">
+                <img src="assets/img/logout.png">
               </div>
-            </form>
+            </button>
             <!-- Ce bouton permet de sauvegarder ses données, se déconnecter et revenir au menu de connexion -->
             Save & Exit
           </div>
           <div class="system-settings">
-            <form action="" method="post" role="form">
-              <div>
-                <button type="button" onclick="openGuidePopUp()">
-                  <div style="height:20px;width:20px;object-fit:contain;">
-                    <img src="assets/img/settings.png">
-                  </div>
-                </button>
+            <button type="button" onclick="openGuidePopUp()">
+              <div style="height:20px;width:20px;object-fit:contain;">
+                <img src="assets/img/settings.png">
               </div>
-            </form>
+            </button>
             <!-- Ce bouton permet d'accéder au Guide qui donne des informations au joueur. -->
             Guide
           </div>
@@ -651,7 +643,6 @@ $.ajax({
              success: function(received) {
                let tabHero = received;
                joueur.herosObtenus.push(tabHero);
-               console.log(joueur.sommeGoldPS());
                goldPS=joueur.sommeGoldPS();
                diamantPS=joueur.sommeDiamantPS();
                totalGoldPS.innerText = goldPS;
@@ -805,6 +796,54 @@ const app = new Vue({ //Vue qui gère les invocations de héros
               window.alert("Il n'y a pas assez d'argent pour augmenter le niveau d'un heros ! Attendez d'avoir plus de gold."); //Message d'alerte pour signaler au joueur qu'il n'a pas assez d'argent
             }
               },
+              save: function() {
+            console.log("save");
+            $.ajax({
+                  type: 'POST',
+                  url: '/cart/enregistrementGoldDiamant',//Obtention d'un héros au hasard qui a la rareté demandée
+                  data:{gold,diamant},//Envoie de la rareté
+                  success: function(received) {
+                    console.log("received");
+                    console.log(received);
+                    $.ajax({
+                      type: 'GET',
+                      url: '/cart/vueTableSQL',//Obtention d'un héros au hasard qui a la rareté demandée
+                      success: function(received) {
+                        console.log("PWEEET tablesSQL");
+                        console.log(received);
+                        $.ajax({
+                          type: 'GET',
+                          url: '/cart/deleteHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                          success: function(received) {
+                              console.log("PWEEET deleteHeros");
+                              joueur.herosObtenus.forEach(row =>$.ajax({
+                                type: 'POST',
+                                url: '/cart/enregistrementHeros',//Obtention d'un héros au hasard qui a la rareté demandée
+                                data:{id_hero : row.id_hero,niveau : row.niveau},//Envoie de la rareté
+                                success: function(received) {
+                                    console.log("PWEEET enregistrementHeros");
+                                    window.location.href = 'logout';
+                                  },
+                                  error: function() {
+                                    alert('Problème AJAX');
+                                  }
+                              }));
+                            },
+                            error: function() {
+                              alert('Problème AJAX');
+                            }
+                        })
+                        },
+                      error: function() {
+                        alert('Problème AJAX');
+                      },
+                    })
+                  },
+                  error: function() {
+                    alert('Problème AJAX');
+                  }
+                });
+          },
             },
             });
 
@@ -834,6 +873,11 @@ function openGuidePopUp() {
 </script>
 
 <script>
+  boolArgentInit = false;
+  goldPS=null;
+  gold=null;
+  diamantPS=null;
+  diamant=null;
   window.addEventListener('load', ev => {
     $.ajax({
       type: 'GET',
@@ -848,10 +892,6 @@ function openGuidePopUp() {
         alert('Problème AJAX');
       }
     });
-    //goldPS=null;
-    gold=null;
-    //diamantPS=null;
-    diamant=null;
     ObjInterval = null,
     totalGold = document.querySelector( "#totalGold" ),
     totalGold.innerText = gold;

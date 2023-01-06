@@ -280,6 +280,110 @@ router.post('/remboursement', function (req, res) {//Obtention d'un tableau json
 });
 
 
+router.post('/enregistrementGoldDiamant', function (req, res) {
+    console.log("route enregistrementGoldDiamant");
+    console.log(req.session.login);
+    let data = req.body;
+    console.log("data : ");
+    console.log(data);
+    let gold = data.gold;
+    console.log("gold : "+gold);
+    let diamant = data.diamant;
+    console.log("diamant : "+diamant);
+    db.serialize(() => {
+        const statement = db.prepare("UPDATE joueurs SET golds = ?, diamants = ? WHERE email= ?");
+        statement.run(gold, diamant, req.session.login, (err, result) => {
+            if(err){
+                res.status(400)
+            } else {
+                console.log("PWEEET UPDATE joueurs SET golds = ?, diamants = ? WHERE email= ?");
+                res.status(200).json(true).end();
+            }
+
+        });
+        statement.finalize();
+    });
+
+});
+
+router.get('/deleteHeros', function (req, res) {
+    console.log("route deleteHeros");
+    console.log(req.session.id_joueur);
+    id_joueur = req.session.id_joueur;
+    db.serialize(() => {
+        const statement = db.prepare("DELETE FROM herosObtenus WHERE id_joueur= ?");
+        statement.run(id_joueur, (err, result) => {
+            if(err){
+                res.status(400)
+            } else {
+                console.log("DELETE FROM herosObtenus WHERE id_joueur= ?");
+                res.status(200).json(true).end();
+            }
+
+        });
+        statement.finalize();
+    });
+});
+
+router.post('/enregistrementHeros', function (req, res) {
+    console.log("route enregistrementHeros");
+    console.log(req.session.id_joueur);
+    id_joueur = req.session.id_joueur;
+    let heros = req.body;
+    console.log("heros : ");
+    console.log(heros);
+    let id_hero = heros.id_hero;
+    console.log("id_hero : "+id_hero);
+    let niveau = heros.niveau;
+    console.log("niveau : "+niveau);
+
+    db.serialize(() => {
+        const statement = db.prepare("INSERT INTO herosObtenus (id_joueur, id_hero, niveau) VALUES (?,?,?)") ;
+        statement.run(id_joueur, id_hero, niveau, (err, result) => {
+            if(err){
+                res.status(400)
+            } else {
+                console.log("INSERT INTO herosObtenus (id_joueur, id_hero, niveau) VALUES (?,?,?)");
+                res.status(200).json(true).end();
+            }
+
+        });
+        statement.finalize();
+    });
+
+
+
+});
+
+router.get('/vueTableSQL', function (req, res) {
+
+        db.all("SELECT * FROM joueurs;", (err, rows) => {
+            console.log("rows : ");
+            console.log(rows);
+                if (rows) {
+                    console.log(rows);
+                }
+
+        })
+
+    res.status(200).json(true).end();
+
+});
+
+router.get('/vueTableSQLHerosObtenus', function (req, res) {
+
+        db.all("SELECT * FROM joueurs;", (err, rows) => {
+            console.log("rows : ");
+            console.log(rows);
+                if (rows) {
+                    console.log(rows);
+                }
+        })
+    res.status(200).json(true).end();
+
+});
+
+
 
 router.use('/', function (req, res) {
     db.serialize(() => {
