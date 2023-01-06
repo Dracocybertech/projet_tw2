@@ -5,6 +5,7 @@
 
 start:
 "cd backend"
+"npm install"
 "npm run dev"
 
 In a browser go to: localhost:3001
